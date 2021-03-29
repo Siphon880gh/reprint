@@ -1,0 +1,42 @@
+import React from 'react';
+// import React, { useState, useEffect } from 'react';
+import { Container, Card, CardColumns, Figure } from 'react-bootstrap';
+
+import { useQuery } from '@apollo/react-hooks'; // TO REVIEW
+import { TRENDING_REPRINTS } from '../utils/queries';
+
+const Home = () => {
+
+    // use useQuery hook to make query request
+    const { loading, data } = useQuery(TRENDING_REPRINTS);
+    const reprints = data || [];
+
+    return (<React.Fragment>
+      {loading?(
+        <div>Loading...</div>
+        // TODO: We can add a spinner here
+      ) : (
+        <Container>
+        <h2>
+          {reprints.length
+            ? `Trending Reprints:`
+            : 'No trending Reprints found. Is this a fresh install? Try seeding the database.'}
+        </h2>
+        <CardColumns>
+          {reprints.map((reprint, itrIndex) => {
+            return (
+              <Card key={itrIndex} border='dark'>
+                <Card.Body>
+                <Card.Img variant="top" src={reprint.url} />
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </CardColumns>
+      </Container>
+      )
+      }
+      </React.Fragment>);
+};
+
+export default Home;
