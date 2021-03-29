@@ -8,6 +8,7 @@ import Footer, {FooterPushDown} from './components/Footer';
 // Pages
 import Home from './pages/Home';
 import TestParam from './pages/TestParam';
+import TestParamNone from './pages/TestParamNone';
 
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -36,7 +37,7 @@ function App() {
             <Route exact path='/post/new' component={Home} />
             <Route exact path='/post/:id' component={Home} />
             <Route exact path='/favorites' component={Home} />
-            <Route exact path='/test-param/me' component={TestParam} />
+            <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
             <Route exact path='/profile/me' component={Home} />
             <Route exact path='/profile/:id' component={Home} />
