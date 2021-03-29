@@ -7,11 +7,11 @@ db.once('open', async() => {
     await User.deleteMany({});
 
     // Create initial user for testing purposes
-    // TODO: Add in more fields based on Aiden's diagram if needed
+    // TODO: Add in more fields based on Aidan's diagram if needed
     await User.collection.insertOne({
-            username: "test",
-            email: "test@test.com",
-            password: "test"
+        username: "test",
+        email: "test@test.com",
+        password: "test"
     });
 
     // Signal to developer that seeding finished

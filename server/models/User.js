@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// TODO: Please fill in more of the User model. Refer to Aiden's diagrams on Slack or OneNote
+// TODO: Please fill in more of the User model. Refer to Aidan's diagrams on Slack or OneNote
 
 const userSchema = new Schema(
   {

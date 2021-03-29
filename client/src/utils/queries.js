@@ -1,6 +1,9 @@
 import gql from 'graphql-tag';
 
-export const TRENDING_REPRINTS = gql `
+// TODO: Add more graphQL executions on the client UI side. 
+// Try the query/mutations at http://localhost:3001/graphql before adding them here.
+
+export const TRENDING_REPRINTS = gql`
 query {
   trending {
     _id
@@ -8,7 +11,7 @@ query {
   }
 }`;
 
-export const GET_ME = gql `
+export const GET_ME = gql`
 query {
   me {
     _id
