@@ -35,18 +35,28 @@ const resolvers = {
         }, // query.me
         trending: async(parent, args, context) => {
                 // Mock
+                // Mock Note: If you want to edit mocks, make sure you have unique IDs. Otherwise, useQuery will not return the other objects pass the first object.
+                // Later Note: Please remember the useQuery hook will return a nested object: data?.trending which is the array
                 return [
                             {
-                                _id: null,
+                                _id: 1,
                                 asset: "http://via.placeholder.com/300x300?text=Reprint 1"
                             },
                             {
-                                _id: null,
+                                _id: 2,
                                 asset: "http://via.placeholder.com/300x500?text=Reprint 2"
                             },
                             {
-                                _id: null,
+                                _id: 3,
                                 asset: "http://via.placeholder.com/300x300?text=Reprint 3"
+                            },
+                            {
+                                _id: 4,
+                                asset: "http://via.placeholder.com/300x300?text=Reprint 4"
+                            },
+                            {
+                                _id: 5,
+                                asset: "http://via.placeholder.com/300x500?text=Reprint 5"
                             }
                         ]
             } // query.trending

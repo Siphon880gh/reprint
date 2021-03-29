@@ -1,16 +1,14 @@
 import gql from 'graphql-tag';
 
-export const TRENDING_REPRINTS = gql`
+export const TRENDING_REPRINTS = gql `
 query {
   trending {
-    Post {
-      _id,
-      url
-    }
+    _id
+    asset
   }
 }`;
 
-export const GET_ME = gql`
+export const GET_ME = gql `
 query {
   me {
     _id

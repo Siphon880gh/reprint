@@ -9,7 +9,8 @@ const Home = () => {
 
     // use useQuery hook to make query request
     const { loading, data } = useQuery(TRENDING_REPRINTS);
-    const reprints = data || [];
+    const reprints = data?.trending || [];
+    console.log({data})
 
     return (<React.Fragment>
       {loading?(
@@ -27,7 +28,7 @@ const Home = () => {
             return (
               <Card key={itrIndex} border='dark'>
                 <Card.Body>
-                <Card.Img variant="top" src={reprint.url} />
+                <Card.Img variant="top" src={reprint.asset} />
                 </Card.Body>
               </Card>
             );
