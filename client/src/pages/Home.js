@@ -1,6 +1,6 @@
 import React from 'react';
 // import React, { useState, useEffect } from 'react';
-import { Container, Card, CardColumns, Figure } from 'react-bootstrap';
+import { Container, Card, CardColumns } from 'react-bootstrap';
 
 import { useQuery } from '@apollo/react-hooks'; // TO REVIEW
 import { TRENDING_REPRINTS } from '../utils/queries';

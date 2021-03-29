@@ -1,0 +1,12 @@
+/*
+ * @file Footer.pushdown.css
+ * This prevents the fixed Footer from cutting off content from the main page.
+ * This is the styling for Footer.FooterPushDown which should be placed directly before Footer.
+ *
+ */
+
+.footer-pushdown {
+    width: 1px;
+    height: 130px;
+    z-index: 1;
+}
