@@ -7,8 +7,11 @@ import Footer, {FooterPushDown} from './components/Footer';
 
 // Pages
 import Home from './pages/Home';
+
+// Test components
 import TestParam from './pages/TestParam';
 import TestParamNone from './pages/TestParamNone';
+import TestMongo1 from './pages/mongo/TestMongo1'
 
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -39,6 +42,7 @@ function App() {
             <Route exact path='/favorites' component={Home} />
             <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
+            <Route exact path='/test-mongo/1' component={TestMongo1} />
             <Route exact path='/profile/me' component={Home} />
             <Route exact path='/profile/:id' component={Home} />
             <Route exact path='/' component={Home} />

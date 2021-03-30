@@ -21,11 +21,14 @@ const typeDefs = gql`
     asset: String
   }
 
-
   type users {
     _id: ID
     username: String
     email: String
+    reprints: [ReprintSchema]
+    favorites: [ReprintSchema]
+    followers: [UserSchema]
+    followed: [UserSchema]
   }
 
   type Query {

@@ -7,3 +7,4 @@ node_modules/
 *.css.map
 out/
 *.env
+.package-lock.json

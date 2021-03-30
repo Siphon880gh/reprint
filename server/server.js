@@ -9,6 +9,9 @@ const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const db = require('./config/connection');
 
+// Console logs
+const { consoleLogs, consoleLogs2 } = require("./test-mongoose/console-logs");
+
 // Server
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -41,5 +44,8 @@ db.once('open', () => {
     app.listen(PORT, () => {
         console.log(`API server running on port ${PORT}!`);
         console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+        console.log("STEP 1");
+        consoleLogs();
+        consoleLogs2();
     });
 });
