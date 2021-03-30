@@ -26,7 +26,13 @@ const userSchema = new Schema(
         ref: 'Reprint'
       }
     ],
-    friends: [
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
+    followed: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -47,9 +53,14 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return password===this.password;
 };
 
-// count friends
-userSchema.virtual('friendCount').get(function() {
-  return this.friends.length;
+// count followers
+userSchema.virtual('followerCount').get(function() {
+  return this.followers.length;
+});
+
+// count followed
+userSchema.virtual('followedCount').get(function() {
+  return this.followed.length;
 });
 
 const User = model('User', userSchema);
