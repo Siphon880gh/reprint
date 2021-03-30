@@ -19,7 +19,13 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-    }
+    },
+    reprints: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Reprint'
+      }
+    ]
   },
   // set this to use virtual below
   {
