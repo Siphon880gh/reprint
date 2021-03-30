@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Reprint } = require('../models');
 
 // TODO: When ready to implement Auth and user management
 const { AuthenticationError } = require('apollo-server-express');
@@ -6,6 +6,7 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
+        // Return me
         me: async(parent, args, context) => {
             // Bypass mongo
             async function TODO_LATER() {
@@ -33,6 +34,14 @@ const resolvers = {
             }
 
         }, // query.me
+
+        // Return list of users
+        users: async(parent, args, context) => {
+            users = await User.find({}).populate("reprints").select("-__v -password");
+            return users;
+        },
+
+        // Return trending reprints
         trending: async(parent, args, context) => {
                 // Mock
                 // Mock Note: If you want to edit mocks, make sure you have unique IDs. Otherwise, useQuery will not return the other objects pass the first object.
