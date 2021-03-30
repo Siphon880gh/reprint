@@ -25,12 +25,19 @@ const userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'Reprint'
       }
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
     ]
   },
   // set this to use virtual below
   {
     toJSON: {
       virtuals: true,
+      getters: true
     },
   }
 );
@@ -39,6 +46,11 @@ const userSchema = new Schema(
 userSchema.methods.isCorrectPassword = async function (password) {
   return password===this.password;
 };
+
+// count friends
+userSchema.virtual('friendCount').get(function() {
+  return this.friends.length;
+});
 
 const User = model('User', userSchema);
 

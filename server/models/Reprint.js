@@ -1,4 +1,4 @@
-const { Schema, model, Types, SchemaType } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const commentSchema = new Schema(
   {
@@ -61,10 +61,7 @@ const reprintSchema = new Schema(
       type: String,
       required:
         "Please enter the URL to the Market Listing of the acutal NFT that the Reprint asset is derived from!",
-      match: [
-        /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$)/,
-        "Please enter a valid Market Listing URL!",
-      ],
+      match: [/^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/,"Please enter a valid Market Listing URL!"],
     },
     createdAt: {
       type: Date,
@@ -78,9 +75,17 @@ const reprintSchema = new Schema(
   {
     toJSON: {
       getters: true,
+      virutals: true
     },
   }
 );
+reprintSchema.virtual('commentCount').get(function() {
+    return this.comments.length
+})
+
+reprintSchema.virtual('likeCount').get(function() {
+    return this.likes.length
+})
 
 const Reprint = model("Reprint", reprintSchema);
 
