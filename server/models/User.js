@@ -3,6 +3,21 @@ const bcrypt = require('bcrypt');
 
 // TODO: Please fill in more of the User model. Refer to Aidan's diagrams on Slack or OneNote
 
+const favoriteSchema = new Schema(
+  {
+      reprintId: {
+          type: Schema.Types.ObjectId,
+          ref: "Reprint"
+      },
+  },
+  {
+      toJSON: {
+        getters: true,
+      },
+      id: false,
+    }
+)
+
 const userSchema = new Schema(
   {
     username: {
@@ -26,6 +41,7 @@ const userSchema = new Schema(
         ref: 'Reprint'
       }
     ],
+    favorites: [favoriteSchema],
     followers: [
       {
         type: Schema.Types.ObjectId,
@@ -61,6 +77,11 @@ userSchema.virtual('followerCount').get(function() {
 // count followed
 userSchema.virtual('followedCount').get(function() {
   return this.followed.length;
+});
+
+// count favorites
+userSchema.virtual('favoriteCount').get(function() {
+  return this.favorites.length;
 });
 
 const User = model('User', userSchema);
