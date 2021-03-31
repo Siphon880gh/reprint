@@ -20,6 +20,7 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls='navbar-main' />
           <Navbar.Collapse id='navbar-main'>
             <Nav className='ml-auto'>
+              <Nav.Link as={Link} to='/about'>About NFTs</Nav.Link>
               {/* if user is logged in, show Add Post and Favorites link. Otherwise show Login/Sign up */}
               {Auth.loggedIn() ? (
                 <>
@@ -49,7 +50,7 @@ const AppNavbar = () => {
                 </Nav>
               </Navbar.Collapse>
             </>
-          ): (
+          ) : (
             <></>
           )}
         </Container>
