@@ -7,9 +7,7 @@ db.once("open", async () => {
   // Reset model
   await User.deleteMany({});
   await Reprint.deleteMany({});
-
-  // Create initial user for testing purposes
-  // TODO: Add in more fields based on Aidan's diagram if needed
+  
   // create user data
   const userData = [];
 
