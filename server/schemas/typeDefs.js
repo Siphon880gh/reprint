@@ -7,13 +7,13 @@ const typeDefs = gql `
     email: String
   }
 
-  type Post {
+  type Reprint {
     _id: ID
     asset: String
   }
 
   type Query {
-    trending: [Post]
+    trending: [Reprint]
     me: User
   }
 
