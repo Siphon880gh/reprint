@@ -19,18 +19,8 @@ const resolvers = {
                     const foundUser = await User.findOne({ _id: context.user._id }).select("-password");
                     return foundUser;
                 }
-
-                throw new AuthenticationError('You need to be logged in!');
-            } // todo
-
-            // Mock
-            return {
-                data: {
-                    _id: null,
-                    username: "fake-user",
-                    email: "fake-email@domain.com"
-                }
             }
+            throw new AuthenticationError('You need to be logged in!');
 
         }, // query.me
         trending: async (parent, args, context) => {

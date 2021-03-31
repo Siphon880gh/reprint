@@ -2,24 +2,30 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { useQuery } from '@apollo/react-hooks'; // TO REVIEW
 import { GET_ME } from '../utils/queries';
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
     const { data } = useQuery(GET_ME);
-    const me = data.me
-    console.log({ data })
-    return (<React.Fragment>
-        <Container>
-            <h2>
-                User Profile
-        </h2>
-            <p>Username: {me.username} </p>
-            <p>Email: {me.email} </p>
 
-            <p>RePrints?</p>
+    return (
+        <>
+            <div>
+
+                <h2>Profile Time!</h2>
 
 
-        </Container>
-    </React.Fragment>);
+
+                {data ? (
+                    <>
+                        <h2> {data.username} {data.email}</h2>
+
+                    </>
+                ) : null}
+
+            </div>
+
+        </>)
+
 };
 
 export default Profile;
