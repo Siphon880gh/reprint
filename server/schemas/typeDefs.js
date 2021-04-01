@@ -5,6 +5,8 @@ const typeDefs = gql `
     _id: ID
     username: String
     email: String
+    reprints: [Reprint]
+    favorites: [Reprint]
   }
 
   type Reprint {
