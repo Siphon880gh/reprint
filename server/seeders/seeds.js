@@ -13,7 +13,7 @@ db.once("open", async () => {
   // create user data
   const userData = [];
 
-  for (let i = 0; i < 50; i += 1) {
+  for (let i = 0; i < 5; i += 1) {
     const username = faker.internet.userName();
     const email = faker.internet.email(username);
     const password = faker.internet.password();
@@ -23,45 +23,45 @@ db.once("open", async () => {
 
   const createdUsers = await User.collection.insertMany(userData);
 
-  // create followers
-  for (let i = 0; i < 20; i += 1) {
-    const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
-    const { _id: userId } = createdUsers.ops[randomUserIndex];
+  // // create followers
+  // for (let i = 0; i < 20; i += 1) {
+  //   const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
+  //   const { _id: userId } = createdUsers.ops[randomUserIndex];
 
-    let followersId = userId;
+  //   let followersId = userId;
 
-    while (followersId === userId) {
-      const randomUserIndex = Math.floor(
-        Math.random() * createdUsers.ops.length
-      );
-      followersId = createdUsers.ops[randomUserIndex];
-    }
+  //   while (followersId === userId) {
+  //     const randomUserIndex = Math.floor(
+  //       Math.random() * createdUsers.ops.length
+  //     );
+  //     followersId = createdUsers.ops[randomUserIndex];
+  //   }
 
-    await User.updateOne(
-      { _id: userId },
-      { $addToSet: { followers: followersId } }
-    );
-  }
+  //   await User.updateOne(
+  //     { _id: userId },
+  //     { $addToSet: { followers: followersId } }
+  //   );
+  // }
 
-  // create followed
-  for (let i = 0; i < 20; i += 1) {
-    const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
-    const { _id: userId } = createdUsers.ops[randomUserIndex];
+  // // create followed
+  // for (let i = 0; i < 20; i += 1) {
+  //   const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
+  //   const { _id: userId } = createdUsers.ops[randomUserIndex];
 
-    let followedId = userId;
+  //   let followedId = userId;
 
-    while (followedId === userId) {
-      const randomUserIndex = Math.floor(
-        Math.random() * createdUsers.ops.length
-      );
-      followedId = createdUsers.ops[randomUserIndex];
-    }
+  //   while (followedId === userId) {
+  //     const randomUserIndex = Math.floor(
+  //       Math.random() * createdUsers.ops.length
+  //     );
+  //     followedId = createdUsers.ops[randomUserIndex];
+  //   }
 
-    await User.updateOne(
-      { _id: userId },
-      { $addToSet: { followed: followedId } }
-    );
-  }
+  //   await User.updateOne(
+  //     { _id: userId },
+  //     { $addToSet: { followed: followedId } }
+  //   );
+  // }
 
   // create reprints
   let createdReprints = [];

@@ -55,6 +55,9 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     login(username: String!, password: String!): Auth
     addReprint(title: String, asset: String!,author: String!, marketListing: String!): Reprint
+    addComment(reprintId: ID!, commentBody: String!, author: String!): Reprint
+    follow(followedId: ID!): User
+    unfollow(followedId: ID!): User
   }
 `;
 

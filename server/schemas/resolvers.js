@@ -44,33 +44,6 @@ const resolvers = {
     stream: async () => {
       return Reprint.find().select("-__v").populate("likes");
     },
-    // Mock
-    // Mock Note: If you want to edit mocks, make sure you have unique IDs. Otherwise, useQuery will not return the other objects pass the first object.
-    // Later Note: Please remember the useQuery hook will return a nested object: data?.trending which is the array
-    trending: async (parent, args, context) => {
-      return [
-        {
-          _id: 1,
-          asset: "http://via.placeholder.com/300x300?text=Reprint 1",
-        },
-        {
-          _id: 2,
-          asset: "http://via.placeholder.com/300x500?text=Reprint 2",
-        },
-        {
-          _id: 3,
-          asset: "http://via.placeholder.com/300x300?text=Reprint 3",
-        },
-        {
-          _id: 4,
-          asset: "http://via.placeholder.com/300x300?text=Reprint 4",
-        },
-        {
-          _id: 5,
-          asset: "http://via.placeholder.com/300x500?text=Reprint 5",
-        },
-      ];
-    }, // query.trending
   },
 
   Mutation: {
@@ -103,20 +76,116 @@ const resolvers = {
       return { token, user };
     },
     addReprint: async (parent, args, context) => {
+      if (context.user) {
+        const reprint = await Reprint.create({
+          ...args,
+          username: context.user.username,
+        });
+
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $push: { reprints: reprint._id } },
+          { new: true }
+        );
+
+        return reprint;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    addComment: async (parent, { reprintId, commentBody }, context) => {
+      if (context.user) {
+        const updatedReprint = await Reprint.findOneAndUpdate(
+          { _id: reprintId },
+          {
+            $push: { comments: { commentBody, author: context.user.username } },
+          },
+          { new: true, runValidators: true }
+        );
+
+        return updatedReprint;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    // addFollower: async (parent, { followerId }, context) => {
+    //   if (context.user) {
+    //     const updatedUser = await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { followers: followerId } },
+    //       { new: true }
+    //     ).populate("followers");
+
+    //     return updatedUser;
+    //   }
+
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
+    follow: async (parent, { followedId }, context) => {
+      if (context.user) {
+        const followingUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { followed: followedId } },
+          { new: true, runValidators: true },
+        )
+        const followedUser = User.findOneAndUpdate(
+            { _id: followedId },
+            { $addToSet: { followers: { _id: context.user._id } } },
+            { new: true, runValidators: true }
+        );
+          return followedUser;
+        // };
+      } else {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+    },
+    unfollow: async (parent, { followedId }, context) => {
         if (context.user) {
-          const reprint = await Reprint.create({ ...args, username: context.user.username });
-      
-          await User.findByIdAndUpdate(
+          const unfollowingUser = await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $push: { reprints: reprint._id } },
-            { new: true }
+            { $pull: { followed: followedId } },
+            { new: true, runValidators: true },
+          )
+          const unfollowedUser = User.findOneAndUpdate(
+              { _id: followedId },
+              { $pull: { followers: context.user._id  } },
+              { new: true, runValidators: true }
           );
-      
-          return reprint;
+            return unfollowedUser;
+          // };
+        } else {
+          throw new AuthenticationError("You need to be logged in!");
         }
-      
-        throw new AuthenticationError('You need to be logged in!');
       },
+
+
+    // addLike: async (parent, { reprintId, like }, context) => {
+    //   if (context.user) {
+    //     const updatedReprint = await Reprint.findOneAndUpdate(
+    //       { _id: reprintId },
+    //       { $addToSet: { likes: { _id: context.user._id } } },
+    //       { new: true, runValidators: true }
+    //     );
+
+    //     return updatedReprint;
+    //   }
+
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
+
+    // addFavorite: async (parent, { favoriteId }, context) => {
+    //   if (context.user) {
+    //     const updatedUser = await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { favorites: favoriteId } },
+    //       { new: true }
+    //     ).populate("favorites");
+
+    //     return updatedUser;
+    //   }
+
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
   },
 };
 
