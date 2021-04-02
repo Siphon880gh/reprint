@@ -5,6 +5,7 @@ const typeDefs = gql `
     _id: ID
     username: String
     email: String
+    password: String
     reprints: [Reprint]
     favorites: [Reprint]
     favoriteCount: Int 
@@ -36,8 +37,13 @@ const typeDefs = gql `
   }
 
   type Query {
-    trending: [Reprint]
     me: User
+    users: [User]
+    author(username: String!): User
+    trending: [Reprint]
+    stream: [Reprint]
+    post(_id: ID!): Reprint
+
   }
 
   type Auth {
@@ -47,7 +53,7 @@ const typeDefs = gql `
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
+    login(username: String!, password: String!): Auth
   }
 `;
 
