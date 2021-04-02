@@ -43,7 +43,7 @@ const typeDefs = gql`
     author(username: String!): User
     trending: [Reprint]
     stream: [Reprint]
-    post(_id: ID!): Reprint
+    reprint(title: String!): Reprint
   }
 
   type Auth {
