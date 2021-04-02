@@ -17,14 +17,13 @@ const AppNavbar = () => {
           <Navbar.Brand as={Link} to='/'>
             Reprint
           </Navbar.Brand>
+          <Form inline>
+            <FormControl type="text" placeholder="Search by author..." className="mr-sm-2" />
+            <Button variant="outline-success">Search</Button>
+          </Form>
           <Navbar.Toggle aria-controls='navbar-main' />
           <Navbar.Collapse id='navbar-main'>
             <Nav className='ml-auto'>
-              <Form inline>
-                <FormControl type="text" placeholder="Search by author..." className="mr-sm-2" />
-                <Button variant="outline-success">Search</Button>
-              </Form>
-              <Nav.Link as={Link} to='/about'>About NFTs</Nav.Link>
               {/* if user is logged in, show Add Post and Favorites link. Otherwise show Login/Sign up */}
               {Auth.loggedIn() ? (
                 <>
@@ -39,9 +38,6 @@ const AppNavbar = () => {
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
               )}
             </Nav>
-            <Nav.Link as={Link} to='/'>
-              Home
-            </Nav.Link>
           </Navbar.Collapse>
 
           {Auth.loggedIn() ? (
