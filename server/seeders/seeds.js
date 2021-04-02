@@ -65,7 +65,7 @@ db.once("open", async () => {
 
   // create reprints
   let createdReprints = [];
-  for (let i = 0; i < 70; i += 1) {
+  for (let i = 0; i < 100; i += 1) {
     const title = faker.name.title();
     const asset = faker.hacker.noun();
     const caption = faker.lorem.words(Math.round(Math.random() * 20) + 1);
@@ -91,12 +91,12 @@ db.once("open", async () => {
   }
 
   // create favorites
-  for (let i = 0; i < 100; i += 1) {
+  for (let i = 0; i < 70; i += 1) {
     // get random Reprint id
     const randomReprintIndex = Math.floor(
         Math.random() * createdReprints.length
       );
-      const { _id: reprintId } = createdReprints[randomReprintIndex];
+      const { _id } = createdReprints[randomReprintIndex];
 
     // get random User id
     const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
@@ -104,7 +104,7 @@ db.once("open", async () => {
 
     await User.updateOne(
       { _id: userId },
-      { $push: { favorites: { reprintId } } },
+      { $push: { favorites: { _id } } },
       { runValidators: true }
     );
   }
@@ -132,7 +132,7 @@ db.once("open", async () => {
   for (let i = 0; i < 100; i += 1) {
     // get a random User id
     const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
-    const { _id: userId } = createdUsers.ops[randomUserIndex];
+    const { _id } = createdUsers.ops[randomUserIndex];
 
     // add like to random Reprint
     const randomReprintIndex = Math.floor(
@@ -142,7 +142,7 @@ db.once("open", async () => {
 
     await Reprint.updateOne(
       { _id: reprintId },
-      { $push: { likes: { userId } } },
+      { $push: { likes: { _id } } },
       { runValidators: true }
     );
   }
