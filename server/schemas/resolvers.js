@@ -36,15 +36,13 @@ const resolvers = {
         .populate("followed");
     },
     post: async (parent, { _id }) => {
-        return Reprint.findOne({ _id })
+      return Reprint.findOne({ _id })
         .select("-__v")
         .populate("likes")
-        .populate("comments")
+        .populate("comments");
     },
     stream: async () => {
-      return Reprint.find()
-      .select("-__v")
-      .populate("likes");
+      return Reprint.find().select("-__v").populate("likes");
     },
     trending: async (parent, args, context) => {
       // Mock
@@ -77,28 +75,34 @@ const resolvers = {
 
   Mutation: {
     addUser: async (parent, args) => {
-        const user = await User.create(args);
-        const token = signToken(user);
-  
-        return { token, user };
-      },
-    login: async (parent, { username, password }) => {
-      // Find if username exists
-      const user = await User.findOne({ username });
-      if (!user) {
-        throw new AuthenticationError("That user does not exist");
-      }
-
-      // See if plain passwords match
-      if (password !== user.password) {
-        throw new AuthenticationError("Incorrect credentials");
-      }
-
-      // Then sign the token, aka combine user identifiers and exp to generate a JWT
+      // create User
+      const user = await User.create(args);
+      // assign JWT to User
       const token = signToken(user);
+
       return { token, user };
     },
-  }, // Mutation
+    login: async (parent, { username, password }) => {
+        const user = await User.findOne({ username });
+
+        // check for matching username 
+        if (!user) {
+          throw new AuthenticationError('Incorrect credentials');
+        }
+        
+        // check password hash
+        const correctPw = await user.isCorrectPassword(password);
+  
+        // check for matching password
+        if (!correctPw) {
+          throw new AuthenticationError('Incorrect credentials');
+        }
+  
+        // sign JWT
+        const token = signToken(user);
+        return { token, user };
+      },
+  },
 };
 
 module.exports = resolvers;
