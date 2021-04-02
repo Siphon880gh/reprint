@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Tab, Form, FormControl, Button } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
@@ -20,6 +20,10 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls='navbar-main' />
           <Navbar.Collapse id='navbar-main'>
             <Nav className='ml-auto'>
+              <Form inline>
+                <FormControl type="text" placeholder="Search by author..." className="mr-sm-2" />
+                <Button variant="outline-success">Search</Button>
+              </Form>
               <Nav.Link as={Link} to='/about'>About NFTs</Nav.Link>
               {/* if user is logged in, show Add Post and Favorites link. Otherwise show Login/Sign up */}
               {Auth.loggedIn() ? (
