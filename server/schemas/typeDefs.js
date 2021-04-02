@@ -54,6 +54,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(username: String!, password: String!): Auth
+    addReprint(title: String, asset: String!,author: String!, marketListing: String!): Reprint
   }
 `;
 

@@ -102,6 +102,21 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    addReprint: async (parent, args, context) => {
+        if (context.user) {
+          const reprint = await Reprint.create({ ...args, username: context.user.username });
+      
+          await User.findByIdAndUpdate(
+            { _id: context.user._id },
+            { $push: { reprints: reprint._id } },
+            { new: true }
+          );
+      
+          return reprint;
+        }
+      
+        throw new AuthenticationError('You need to be logged in!');
+      },
   },
 };
 
