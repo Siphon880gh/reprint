@@ -12,6 +12,7 @@ import TestParamNone from './pages/TestParamNone';
 import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
+import AddPost from './pages/addPost';
 
 
 // Add Apollo context components
@@ -38,7 +39,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route exact path='/post/new' component={Home} />
+            <Route exact path='/post/new' component={AddPost} />
             <Route exact path='/post/:id' component={Home} />
             <Route exact path='/favorites' component={Favorites} />
             <Route exact path='/test-param/me' component={TestParamNone} />
