@@ -73,6 +73,11 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return password === this.password;
 };
 
+// count reprints
+userSchema.virtual("reprintCount").get(function () {
+  return this.reprints.length;
+});
+
 // count followers
 userSchema.virtual("followerCount").get(function () {
   return this.followers.length;
