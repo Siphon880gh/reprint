@@ -4,6 +4,7 @@ import { Container, Card, CardColumns } from 'react-bootstrap';
 
 import { useQuery } from '@apollo/react-hooks'; // TO REVIEW
 import { TRENDING_REPRINTS } from '../utils/queries';
+/* import { NoftCard } from '../components/NoftCard'; */
 
 const Home = () => {
 
