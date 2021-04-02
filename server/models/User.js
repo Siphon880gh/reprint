@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
-
-// TODO: Please fill in more of the User model. Refer to Aidan's diagrams on Slack or OneNote
+const bcrypt = require('bcrypt')
 
 // const favoriteSchema = new Schema(
 //   {
@@ -68,10 +67,25 @@ const userSchema = new Schema(
   }
 );
 
-// custom method to compare and validate password for logging in
-userSchema.methods.isCorrectPassword = async function (password) {
-  return password === this.password;
+// set up pre-save middleware to create password
+userSchema.pre('save', async function(next) {
+  if (this.isNew || this.isModified('password')) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
+  next();
+});
+
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function(password) {
+  return bcrypt.compare(password, this.password);
 };
+
+// count reprints
+userSchema.virtual("reprintCount").get(function () {
+  return this.reprints.length;
+});
 
 // count followers
 userSchema.virtual("followerCount").get(function () {

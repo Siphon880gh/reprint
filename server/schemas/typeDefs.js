@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type User {
@@ -7,8 +7,9 @@ const typeDefs = gql`
     email: String
     password: String
     reprints: [Reprint]
+    reprintCount: Int
     favorites: [Reprint]
-    favoriteCount: Int 
+    favoriteCount: Int
     followers: [User]
     followerCount: Int
     followed: [User]
@@ -43,7 +44,6 @@ const typeDefs = gql`
     trending: [Reprint]
     stream: [Reprint]
     post(_id: ID!): Reprint
-
   }
 
   type Auth {
