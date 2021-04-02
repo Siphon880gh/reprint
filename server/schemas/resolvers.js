@@ -35,8 +35,8 @@ const resolvers = {
         .populate("followers")
         .populate("followed");
     },
-    post: async (parent, { _id }) => {
-      return Reprint.findOne({ _id })
+    reprint: async (parent, { title }) => {
+      return Reprint.findOne({ title })
         .select("-__v")
         .populate("likes")
         .populate("comments");
@@ -44,10 +44,10 @@ const resolvers = {
     stream: async () => {
       return Reprint.find().select("-__v").populate("likes");
     },
+    // Mock
+    // Mock Note: If you want to edit mocks, make sure you have unique IDs. Otherwise, useQuery will not return the other objects pass the first object.
+    // Later Note: Please remember the useQuery hook will return a nested object: data?.trending which is the array
     trending: async (parent, args, context) => {
-      // Mock
-      // Mock Note: If you want to edit mocks, make sure you have unique IDs. Otherwise, useQuery will not return the other objects pass the first object.
-      // Later Note: Please remember the useQuery hook will return a nested object: data?.trending which is the array
       return [
         {
           _id: 1,
@@ -83,25 +83,25 @@ const resolvers = {
       return { token, user };
     },
     login: async (parent, { username, password }) => {
-        const user = await User.findOne({ username });
+      const user = await User.findOne({ username });
 
-        // check for matching username 
-        if (!user) {
-          throw new AuthenticationError('Incorrect credentials');
-        }
-        
-        // check password hash
-        const correctPw = await user.isCorrectPassword(password);
-  
-        // check for matching password
-        if (!correctPw) {
-          throw new AuthenticationError('Incorrect credentials');
-        }
-  
-        // sign JWT
-        const token = signToken(user);
-        return { token, user };
-      },
+      // check for matching username
+      if (!user) {
+        throw new AuthenticationError("Incorrect credentials");
+      }
+
+      // check password hash
+      const correctPw = await user.isCorrectPassword(password);
+
+      // check for matching password
+      if (!correctPw) {
+        throw new AuthenticationError("Incorrect credentials");
+      }
+
+      // sign JWT
+      const token = signToken(user);
+      return { token, user };
+    },
   },
 };
 
