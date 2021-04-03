@@ -44,35 +44,7 @@ const resolvers = {
         stream: async () => {
             return Reprint.find().select("-__v").populate("likes");
         },
-        // Mock
-        // Mock Note: If you want to edit mocks, make sure you have unique IDs. Otherwise, useQuery will not return the other objects pass the first object.
-        // Later Note: Please remember the useQuery hook will return a nested object: data?.trending which is the array
-        trending: async (parent, args, context) => {
-            return [
-                {
-                    _id: 1,
-                    asset: "http://via.placeholder.com/300x300?text=Reprint 1",
-                },
-                {
-                    _id: 2,
-                    asset: "http://via.placeholder.com/300x500?text=Reprint 2",
-                },
-                {
-                    _id: 3,
-                    asset: "http://via.placeholder.com/300x300?text=Reprint 3",
-                },
-                {
-                    _id: 4,
-                    asset: "http://via.placeholder.com/300x300?text=Reprint 4",
-                },
-                {
-                    _id: 5,
-                    asset: "http://via.placeholder.com/300x500?text=Reprint 5",
-                },
-            ];
-        }, // query.trending
     },
-
     Mutation: {
         addUser: async (parent, args) => {
             // create User
@@ -97,10 +69,179 @@ const resolvers = {
             if (!correctPw) {
                 throw new AuthenticationError("Incorrect credentials");
             }
-
             // sign JWT
             const token = signToken(user);
             return { token, user };
+        },
+        // deleteUser: async (parent, context) => {
+        //   if (context.user) {
+        //     console.log("HEY")
+        //     const deletedUser = await Reprint.findOneAndDelete(
+        //       { _id: context.user._id },
+        //       { runValidators: true }
+        //     );
+        //     return deletedUser;
+        //   }
+        //   throw new AuthenticationError("You need to be logged in!");
+        // },
+        addReprint: async (parent, args, context) => {
+            if (context.user) {
+                const reprint = await Reprint.create({
+                    ...args,
+                    author: context.user.username,
+                });
+
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { reprints: reprint._id } },
+                    { new: true }
+                );
+
+                return reprint;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        deleteReprint: async (parent, { reprintId }, context) => {
+            if (context.user) {
+                const deletedReprint = await Reprint.findOneAndDelete(
+                    { _id: reprintId, author: context.user.username },
+                    { runValidators: true }
+                );
+
+                const author = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { reprints: reprintId } },
+                    { new: true }
+                );
+
+                return author;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        addComment: async (parent, { reprintId, commentBody }, context) => {
+            if (context.user) {
+                const updatedReprint = await Reprint.findOneAndUpdate(
+                    { _id: reprintId },
+                    {
+                        $push: { comments: { commentBody, author: context.user.username } },
+                    },
+                    { new: true, runValidators: true }
+                );
+
+                return updatedReprint;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        deleteComment: async (parent, { reprintId, commentId }, context) => {
+            if (context.user) {
+                const updatedReprint = await Reprint.findOneAndUpdate(
+                    {
+                        $or: [
+                            { _id: reprintId, comments: { author: context.user.username } },
+                            { _id: reprintId, author: context.user.username },
+                        ],
+                    },
+                    {
+                        $pull: { comments: { _id: commentId } },
+                    },
+                    { new: true, runValidators: true }
+                );
+
+                return updatedReprint;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        follow: async (parent, { followedId }, context) => {
+            if (context.user) {
+                const followingUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { followed: followedId } },
+                    { new: true, runValidators: true }
+                );
+                const followedUser = User.findOneAndUpdate(
+                    { _id: followedId },
+                    { $addToSet: { followers: { _id: context.user._id } } },
+                    { new: true, runValidators: true }
+                );
+                return followedUser;
+                // };
+            } else {
+                throw new AuthenticationError("You need to be logged in!");
+            }
+        },
+        unfollow: async (parent, { followedId }, context) => {
+            if (context.user) {
+                const unfollowingUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { followed: followedId } },
+                    { new: true, runValidators: true }
+                );
+                const unfollowedUser = User.findOneAndUpdate(
+                    { _id: followedId },
+                    { $pull: { followers: context.user._id } },
+                    { new: true, runValidators: true }
+                );
+                return unfollowedUser;
+                // };
+            } else {
+                throw new AuthenticationError("You need to be logged in!");
+            }
+        },
+        like: async (parent, { reprintId }, context) => {
+            if (context.user) {
+                const updatedReprint = await Reprint.findOneAndUpdate(
+                    { _id: reprintId },
+                    { $addToSet: { likes: context.user._id } },
+                    { new: true, runValidators: true }
+                );
+
+                return updatedReprint;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        unlike: async (parent, { reprintId }, context) => {
+            if (context.user) {
+                const updatedReprint = await Reprint.findOneAndUpdate(
+                    { _id: reprintId },
+                    { $pull: { likes: context.user._id } },
+                    { new: true, runValidators: true }
+                );
+
+                return updatedReprint;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        favorite: async (parent, { reprintId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { favorites: reprintId } },
+                    { new: true }
+                ).populate("favorites");
+
+                return updatedUser;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        unfavorite: async (parent, { reprintId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { favorites: reprintId } },
+                    { new: true }
+                ).populate("favorites");
+
+                return updatedUser;
+            }
+
+            throw new AuthenticationError("You need to be logged in!");
         },
     },
 };
