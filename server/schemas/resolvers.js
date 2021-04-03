@@ -45,7 +45,6 @@ const resolvers = {
       return Reprint.find().select("-__v").populate("likes");
     },
   },
-
   Mutation: {
     addUser: async (parent, args) => {
       // create User
@@ -79,7 +78,7 @@ const resolvers = {
       if (context.user) {
         const reprint = await Reprint.create({
           ...args,
-          username: context.user.username,
+          author: context.user.username,
         });
 
         await User.findByIdAndUpdate(
@@ -89,6 +88,24 @@ const resolvers = {
         );
 
         return reprint;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    deleteReprint: async (parent, { reprintId }, context) => {
+      if (context.user) {
+        const deletedReprint = await Reprint.findOneAndDelete(
+          { _id: reprintId, author: context.user.username },
+          { runValidators: true }
+        );
+
+        const author = await User.findByIdAndUpdate(
+            { _id: context.user._id },
+            { $pull: { reprints: reprintId } },
+            { new: true }
+        );
+
+        return author
       }
 
       throw new AuthenticationError("You need to be logged in!");
