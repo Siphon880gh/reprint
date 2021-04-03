@@ -16,7 +16,16 @@ query {
   me {
     _id
     username
-    email
+    followerCount
+    followedCount
+    reprints {
+      _id
+    title
+    asset
+    author
+    likeCount
+    commentCount
+    }
   }
 }`;
 
@@ -43,4 +52,3 @@ query {
     commentCount
   }
 }`;
-

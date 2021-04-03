@@ -21,7 +21,11 @@ const Profile = () => {
 
                 {me ? (
                     <>
-                        <h2>Order History for {me.email} {me.username}</h2>
+                        <h2>Profile For {me.username}</h2>
+                        <p>Followers: {me.followerCount}</p>
+                        <p>Followed: {me.followedCount}</p>
+                        <p>Likes:{me.likeCount}</p>
+                        <p>Comments:{me.commentCount}</p>
                     </>
                 ) : null}
 
