@@ -1,17 +1,12 @@
 import React from 'react';
-// import React, { useState, useEffect } from 'react';
-import { Container, Card, CardColumns } from 'react-bootstrap';
-
-import { useQuery } from '@apollo/react-hooks'; // TO REVIEW
-import { TRENDING_REPRINTS } from '../utils/queries';
-/* import { NoftCard } from '../components/NoftCard'; */
-
-const Home = () => {
-
-  // use useQuery hook to make query request
-  const { loading, data } = useQuery(TRENDING_REPRINTS);
-  const reprints = data?.trending || [];
-  console.log({ data })
+import { Card, Button, CardColumns, Container } from 'react-bootstrap';
+import { GET_STREAM } from '../utils/queries';
+import { useQuery } from '@apollo/react-hooks';
+/* import NoftCard from '../components/NoftCard';
+ */
+export function Home() {
+  const { loading, data } = useQuery(GET_STREAM);
+  const streamnofts = data?.stream || [];
 
   return (<React.Fragment>
     {loading ? (
@@ -20,16 +15,20 @@ const Home = () => {
     ) : (
       <Container>
         <h2>
-          {reprints.length
+          {streamnofts.length
             ? ``
             : 'No trending NoFTs found. Is this a fresh install? Try seeding the database.'}
         </h2>
         <CardColumns>
-          {reprints.map((reprint, itrIndex) => {
+          {streamnofts.map((reprint, itrIndex) => {
             return (
-              <Card key={itrIndex} border='dark'>
+              <Card style={{ width: '18rem' }}>
                 <Card.Body>
+                  <Card.Title>{reprint.title}</Card.Title>
                   <Card.Img variant="top" src={reprint.asset} />
+                  <Card.Text><Card.Link href="#"><span role="img" aria-label="like emoji">👍</span>{reprint.likeCount}</Card.Link><Card.Link href="#"><span role="img" aria-label="comment emoji" >💬</span>{reprint.commentCount}</Card.Link></Card.Text>
+                  <Card.Text>NoFT Author: <Card.Link href="#">{reprint.author}</Card.Link> </Card.Text>
+                  <Button variant="primary">Download</Button>
                 </Card.Body>
               </Card>
             );

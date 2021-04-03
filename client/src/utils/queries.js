@@ -11,44 +11,14 @@ query {
   }
 }`;
 
-
-/* export const GET_ME = gql`
+export const GET_ME = gql`
 query {
   me {
     _id
     username
     email
-    reprints {
-              _id
-              title
-              asset
-              author
-              caption
-             likes {
-             username
-                  }
-    likeCount
-    comments {
-      _id
-    commentBody
-    author
-    }
-    favorites {
-      _id
-    title
-    asset
-    author
-    caption
-    }
-    followers {
-      _id
-      username
-    }
-    followed {
-      _id
-    username
-    }
-}`; */
+  }
+}`;
 
 export const GET_STREAM = gql`
 query {
@@ -62,5 +32,15 @@ query {
   }
 }`;
 
-
+export const GET_SINGLE_CARD = gql`
+query {
+  reprint(title: $title){
+    _id
+    title
+    asset
+    author
+    likeCount
+    commentCount
+  }
+}`;
 
