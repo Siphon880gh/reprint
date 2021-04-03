@@ -48,13 +48,11 @@ export default function UploadForm(props) {
             .then((userCredential) => {
                 // Signed in 
                 var user = userCredential.user;
-                // ...
             })
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                debugger;
-                // ..
+                throw JSON.stringify({errorCode, errorMessage});
             });
             signedIn = true;
     }
