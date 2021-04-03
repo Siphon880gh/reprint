@@ -15,10 +15,10 @@ const AppNavbar = () => {
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
-            Reprint
+            NoFT
           </Navbar.Brand>
           <Form inline>
-            <FormControl type="text" placeholder="Search by author..." className="mr-sm-2" />
+            <FormControl type="text" placeholder="Search NoFT..." className="mr-sm-2" />
             <Button variant="outline-success">Search</Button>
           </Form>
           <Navbar.Toggle aria-controls='navbar-main' />
@@ -33,26 +33,14 @@ const AppNavbar = () => {
                   <Nav.Link as={Link} to='/favorites'>
                     Favorites
                   </Nav.Link>
+                  <Nav.Link as={Link} to='/profile/me'>Profile</Nav.Link>
+                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
-
-          {Auth.loggedIn() ? (
-            <>
-              <Navbar.Toggle aria-controls='navbar-user' />
-              <Navbar.Collapse id='navbar-user'>
-                <Nav className='ml-auto'>
-                  <Nav.Link as={Link} to='/profile/me'>Profile</Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-            </>
-          ) : (
-            <></>
-          )}
         </Container>
       </Navbar>
       {/* set modal data up */}

@@ -12,9 +12,7 @@ export default function Footer() {
         <footer data-component="Footer" id="footer" className="footer section container-fluid">
             <Navbar bg='dark' variant='dark' expand='lg'>
                 <Container fluid>
-                    <Nav.Link as={Link} to='/about'>About NFTs</Nav.Link>
-                    <Nav.Link className="text-bold" as={Link} to="/test-param/3">Test: Component with ID</Nav.Link>
-                    <Nav.Link className="text-bold" as={Link} to="/test-param/me">Test: Component me</Nav.Link>
+                    <Nav.Link as={Link} to='/about'>About NoFT</Nav.Link>
                     <a target="_blank" href="https://github.com/Siphon880gh/reprint/" className="text-bold nav-link">Github</a>
                     <span className="text-bold text-white nav-link">Reprint © 2021</span>
                 </Container>

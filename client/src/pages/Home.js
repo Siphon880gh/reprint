@@ -21,8 +21,8 @@ const Home = () => {
       <Container>
         <h2>
           {reprints.length
-            ? `Trending Reprints:`
-            : 'No trending Reprints found. Is this a fresh install? Try seeding the database.'}
+            ? ``
+            : 'No trending NoFTs found. Is this a fresh install? Try seeding the database.'}
         </h2>
         <CardColumns>
           {reprints.map((reprint, itrIndex) => {

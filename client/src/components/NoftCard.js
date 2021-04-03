@@ -1,21 +1,26 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, CardColumns, Container } from 'react-bootstrap';
+import { GET_STREAM } from '../utils/queries';
+import { useQuery } from '@apollo/react-hooks';
 
 export function NoftCard() {
+  const { data } = useQuery(GET_STREAM);
+  let reprint = data.stream;
+
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Body>
-        <Card.Title>Noft Title</Card.Title>
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Text>This is a caption of the stuff you wanna say!
-    </Card.Text>
-        <Card.Text><Card.Link href="#">👍2</Card.Link><Card.Link href="#">💬5</Card.Link></Card.Text>
-        <Card.Text>NoFT Author: <Card.Link href="#">Username</Card.Link> </Card.Text>
+        <Card.Title>{reprint.title}</Card.Title>
+        <Card.Img variant="top" src={reprint.asset} />
+        <Card.Text><Card.Link href="#"><span>👍</span>{reprint.likeCount}</Card.Link><Card.Link href="#"><span>💬</span>{reprint.commentCount}</Card.Link></Card.Text>
+        <Card.Text>NoFT Author: <Card.Link href="#">{reprint.author}</Card.Link> </Card.Text>
         <Button variant="primary">Download</Button>
       </Card.Body>
     </Card>
-  )
+  );
 };
+
+export default NoftCard;
 
 
 
