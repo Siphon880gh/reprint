@@ -41,7 +41,6 @@ const typeDefs = gql`
     me: User
     users: [User]
     author(username: String!): User
-    trending: [Reprint]
     stream: [Reprint]
     reprint(title: String!): Reprint
   }
