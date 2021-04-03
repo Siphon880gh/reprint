@@ -60,6 +60,8 @@ const typeDefs = gql`
     unfollow(followedId: ID!): User
     like(reprintId: ID!): Reprint
     unlike(reprintId: ID!): Reprint
+    favorite(reprintId: ID!): User
+    unfavorite(reprintId: ID!): User
   }
 `;
 

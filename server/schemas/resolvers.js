@@ -108,55 +108,42 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
-    // addFollower: async (parent, { followerId }, context) => {
-    //   if (context.user) {
-    //     const updatedUser = await User.findOneAndUpdate(
-    //       { _id: context.user._id },
-    //       { $addToSet: { followers: followerId } },
-    //       { new: true }
-    //     ).populate("followers");
-
-    //     return updatedUser;
-    //   }
-
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
     follow: async (parent, { followedId }, context) => {
       if (context.user) {
         const followingUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { followed: followedId } },
-          { new: true, runValidators: true },
-        )
-        const followedUser = User.findOneAndUpdate(
-            { _id: followedId },
-            { $addToSet: { followers: { _id: context.user._id } } },
-            { new: true, runValidators: true }
+          { new: true, runValidators: true }
         );
-          return followedUser;
+        const followedUser = User.findOneAndUpdate(
+          { _id: followedId },
+          { $addToSet: { followers: { _id: context.user._id } } },
+          { new: true, runValidators: true }
+        );
+        return followedUser;
         // };
       } else {
         throw new AuthenticationError("You need to be logged in!");
       }
     },
     unfollow: async (parent, { followedId }, context) => {
-        if (context.user) {
-          const unfollowingUser = await User.findOneAndUpdate(
-            { _id: context.user._id },
-            { $pull: { followed: followedId } },
-            { new: true, runValidators: true },
-          )
-          const unfollowedUser = User.findOneAndUpdate(
-              { _id: followedId },
-              { $pull: { followers: context.user._id  } },
-              { new: true, runValidators: true }
-          );
-            return unfollowedUser;
-          // };
-        } else {
-          throw new AuthenticationError("You need to be logged in!");
-        }
-      },
+      if (context.user) {
+        const unfollowingUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { followed: followedId } },
+          { new: true, runValidators: true }
+        );
+        const unfollowedUser = User.findOneAndUpdate(
+          { _id: followedId },
+          { $pull: { followers: context.user._id } },
+          { new: true, runValidators: true }
+        );
+        return unfollowedUser;
+        // };
+      } else {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+    },
     like: async (parent, { reprintId }, context) => {
       if (context.user) {
         const updatedReprint = await Reprint.findOneAndUpdate(
@@ -171,32 +158,44 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
     unlike: async (parent, { reprintId }, context) => {
-        if (context.user) {
-          const updatedReprint = await Reprint.findOneAndUpdate(
-            { _id: reprintId },
-            { $pull: { likes: context.user._id } },
-            { new: true, runValidators: true }
-          );
-  
-          return updatedReprint;
-        }
-  
-        throw new AuthenticationError("You need to be logged in!");
-      },
+      if (context.user) {
+        const updatedReprint = await Reprint.findOneAndUpdate(
+          { _id: reprintId },
+          { $pull: { likes: context.user._id } },
+          { new: true, runValidators: true }
+        );
 
-    // addFavorite: async (parent, { favoriteId }, context) => {
-    //   if (context.user) {
-    //     const updatedUser = await User.findOneAndUpdate(
-    //       { _id: context.user._id },
-    //       { $addToSet: { favorites: favoriteId } },
-    //       { new: true }
-    //     ).populate("favorites");
+        return updatedReprint;
+      }
 
-    //     return updatedUser;
-    //   }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    favorite: async (parent, { reprintId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { favorites: reprintId } },
+          { new: true }
+        ).populate("favorites");
 
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
+        return updatedUser;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    unfavorite: async (parent, { reprintId }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { favorites: reprintId } },
+          { new: true }
+        ).populate("favorites");
+
+        return updatedUser;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
   },
 };
 
