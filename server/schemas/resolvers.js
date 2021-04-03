@@ -157,21 +157,32 @@ const resolvers = {
           throw new AuthenticationError("You need to be logged in!");
         }
       },
+    like: async (parent, { reprintId }, context) => {
+      if (context.user) {
+        const updatedReprint = await Reprint.findOneAndUpdate(
+          { _id: reprintId },
+          { $addToSet: { likes: context.user._id } },
+          { new: true, runValidators: true }
+        );
 
+        return updatedReprint;
+      }
 
-    // addLike: async (parent, { reprintId, like }, context) => {
-    //   if (context.user) {
-    //     const updatedReprint = await Reprint.findOneAndUpdate(
-    //       { _id: reprintId },
-    //       { $addToSet: { likes: { _id: context.user._id } } },
-    //       { new: true, runValidators: true }
-    //     );
-
-    //     return updatedReprint;
-    //   }
-
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    unlike: async (parent, { reprintId }, context) => {
+        if (context.user) {
+          const updatedReprint = await Reprint.findOneAndUpdate(
+            { _id: reprintId },
+            { $pull: { likes: context.user._id } },
+            { new: true, runValidators: true }
+          );
+  
+          return updatedReprint;
+        }
+  
+        throw new AuthenticationError("You need to be logged in!");
+      },
 
     // addFavorite: async (parent, { favoriteId }, context) => {
     //   if (context.user) {

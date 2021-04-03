@@ -58,6 +58,8 @@ const typeDefs = gql`
     addComment(reprintId: ID!, commentBody: String!, author: String!): Reprint
     follow(followedId: ID!): User
     unfollow(followedId: ID!): User
+    like(reprintId: ID!): Reprint
+    unlike(reprintId: ID!): Reprint
   }
 `;
 
