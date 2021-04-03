@@ -57,6 +57,7 @@ const typeDefs = gql`
     addReprint(title: String, asset: String!, caption: String, marketListing: String!): Reprint
     deleteReprint(reprintId: ID!): Reprint
     addComment(reprintId: ID!, commentBody: String!): Reprint
+    deleteComment(reprintId: ID!, commentId: ID!): Reprint
     follow(followedId: ID!): User
     unfollow(followedId: ID!): User
     like(reprintId: ID!): Reprint

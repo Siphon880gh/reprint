@@ -100,12 +100,12 @@ const resolvers = {
         );
 
         const author = await User.findByIdAndUpdate(
-            { _id: context.user._id },
-            { $pull: { reprints: reprintId } },
-            { new: true }
+          { _id: context.user._id },
+          { $pull: { reprints: reprintId } },
+          { new: true }
         );
 
-        return author
+        return author;
       }
 
       throw new AuthenticationError("You need to be logged in!");
@@ -116,6 +116,26 @@ const resolvers = {
           { _id: reprintId },
           {
             $push: { comments: { commentBody, author: context.user.username } },
+          },
+          { new: true, runValidators: true }
+        );
+
+        return updatedReprint;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    deleteComment: async (parent, { reprintId, commentId }, context) => {
+      if (context.user) {
+        const updatedReprint = await Reprint.findOneAndUpdate(
+          {
+            $or: [
+              { _id: reprintId, comments: { author: context.user.username } },
+              { _id: reprintId, author: context.user.username },
+            ],
+          },
+          {
+            $pull: { comments: { _id: commentId } },
           },
           { new: true, runValidators: true }
         );
