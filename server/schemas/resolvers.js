@@ -42,6 +42,12 @@ const resolvers = {
         .populate("likes")
         .populate("comments");
     },
+    findFavorite: async (parent, { _id }) => {
+      return Reprint.findOne({ _id })
+        .select("-__v")
+        .populate("likes")
+        .populate("comments");
+    },
     stream: async () => {
       return Reprint.find().select("-__v").populate("likes");
     },
