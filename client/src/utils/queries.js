@@ -40,9 +40,12 @@ query {
     }
     reprintCount
     favorites {
-      _id
+        _id
     title
     asset
+    author
+    commentCount
+    likeCount
     }
     favoriteCount
     followers{
@@ -90,6 +93,9 @@ query author($username: String!) {
       _id
     title
     asset
+    author
+    commentCount
+    likeCount
     }
     favoriteCount
     followers{

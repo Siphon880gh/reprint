@@ -56,15 +56,19 @@ const Profile2 = props => {
             <p>Followers: {user.followerCount}</p>
             <p>Followed: {user.followedCount}</p>
             <p>Total Reprints: {user.reprintCount}</p>
+            <p>Total Favorite Counts: {user.favoriteCount}</p>
 
-            {user.reprints.map((reprint, itrIndex) => {
+            {user.favorites.map((favorite, itrIndex) => {
                 return (
+
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
-                            <Card.Title ><Card.Link href={`/post/${reprint._id}`}>{reprint.title}</Card.Link></Card.Title>
-                            <Card.Img variant="top" src={reprint.asset} />
-                            <Card.Text><span role="img" aria-label="like emoji">👍</span>{reprint.likeCount}<span role="img" aria-label="comment emoji" >💬</span>{reprint.commentCount}</Card.Text>
-                            <Card.Text>NoFT Author: <Card.Link href={`/profile/${reprint.author}`}>{reprint.author}</Card.Link> </Card.Text>
+                            {console.log(favorite)}
+                            {console.log(favorite.asset)}
+                            <Card.Title ><Card.Link href={`/post/${favorite._id}`}>{favorite.title}</Card.Link></Card.Title>
+                            <Card.Img variant="top" src={favorite.asset} />
+                            <Card.Text><span role="img" aria-label="like emoji">👍</span>{favorite.likeCount}<span role="img" aria-label="comment emoji" >💬</span>{favorite.commentCount}</Card.Text>
+                            <Card.Text>NoFT Author: <Card.Link href={`/profile/${favorite.author}`}>{favorite.author}</Card.Link> </Card.Text>
                             <Button variant="primary">Download</Button>
                         </Card.Body>
                     </Card>
