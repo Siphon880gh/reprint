@@ -129,3 +129,15 @@ query reprint($id: ID!){
     commentCount
   }
 }`;
+
+/* export const GET_FAVORITES = gql`
+query favorites($username: String!) {
+  favorites(username: $username) {
+    username
+    favorites {
+      _id
+    title
+    asset
+    }
+  }
+}` */

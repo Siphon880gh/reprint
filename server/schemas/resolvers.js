@@ -44,6 +44,11 @@ const resolvers = {
         stream: async () => {
             return Reprint.find().select("-__v").populate("likes");
         },
+        favorites: async (parent, { username }) => {
+            return User.findOne({ username })
+                .select("-__v -password")
+                .populate("reprints")
+        },
     },
     Mutation: {
         addUser: async (parent, args) => {

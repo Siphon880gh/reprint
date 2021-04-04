@@ -42,7 +42,7 @@ function App() {
             <Route exact path='/' component={Home} />
             <Route exact path='/post/new' component={Home} />
             <Route exact path='/post/:id' component={Favorites} />
-            <Route exact path='/favorites' component={Favorites} />
+            <Route exact path='/favorites/:username?' component={Favorites} />
             <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
             <Route exact path='/about' component={About} />

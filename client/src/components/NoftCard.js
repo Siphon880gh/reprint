@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Button, CardColumns, Container } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { GET_SINGLE_CARD } from '../utils/queries';
 import { useQuery } from '@apollo/react-hooks';
 

@@ -2,8 +2,7 @@ import React from 'react';
 import { Card, Button, CardColumns, Container } from 'react-bootstrap';
 import { GET_STREAM } from '../utils/queries';
 import { useQuery } from '@apollo/react-hooks';
-/* import NoftCard from '../components/NoftCard';
- */
+
 export function Home() {
   const { loading, data } = useQuery(GET_STREAM);
   const streamnofts = data?.stream || [];
