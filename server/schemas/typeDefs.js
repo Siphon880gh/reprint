@@ -44,6 +44,8 @@ const typeDefs = gql`
     trending: [Reprint]
     stream: [Reprint]
     reprint(title: String!): Reprint
+    googleCloudAuth: String
+    googleCloudStorage: String
   }
 
   type Auth {

@@ -6,6 +6,27 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
+
+    googleCloudAuth: async (parent, args, context) => {
+      const arrString = JSON.stringify(["weffung@ucdavis.edu", "firebase-cloud-login-123"]);
+      // return arrString;
+      return "['','']";
+      
+    }, // google auth
+    googleCloudStorage: async (parent, args, context) => {
+      const objString = JSON.stringify({
+        apiKey: "AIzaSyAtTwL6D5trrLf1h2xtTnGkMMzoralDl2o",
+        authDomain: "reprint-fd4e0.firebaseapp.com",
+        projectId: "reprint-fd4e0",
+        storageBucket: "reprint-fd4e0.appspot.com",
+        messagingSenderId: "828177439574",
+        appId: "1:828177439574:web:e8f5e5cf9759e48c9f94f7"
+      });
+      // return objString;
+      return "{}";
+
+    }, // google storage
+
     me: async (parent, args, context) => {
       if (context.user) {
         const myUser = await User.findOne({ _id: context.user._id })
