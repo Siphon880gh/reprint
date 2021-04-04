@@ -19,13 +19,3 @@ query {
     email
   }
 }`;
-
-export const GOOGLE_CLOUD_AUTH = gql`
-query {
-  googleCloudAuth
-}`;
-
-export const GOOGLE_CLOUD_STORAGE = gql`
-query {
-  googleCloudStorage
-}`;
