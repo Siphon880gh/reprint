@@ -16,18 +16,95 @@ query {
   me {
     _id
     username
-    followerCount
-    followedCount
+    email
     reprints {
       _id
     title
     asset
     author
+    caption
+    marketListing
+    createdAt
+    likes {
+      _id
+      username
+    }
     likeCount
+    comments{
+      _id
+    commentBody
+    author
+    createdAt
+    }
     commentCount
     }
+    reprintCount
+    favorites {
+      _id
+    title
+    asset
+    }
+    favoriteCount
+    followers{
+      _id
+      username
+    }
+    followerCount
+    followed{
+      _id
+      username
+    }
+    followedCount
   }
 }`;
+
+export const GET_USER = gql`
+query author($username: String!) {
+  author(username: $username) {
+    _id
+    username
+    email
+    reprints {
+      _id
+    title
+    asset
+    author
+    caption
+    marketListing
+    createdAt
+    likes {
+      _id
+      username
+    }
+    likeCount
+    comments{
+      _id
+    commentBody
+    author
+    createdAt
+    }
+    commentCount
+    }
+    reprintCount
+    favorites {
+      _id
+    title
+    asset
+    }
+    favoriteCount
+    followers{
+      _id
+      username
+    }
+    followerCount
+    followed{
+      _id
+      username
+    }
+    followedCount
+  }
+
+  }`
 
 export const GET_STREAM = gql`
 query {
@@ -42,8 +119,8 @@ query {
 }`;
 
 export const GET_SINGLE_CARD = gql`
-query {
-  reprint(title: $title){
+query reprint($id: ID!){
+  reprint(_id: $id){
     _id
     title
     asset

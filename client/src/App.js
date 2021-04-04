@@ -13,6 +13,8 @@ import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 
+import NoftCard from './components/NoftCard';
+
 
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -39,13 +41,13 @@ function App() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/post/new' component={Home} />
-            <Route exact path='/post/:id' component={Home} />
+            <Route exact path='/post/:id' component={Favorites} />
             <Route exact path='/favorites' component={Favorites} />
             <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
             <Route exact path='/about' component={About} />
             <Route exact path='/profile/me' component={Profile} />
-            <Route exact path='/profile/:id' component={Home} />
+            <Route exact path='/profile/:username?' component={Profile} />
             <Route exact path='/' component={Home} />
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Switch>

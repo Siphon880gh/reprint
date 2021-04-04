@@ -8,9 +8,9 @@ export function Favorites() {
 
 
     return (
-        <div>
-            Favorites
-        </div>
+        <Container>
+            <NoftCard />
+        </Container>
     );
 };
 export default Favorites;

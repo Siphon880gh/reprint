@@ -35,8 +35,8 @@ const resolvers = {
                 .populate("followers")
                 .populate("followed");
         },
-        reprint: async (parent, { title }) => {
-            return Reprint.findOne({ title })
+        reprint: async (parent, { _id }) => {
+            return Reprint.findOne({ _id })
                 .select("-__v")
                 .populate("likes")
                 .populate("comments");
