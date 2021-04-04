@@ -5,11 +5,11 @@ import { GET_SINGLE_CARD } from '../utils/queries';
 import { useQuery } from '@apollo/react-hooks';
 
 export function NoftCard() {
-  const { title: noftId } = useParams();
+  let { title } = useParams();
   const { loading, data } = useQuery(GET_SINGLE_CARD, {
-    variables: { title: noftId }
+    variables: { title }
   });
-  const reprint = data?.reprint || {};
+  const singleReprint = data?.reprint || {};
 
   if (loading) {
     return <div>Loading...</div>;
@@ -19,10 +19,10 @@ export function NoftCard() {
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Body>
-        <Card.Title ><Card.Link href={`/post/${reprint.title}`}>{reprint.title}</Card.Link></Card.Title>
-        <Card.Img variant="top" src={reprint.asset} />
-        <Card.Text><span role="img" aria-label="like emoji">👍</span>{reprint.likeCount}<span role="img" aria-label="comment emoji" >💬</span>{reprint.commentCount}</Card.Text>
-        <Card.Text>NoFT Author: <Card.Link href={`/profile/${reprint.author}`}>{reprint.author}</Card.Link> </Card.Text>
+        <Card.Title ><Card.Link href={`/post/${singleReprint.title}`}>{singleReprint.title}</Card.Link></Card.Title>
+        <Card.Img variant="top" src={singleReprint.asset} />
+        <Card.Text><span role="img" aria-label="like emoji">👍</span>{singleReprint.likeCount}<span role="img" aria-label="comment emoji" >💬</span>{singleReprint.commentCount}</Card.Text>
+        <Card.Text>NoFT Author: <Card.Link href={`/profile/${singleReprint.author}`}>{singleReprint.author}</Card.Link> </Card.Text>
         <Button variant="primary">Download</Button>
       </Card.Body>
     </Card>
