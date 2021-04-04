@@ -9,6 +9,7 @@ import Footer, {FooterPushDown} from './components/Footer';
 import Home from './pages/Home';
 import TestParam from './pages/TestParam';
 import TestParamNone from './pages/TestParamNone';
+import UploadForm from "./pages/UploadForm";
 
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -41,6 +42,7 @@ function App() {
             <Route exact path='/test-param/:id' component={TestParam} />
             <Route exact path='/profile/me' component={Home} />
             <Route exact path='/profile/:id' component={Home} />
+            <Route exact path='/upload' component={UploadForm} />
             <Route exact path='/' component={Home} />
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Switch>
