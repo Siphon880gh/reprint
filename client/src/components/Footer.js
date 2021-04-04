@@ -13,6 +13,9 @@ export default function Footer() {
             <Navbar bg='dark' variant='dark' expand='lg'>
                 <Container fluid>
                     <Nav.Link as={Link} to='/about'>About NoFT</Nav.Link>
+                    <Nav.Link className="text-bold" as={Link} to="/upload">Test: Upload</Nav.Link>
+                    <Nav.Link className="text-bold" as={Link} to="/test-param/3">Test: Component with ID</Nav.Link>
+                    <Nav.Link className="text-bold" as={Link} to="/test-param/me">Test: Component me</Nav.Link>
                     <a target="_blank" href="https://github.com/Siphon880gh/reprint/" className="text-bold nav-link">Github</a>
                     <span className="text-bold text-white nav-link">Reprint © 2021</span>
                 </Container>

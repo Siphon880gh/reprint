@@ -125,8 +125,8 @@ query {
 }`;
 
 export const GET_SINGLE_CARD = gql`
-query reprint($id: ID!){
-  reprint(_id: $id){
+query reprint($title: String!){
+  reprint(title: $title){
     _id
     title
     asset

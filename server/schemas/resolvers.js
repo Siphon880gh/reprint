@@ -6,6 +6,7 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
     Query: {
+
         me: async (parent, args, context) => {
             if (context.user) {
                 const myUser = await User.findOne({ _id: context.user._id })
@@ -35,7 +36,13 @@ const resolvers = {
                 .populate("followers")
                 .populate("followed");
         },
-        reprint: async (parent, { _id }) => {
+        reprint: async (parent, { title }) => {
+            return Reprint.findOne({ title })
+                .select("-__v")
+                .populate("likes")
+                .populate("comments");
+        },
+        findFavorite: async (parent, { _id }) => {
             return Reprint.findOne({ _id })
                 .select("-__v")
                 .populate("likes")

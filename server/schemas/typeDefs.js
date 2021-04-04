@@ -42,8 +42,8 @@ const typeDefs = gql`
     users: [User]
     author(username: String!): User
     stream: [Reprint]
-    reprint(_id: ID!): Reprint
-    favorites(username: String!): User
+    reprint(title: String!): Reprint
+    findFavorite(_id: ID!): Reprint
   }
 
   type Auth {
