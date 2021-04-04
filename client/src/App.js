@@ -14,6 +14,7 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import AddPost from './pages/addPost';
 import MeetTheTeam from './pages/Team';
+import postInfo from './pages/postInfo';
 
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -40,7 +41,7 @@ function App() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/post/new' component={AddPost} />
-            <Route exact path='/post/:id' component={Home} />
+            <Route exact path='/post/:id' component={postInfo} />
             <Route exact path='/favorites' component={Favorites} />
             <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
