@@ -12,8 +12,14 @@ import TestParamNone from './pages/TestParamNone';
 import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
+<<<<<<< HEAD
 import SingleNoft from './pages/SingleNoft';
 import UploadForm from "./pages/UploadForm";
+=======
+import AddPost from './pages/addPost';
+import MeetTheTeam from './pages/Team';
+import postInfo from './pages/postInfo';
+>>>>>>> 406beed3afbfd82521358f33787aa0a7542a921f
 
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -39,6 +45,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path='/' component={Home} />
+<<<<<<< HEAD
             <Route exact path='/post/new' component={Home} />
             <Route exact path='/post/:title?' component={SingleNoft} />
             <Route exact path='/favorites/:username?' component={Favorites} />
@@ -46,6 +53,15 @@ function App() {
             <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
 =======     <Route exact path='/about' component={About} />
+=======
+            <Route exact path='/post/new' component={AddPost} />
+            <Route exact path='/post/:id' component={postInfo} />
+            <Route exact path='/favorites' component={Favorites} />
+            <Route exact path='/test-param/me' component={TestParamNone} />
+            <Route exact path='/test-param/:id' component={TestParam} />
+            <Route exact path='/about' component={About} />
+            <Route exact path='/about/team' component={MeetTheTeam} />
+>>>>>>> 406beed3afbfd82521358f33787aa0a7542a921f
             <Route exact path='/profile/me' component={Profile} />
             <Route exact path='/profile/:username?' component={Profile} />
             <Route exact path='/upload' component={UploadForm} />

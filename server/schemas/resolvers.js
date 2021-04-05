@@ -19,6 +19,7 @@ const resolvers = {
                 return myUser;
             }
 
+<<<<<<< HEAD
             throw new AuthenticationError("Not logged in");
         }, // query.me
         users: async () => {
@@ -58,6 +59,41 @@ const resolvers = {
             const user = await User.create(args);
             // assign JWT to User
             const token = signToken(user);
+=======
+      throw new AuthenticationError("Not logged in");
+    }, // query.me
+    users: async () => {
+      return User.find()
+        .select("-__v -password")
+        .populate("reprints")
+        .populate("favorites")
+        .populate("followers")
+        .populate("followed");
+    },
+    author: async (parent, { username }) => {
+      return User.findOne({ username })
+        .select("-__v -password")
+        .populate("reprints")
+        .populate("followers")
+        .populate("followed");
+    },
+    reprint: async (parent, { title }) => {
+      return Reprint.findOne({ title })
+        .select("-__v")
+        .populate("likes")
+        .populate("comments");
+    },
+    stream: async () => {
+      return Reprint.find().select("-__v").populate("likes");
+    },
+  },
+  Mutation: {
+    addUser: async (parent, args) => {
+      // create User
+      const user = await User.create(args);
+      // assign JWT to User
+      const token = signToken(user);
+>>>>>>> 406beed3afbfd82521358f33787aa0a7542a921f
 
             return { token, user };
         },
@@ -72,6 +108,7 @@ const resolvers = {
             // check password hash
             const correctPw = await user.isCorrectPassword(password);
 
+<<<<<<< HEAD
             // check for matching password
             if (!correctPw) {
                 throw new AuthenticationError("Incorrect credentials");
@@ -97,6 +134,33 @@ const resolvers = {
                     ...args,
                     author: context.user.username,
                 });
+=======
+      // check for matching password
+      if (!correctPw) {
+        throw new AuthenticationError("Incorrect credentials");
+      }
+      // sign JWT
+      const token = signToken(user);
+      return { token, user };
+    },
+    // deleteUser: async (parent, context) => {
+    //   if (context.user) {
+    //     console.log("HEY")
+    //     const deletedUser = await Reprint.findOneAndDelete(
+    //       { _id: context.user._id },
+    //       { runValidators: true }
+    //     );
+    //     return deletedUser;
+    //   }
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
+    addReprint: async (parent, args, context) => {
+      if (context.user) {
+        const reprint = await Reprint.create({
+          ...args,
+          author: context.user.username,
+        });
+>>>>>>> 406beed3afbfd82521358f33787aa0a7542a921f
 
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
@@ -251,6 +315,10 @@ const resolvers = {
             throw new AuthenticationError("You need to be logged in!");
         },
     },
+<<<<<<< HEAD
+=======
+  },
+>>>>>>> 406beed3afbfd82521358f33787aa0a7542a921f
 };
 
 module.exports = resolvers;
