@@ -12,7 +12,6 @@ import TestParamNone from './pages/TestParamNone';
 import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
-import SingleNoft from './pages/SingleNoft';
 import UploadForm from "./pages/UploadForm";
 import AddPost from './pages/addPost';
 import MeetTheTeam from './pages/Team';

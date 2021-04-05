@@ -24,3 +24,26 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($reprintId: ID!, $commentBody: String!) {
+    addComment(reprintId: $reprintId, commentBody: $commentBody) {
+      _id
+      commentCount
+      comments {
+        _id
+        commentBody
+        createdAt
+        author
+      }
+    }
+  }
+`;
+
+/* export const ADD_REPRINT = gql``;
+export const DELETE_REPRINT = gql``;
+export const DELETE_COMMENT = gql``;
+export const FOLLOW = gql``;
+export const UNFOLLOW = gql``;
+export const LIKE = gql``;
+export const UNLIKE = gql``; */
