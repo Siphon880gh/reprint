@@ -24,21 +24,6 @@ const commentSchema = new Schema(
   }
 );
 
-const likeSchema = new Schema(
-    {
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        },
-    },
-    {
-        toJSON: {
-          getters: true,
-        },
-        id: false,
-      }
-)
-
 const reprintSchema = new Schema(
   {
     title: {
@@ -70,7 +55,12 @@ const reprintSchema = new Schema(
       // use getter to format createdAt data before it gets to the controllers
       // get: (createdAtVal) => dateFormat(createdAtVal),
     },
-    likes: [likeSchema],
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     comments: [commentSchema],
   },
   {

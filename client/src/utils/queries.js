@@ -17,5 +17,140 @@ query {
     _id
     username
     email
+    reprints {
+      _id
+    title
+    asset
+    author
+    caption
+    marketListing
+    createdAt
+    likes {
+      _id
+      username
+    }
+    likeCount
+    comments{
+      _id
+    commentBody
+    author
+    createdAt
+    }
+    commentCount
+    }
+    reprintCount
+    favorites {
+        _id
+    title
+    asset
+    author
+    commentCount
+    likeCount
+    }
+    favoriteCount
+    followers{
+      _id
+      username
+    }
+    followerCount
+    followed{
+      _id
+      username
+    }
+    followedCount
   }
 }`;
+
+export const GET_USER = gql`
+query author($username: String!) {
+  author(username: $username) {
+    _id
+    username
+    email
+    reprints {
+      _id
+    title
+    asset
+    author
+    caption
+    marketListing
+    createdAt
+    likes {
+      _id
+      username
+    }
+    likeCount
+    comments{
+      _id
+    commentBody
+    author
+    createdAt
+    }
+    commentCount
+    }
+    reprintCount
+    favorites {
+      _id
+    }
+    favoriteCount
+    followers{
+      _id
+      username
+    }
+    followerCount
+    followed{
+      _id
+      username
+    }
+    followedCount
+  }
+
+  }`
+
+export const GET_STREAM = gql`
+query {
+  stream {
+    _id
+    title
+    asset
+    author
+    likeCount
+    commentCount 
+  }
+}`;
+
+export const GET_SINGLE_CARD = gql`
+query reprint($title: String!){
+  reprint(title: $title){
+    _id
+    title
+    asset
+    author
+    caption
+    marketListing
+    likeCount
+    likes{
+      _id
+    username
+    }
+    commentCount
+    comments{
+      _id
+    commentBody
+    author
+    createdAt
+    }
+  }
+}`;
+
+export const GET_FAVORITES = gql`
+query findFavorites($id: ID!) {
+  favorites(_id: $_id) {
+    _id
+    title
+    asset
+    author
+    likeCount
+    commentCount
+  }
+}`

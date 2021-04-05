@@ -1,44 +1,72 @@
 import React from 'react';
-// import React, { useState, useEffect } from 'react';
-// TO DO: need to update this with the query for user favorites and map through the assets, same logic as the home page basically?]
-import { Container, Card, CardColumns } from 'react-bootstrap';
+import { Redirect, useParams } from 'react-router-dom';
+import { Container, Card, Button } from 'react-bootstrap';
+import { useQuery } from '@apollo/react-hooks';
+import { GET_USER, GET_ME, GET_FAVORITES } from '../utils/queries';
+import NoftCard from '../components/NoftCard';
+import Auth from '../utils/auth';
 
-import { useQuery } from '@apollo/react-hooks'; // TO REVIEW
-import { TRENDING_REPRINTS } from '../utils/queries';
+const Favorites = props => {
+    const { username: userParam } = useParams();
 
-const Favorites = () => {
+    const { loading, data } = useQuery(userParam ? GET_USER : GET_ME, {
+        variables: { username: userParam }
+    });
 
-    // use useQuery hook to make query request
-    const { loading, data } = useQuery(TRENDING_REPRINTS);
-    const reprints = data?.trending || [];
-    console.log({ data })
+    const user = data?.me || data?.author || {};
+    const favorited = data?.findFavorites || [];
 
-    return (<React.Fragment>
-        {loading ? (
-            <div>Loading...</div>
-            // TODO: We can add a spinner here
-        ) : (
-            <Container>
-                <h2>
-                    {reprints.length
-                        ? `Your Favorite Reprints:`
-                        : 'No favorite Reprints found. Is this a fresh install? Try seeding the database.'}
-                </h2>
-                <CardColumns>
-                    {reprints.map((reprint, itrIndex) => {
-                        return (
-                            <Card key={itrIndex} border='dark'>
-                                <Card.Body>
-                                    <Card.Img variant="top" src={reprint.asset} />
-                                </Card.Body>
-                            </Card>
-                        );
-                    })}
-                </CardColumns>
-            </Container>
-        )
+    // redirect to personal profile page if username is yours
+    if (
+        Auth.loggedIn() &&
+        Auth.getProfile().data.username === userParam
+    ) {
+        return <Redirect to="/favorites" />;
+    }
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    /*    if (!user?.username) {
+           return (
+               <h4>
+                   You need to be logged in to see this. Use the navigation links above to sign up or log in!
+               </h4>
+           );
+       } */
+
+    /* const handleClick = async () => {
+        try {
+            await addFriend({
+                variables: { id: user._id }
+            });
+        } catch (e) {
+            console.error(e);
         }
-    </React.Fragment>);
+    }; */
+
+    return (
+        <Container>
+            {console.log(user)}
+            {console.log(favorited)}
+
+            <div >
+                <h2>
+                    Viewing {userParam ? `${user.username}'s` : 'your'} Favorite Reprints.
+        </h2>
+
+            </div>
+                );
+
+        </Container>
+    );
 };
 
 export default Favorites;
+
+
+
+
+
+
