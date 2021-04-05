@@ -12,7 +12,7 @@ import TestParamNone from './pages/TestParamNone';
 import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
-import NoftCard from './components/NoftCard';
+import SingleNoft from './pages/SingleNoft';
 import UploadForm from "./pages/UploadForm";
 
 // Add Apollo context components
@@ -40,8 +40,9 @@ function App() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/post/new' component={Home} />
-            <Route exact path='/post/:title?' component={Favorites} />
+            <Route exact path='/post/:title?' component={SingleNoft} />
             <Route exact path='/favorites/:username?' component={Favorites} />
+            <Route exact path='/favorites/me' component={Favorites} />
             <Route exact path='/test-param/me' component={TestParamNone} />
             <Route exact path='/test-param/:id' component={TestParam} />
 =======     <Route exact path='/about' component={About} />
