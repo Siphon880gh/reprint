@@ -131,16 +131,19 @@ export default function UploadForm(props) {
 
         try {
             // If logged in, then you can submit to backend (in case a hacker trying to visit the add post directly)
-            if(Auth && Auth.isTokenExpired()) {
-             // const response = await loginUser(userFormData);
+            // debugger;
+            if(Auth && Auth.loggedIn()) {
                 const response = await addReprint({
-                variables: {
-                    asset: asset,
-                    title: state.title,
-                    marketListing: state.market,
-                    caption: state.caption
-                }
+                    variables: {
+                        asset: asset,
+                        title: state.title,
+                        marketListing: state.market,
+                        caption: state.caption
+                    }
+                }).catch(err=>{
+                    console.error(err);
                 });
+                console.log("Updated Mongoose");
             }
 
           } catch (err) {
