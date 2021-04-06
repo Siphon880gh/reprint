@@ -17,6 +17,9 @@ import AddPost from './pages/addPost';
 import MeetTheTeam from './pages/Team';
 import PostInfo from './pages/PostInfo';
 
+import CommentList from './components/CommentList'
+import CommentForm from './components/CommentForm'
+
 // Add Apollo context components
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
@@ -52,6 +55,8 @@ function App() {
             <Route exact path='/profile/me' component={Profile} />
             <Route exact path='/profile/:username?' component={Profile} />
             <Route exact path='/upload' component={UploadForm} />
+            <Route exact path='/commentForm' component={CommentForm} />
+            <Route exact path='/commentList' component={CommentList} />
 
             <Route exact path='/' component={Home} />
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
