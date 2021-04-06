@@ -67,7 +67,7 @@ export default function UploadForm(props) {
     const [state, setState] = useState(initialState);
 
     // On input changes, update state
-    const onPostSubmit = event => {
+    const onFileChange = event => {
         setState({ 
             ...state,
             selectedFile: event.target.files[0] 
