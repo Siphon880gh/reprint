@@ -18,9 +18,9 @@ export default function Footer() {
                         height="50"
                         className="d-inline-block align-top"
                         alt="Noft Custom Icon" /></Nav.Link>
-                    <Nav.Link className="text-bold" as={Link} to="/upload">Test: Upload</Nav.Link>
-                    <Nav.Link className="text-bold" as={Link} to="/test-param/3">Test: Component with ID</Nav.Link>
-                    <Nav.Link className="text-bold" as={Link} to="/test-param/me">Test: Component me</Nav.Link>
+                    {/* <Nav.Link className="text-bold" as={Link} to="/upload">Test: Upload</Nav.Link>
+                    <Nav.Link className="text-bold" as={Link} to="/test-param/3">Test: Component with ID</Nav.Link> */}
+                    <Nav.Link className="text-bold" as={Link} to="/about/team">NoFTeam</Nav.Link>
                     <a target="_blank" rel="noopener noreferrer" href="https://github.com/Siphon880gh/reprint/" className="text-bold nav-link">Github</a>
                     <span className="text-bold text-white nav-link">Reprint © 2021</span>
                 </Container>
