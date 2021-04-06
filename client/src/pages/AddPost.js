@@ -95,30 +95,40 @@ export default function UploadForm(props) {
 
     // On submit, send state to models and cloud server
     const onPostSubmit = async () => {
-        // Create formData data from state to be sent to cloud server
-        const formData = new FormData();
 
-        formData.append(
-            "myFile",
-            state.selectedFile,
-            state.selectedFile.name
-        );
+        // Step 1: Send file to cloud
+        async function sendToCloud() {
+            // Create formData data from state to be sent to cloud server
+            const formData = new FormData();
 
-        console.log(state.selectedFile);
+            formData.append(
+                "myFile",
+                state.selectedFile,
+                state.selectedFile.name
+            );
 
-        await storageRef.put(state.selectedFile)
-            .then((snapshot) => {
-                console.log("Uploading started");
-                return snapshot.ref.getDownloadURL();
-            }).then(downloadURL => {
-                console.log('Uploaded:');
-                console.log({ asset: downloadURL });
+            console.log(state.selectedFile);
 
-                //TODO: Send downloadURL to mongoose, probably using a mutation
-            })
-            .catch(error => {
-                throw error;
-            });
+            return await storageRef.put(state.selectedFile)
+                .then((snapshot) => {
+                    console.log("Uploading started");
+                    return snapshot.ref.getDownloadURL();
+                }).then(downloadURL => {
+                    console.log('Uploaded:');
+                    console.log({ asset: downloadURL });
+
+                    return downloadURL;
+                })
+                .catch(error => {
+                    throw error;
+                });
+        }
+
+        const downloadURL = await sendToCloud();
+        console.log("Awaited downloadURL:", downloadURL);
+        //TODO: Send downloadURL to mongoose, probably using a mutation
+
+
     }; // onPostSubmit
 
     // Display image after file upload completes
