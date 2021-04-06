@@ -58,18 +58,24 @@ export default function UploadForm(props) {
     // State to keep track of selected file
     const initialState = {
         // Initial: No file selected
-        selectedFile: null
+        selectedFile: null,
+        title:"",
+        marketListing:"",
+        caption:""
     }
 
     const [state, setState] = useState(initialState);
 
-    // On file select, update the state with the filepath the user chose from their Finder or File Explorer
-    const onFileChange = event => {
-        setState({ selectedFile: event.target.files[0] });
+    // On input changes, update state
+    const onPostSubmit = event => {
+        setState({ 
+            ...state,
+            selectedFile: event.target.files[0] 
+        });
     };
 
-    // On file upload, send the selected file to the cloud server
-    const onFileUpload = async () => {
+    // On submit, send state to models and cloud server
+    const onPostSubmit = async () => {
         // Create formData data from state to be sent to cloud server
         const formData = new FormData();
 
@@ -94,7 +100,7 @@ export default function UploadForm(props) {
             .catch(error => {
                 throw error;
             });
-    }; // onFileUpload
+    }; // onPostSubmit
 
     // Display image after file upload completes
     const fileData = () => {
@@ -131,8 +137,8 @@ export default function UploadForm(props) {
     }; // Form Data
 
     // Return JSX
-    return (
-        <div>
+    return ( <div>
+        
             <div>
                 <h1>Post A Reprint</h1>
             </div>
@@ -173,14 +179,14 @@ export default function UploadForm(props) {
                 </Form.Group>
 
                 {/* Submit */}
-                <Button variant="primary" onClick={onFileUpload}> Upload! </Button>
+                <Button variant="primary" onClick={onPostSubmit}> Upload! </Button>
                 {/* <Button variant="primary" type="submit">
                     Post
                 </Button> */}
 
-                <article >
-                    <h2 > Debug Google Cloud Service Account details: </h2>
-                    <p > {process.env.GOOGLE_APPLICATION_CREDENTIALS} </p>
+                <article>
+                    <h2> Debug Google Cloud Service Account details: </h2>
+                    <p> {process.env.GOOGLE_APPLICATION_CREDENTIALS} </p>
                 </article>
             </Form>
         </div>
