@@ -13,7 +13,7 @@ export default function Footer() {
         <footer data-component="Footer" id="footer" className="footer section container-fluid">
             <Navbar bg='dark' variant='dark' expand='lg'>
                 <Container fluid>
-                    <Nav.Link as={Link} to='/about'> About <img src={NoftIcon}
+                    <Nav.Link as={Link} to='/about'><img src={NoftIcon}
                         width="30"
                         height="30"
                         className="d-inline-block align-top"
