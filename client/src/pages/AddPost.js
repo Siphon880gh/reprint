@@ -220,7 +220,7 @@ export default function UploadForm(props) {
                 </Form.Group>
 
                 {/* Submit */}
-                <Button variant="primary" onClick={onPostSubmit}> Upload! </Button>
+                <Button variant="primary" onClick={onPostSubmit}> Add Reprint! </Button>
                 {/* <Button variant="primary" type="submit">
                     Post
                 </Button> */}
