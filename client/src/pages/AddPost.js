@@ -60,7 +60,7 @@ export default function UploadForm(props) {
         // Initial: No file selected
         selectedFile: null,
         title:"",
-        marketListing:"",
+        market:"",
         caption:""
     }
 
@@ -73,6 +73,25 @@ export default function UploadForm(props) {
             selectedFile: event.target.files[0] 
         });
     };
+    const onTitleChange = (event) => {
+        setState({ 
+            ...state,
+            title: event.target.value
+        });
+    };
+    const onMarketChange = (event) => {
+        setState({ 
+            ...state,
+            market: event.target.value
+        });
+    };
+    const onCaptionChange = (event) => {
+        setState({ 
+            ...state,
+            caption: event.target.value
+        });
+    };
+
 
     // On submit, send state to models and cloud server
     const onPostSubmit = async () => {
