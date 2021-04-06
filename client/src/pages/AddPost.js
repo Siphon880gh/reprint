@@ -17,14 +17,20 @@ import process from "process";
 // import auth
 import Auth from "../utils/auth";
 
+// GraphQL
+import { useMutation } from '@apollo/react-hooks';
+import {ADD_REPRINT} from "../utils/mutations";
+
 let signedIn = false;
 
 // This is the Upload Form Component
 export default function UploadForm(props) {
 
-    const firebaseConfig = Auth.getGoogleStorage()
+    // Initialize graphQL
+    const [addReprint] = useMutation(ADD_REPRINT);
 
     // Initialize Firebase
+    const firebaseConfig = Auth.getGoogleStorage()
     if (!firebase.apps.length) {
         try {
             firebase.initializeApp(firebaseConfig)
@@ -96,7 +102,7 @@ export default function UploadForm(props) {
     // On submit, send state to models and cloud server
     const onPostSubmit = async () => {
 
-        // Step 1: Send file to cloud
+        // Definition: Send file to cloud
         async function sendToCloud() {
             // Create formData data from state to be sent to cloud server
             const formData = new FormData();
@@ -124,9 +130,30 @@ export default function UploadForm(props) {
                 });
         }
 
+        // Definition: Update Mongoose
+
+        // Updating Cloud server
         const asset = await sendToCloud();
         console.log("Awaited asset:", asset);
-        //TODO: Send asset to mongoose, probably using a mutation
+        
+        // Updatiung Mongoose
+
+        try {
+            // const response = await loginUser(userFormData);
+            const response = await addReprint({
+              variables: {
+                asset: asset,
+                title: state.title,
+                marketListing: state.market,
+                caption: state.caption
+              }
+            });
+      
+            const { token } = response?.data?.login;
+            Auth.login(token);
+          } catch (err) {
+            console.error(err);
+          }
 
 
     }; // onPostSubmit
