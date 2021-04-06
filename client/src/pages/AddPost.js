@@ -178,12 +178,6 @@ export default function UploadForm(props) {
                     <Form.Control onInput={onTitleChange} />
                 </Form.Group>
 
-                {/* Add An Author */}
-                <Form.Group controlId="authorInput">
-                    <Form.Label>Add An Author:</Form.Label>
-                    <Form.Control />
-                </Form.Group>
-
                 {/* Add Market Listing */}
                 <Form.Group controlId="marketListing">
                     <Form.Label>Add Market Listing:</Form.Label>
