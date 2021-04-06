@@ -104,16 +104,6 @@ export default function UploadForm(props) {
 
         // Definition: Send file to cloud
         async function sendToCloud() {
-            // Create formData data from state to be sent to cloud server
-            const formData = new FormData();
-
-            formData.append(
-                "myFile",
-                state.selectedFile,
-                state.selectedFile.name
-            );
-
-            console.log(state.selectedFile);
 
             return await storageRef.put(state.selectedFile)
                 .then((snapshot) => {
@@ -139,18 +129,19 @@ export default function UploadForm(props) {
         // Updatiung Mongoose
 
         try {
-            // const response = await loginUser(userFormData);
-            const response = await addReprint({
-              variables: {
-                asset: asset,
-                title: state.title,
-                marketListing: state.market,
-                caption: state.caption
-              }
-            });
-      
-            const { token } = response?.data?.login;
-            Auth.login(token);
+            // If logged in, then you can submit to backend (in case a hacker trying to visit the add post directly)
+            if(Auth && Auth.isTokenExpired()) {
+             // const response = await loginUser(userFormData);
+                const response = await addReprint({
+                variables: {
+                    asset: asset,
+                    title: state.title,
+                    marketListing: state.market,
+                    caption: state.caption
+                }
+                });
+            }
+
           } catch (err) {
             console.error(err);
           }
