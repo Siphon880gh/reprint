@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Tab, Form, FormControl, Button, CardDeck } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
+import NoftLogo from '../assets/noftFULL2.png';
 import Auth from '../utils/auth';
+
 
 const AppNavbar = () => {
   // set modal display state
@@ -15,8 +17,18 @@ const AppNavbar = () => {
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
-            Reprint
+            <img
+              src={NoftLogo}
+              width="120"
+              height="50"
+              className="d-inline-block align-top"
+              alt="Noft Custom Logo"
+            />
           </Navbar.Brand>
+          <Form inline>
+            <FormControl type="text" placeholder="Search NoFT..." className="mr-sm-2" />
+            <Button variant="outline-success">Search</Button>
+          </Form>
           <Navbar.Toggle aria-controls='navbar-main' />
           <Navbar.Collapse id='navbar-main'>
             <Nav className='ml-auto'>
@@ -29,29 +41,14 @@ const AppNavbar = () => {
                   <Nav.Link as={Link} to='/favorites'>
                     Favorites
                   </Nav.Link>
+                  <Nav.Link as={Link} to='/profile/me'>Profile</Nav.Link>
+                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
               )}
             </Nav>
-            <Nav.Link as={Link} to='/'>
-              Home
-            </Nav.Link>
           </Navbar.Collapse>
-
-          {Auth.loggedIn() ? (
-            <>
-              <Navbar.Toggle aria-controls='navbar-user' />
-              <Navbar.Collapse id='navbar-user'>
-                <Nav className='ml-auto'>
-                  <Nav.Link as={Link} to='/profile/me'>Profile</Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-            </>
-          ): (
-            <></>
-          )}
         </Container>
       </Navbar>
       {/* set modal data up */}
