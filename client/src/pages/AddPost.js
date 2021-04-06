@@ -175,7 +175,7 @@ export default function UploadForm(props) {
                 {/* Add A Title */}
                 <Form.Group controlId="titleInput">
                     <Form.Label>Add A Title:</Form.Label>
-                    <Form.Control />
+                    <Form.Control onInput={onTitleChange} />
                 </Form.Group>
 
                 {/* Add An Author */}
@@ -187,14 +187,14 @@ export default function UploadForm(props) {
                 {/* Add Market Listing */}
                 <Form.Group controlId="marketListing">
                     <Form.Label>Add Market Listing:</Form.Label>
-                    <Form.Control placeholder="https://www.example.com/" />
+                    <Form.Control placeholder="https://www.example.com/" onInput={onMarketChange} />
                 </Form.Group>
 
 
                 {/* Captions */}
                 <Form.Group controlId="captionInput">
                     <Form.Label>Add A Caption:</Form.Label>
-                    <Form.Control as="textarea" placeholder="Optional: Add a caption!" rows={3} />
+                    <Form.Control as="textarea" placeholder="Optional: Add a caption!" rows={3} onInput={onCaptionChange} />
                 </Form.Group>
 
                 {/* Submit */}
@@ -204,8 +204,11 @@ export default function UploadForm(props) {
                 </Button> */}
 
                 <article>
-                    <h2> Debug Google Cloud Service Account details: </h2>
-                    <p> {process.env.GOOGLE_APPLICATION_CREDENTIALS} </p>
+                    <h2> Debug Form State: </h2>
+                    <div><label>Title:</label><span>{state.title}</span></div>
+                    <div><label>Market:</label><span>{state.market}</span></div>
+                    <div><label>Caption:</label><span>{state.caption}</span></div>
+                    {/* <p> {process.env.GOOGLE_APPLICATION_CREDENTIALS} </p> */}
                 </article>
             </Form>
         </div>
