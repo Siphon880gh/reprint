@@ -58,7 +58,7 @@ export default function UploadForm(props) {
     // State to keep track of selected file
     const initialState = {
         // Initial: No file selected
-        selectedFile: null,
+        selectedFile: "",
         title:"",
         market:"",
         caption:""
@@ -113,20 +113,20 @@ export default function UploadForm(props) {
                 .then((snapshot) => {
                     console.log("Uploading started");
                     return snapshot.ref.getDownloadURL();
-                }).then(downloadURL => {
+                }).then(asset => {
                     console.log('Uploaded:');
-                    console.log({ asset: downloadURL });
+                    console.log({ asset });
 
-                    return downloadURL;
+                    return asset;
                 })
                 .catch(error => {
                     throw error;
                 });
         }
 
-        const downloadURL = await sendToCloud();
-        console.log("Awaited downloadURL:", downloadURL);
-        //TODO: Send downloadURL to mongoose, probably using a mutation
+        const asset = await sendToCloud();
+        console.log("Awaited asset:", asset);
+        //TODO: Send asset to mongoose, probably using a mutation
 
 
     }; // onPostSubmit
