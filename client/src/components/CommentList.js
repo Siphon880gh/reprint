@@ -5,10 +5,10 @@ const CommentList = ({ comments }) => {
 
     return (<React.Fragment>
         <div>
-            <div>
+            <section>
                 <h2>Comments</h2>
-            </div>
-            <div >
+            </section>
+            <section >
                 {comments &&
                     comments.map(comments => (
                         <p key={comments._id}>
@@ -18,7 +18,7 @@ const CommentList = ({ comments }) => {
 
                         </p>
                     ))}
-            </div>
+            </section>
         </div>
 
     </React.Fragment>);
