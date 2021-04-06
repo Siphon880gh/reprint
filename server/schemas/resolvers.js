@@ -36,6 +36,13 @@ const resolvers = {
         .populate("followers")
         .populate("followed");
     },
+    userById: async (parent, { _id }) => {
+      return User.findOne({ _id })
+        .select("-__v -password")
+        .populate("reprints")
+        .populate("followers")
+        .populate("followed");
+    },
     reprint: async (parent, { title }) => {
       return Reprint.findOne({ title })
         .select("-__v")
