@@ -14,8 +14,8 @@ export default function Footer() {
             <Navbar bg='dark' variant='dark' expand='lg'>
                 <Container fluid>
                     <Nav.Link as={Link} to='/about'><img src={NoftIcon}
-                        width="30"
-                        height="30"
+                        width="50"
+                        height="50"
                         className="d-inline-block align-top"
                         alt="Noft Custom Icon" /></Nav.Link>
                     <Nav.Link className="text-bold" as={Link} to="/upload">Test: Upload</Nav.Link>
