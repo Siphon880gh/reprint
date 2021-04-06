@@ -121,35 +121,47 @@ export default function UploadForm(props) {
                 });
         }
 
-        // Definition: Update Mongoose
+        // Definition: Send to Mongoose
+        async function sendToMongooseAndReroute() {
+            try {
+                // If logged in, then you can submit to backend (in case a hacker trying to visit the add post directly)
+                if(Auth && Auth.loggedIn()) {
+                    const response = await addReprint({
+                        variables: {
+                            asset: asset,
+                            title: state.title,
+                            marketListing: state.market,
+                            caption: state.caption
+                        }
+                    }).catch(err=>{
+                        console.error(err);
+                    });
+
+                    if(response) {
+                        const _id = await response?.data?.addReprint?._id?response?.data?.addReprint?._id:null;
+                        if(_id) {
+                            console.log("Updated Mongoose");
+                            window.location.href = `/reprint/${_id}`;
+                        } else {
+                            console.error("Mongoose Error: Adding reprint failed")
+                        }
+                    } else {
+                        console.error("Mongoose Error: Adding reprint failed")
+                    }
+                }
+
+            } catch (err) {
+                console.error(err);
+            }
+
+        }
 
         // Updating Cloud server
         const asset = await sendToCloud();
         console.log("Awaited asset:", asset);
         
-        // Updatiung Mongoose
-
-        try {
-            // If logged in, then you can submit to backend (in case a hacker trying to visit the add post directly)
-            // debugger;
-            if(Auth && Auth.loggedIn()) {
-                const response = await addReprint({
-                    variables: {
-                        asset: asset,
-                        title: state.title,
-                        marketListing: state.market,
-                        caption: state.caption
-                    }
-                }).catch(err=>{
-                    console.error(err);
-                });
-                console.log("Updated Mongoose");
-            }
-
-          } catch (err) {
-            console.error(err);
-          }
-
+        // Updating Mongoose and reroute
+        const newReprintId = sendToMongooseAndReroute();
 
     }; // onPostSubmit
 
