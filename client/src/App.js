@@ -13,7 +13,7 @@ import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import UploadForm from "./pages/UploadForm";
-import AddPost from './pages/addPost';
+import AddPost from './pages/AddPost';
 import MeetTheTeam from './pages/Team';
 import PostInfo from './pages/PostInfo';
 
