@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import NoftIcon from '../assets/nofttestlogo.png';
 
 // Styling
 import "./Footer.css";
@@ -12,7 +13,11 @@ export default function Footer() {
         <footer data-component="Footer" id="footer" className="footer section container-fluid">
             <Navbar bg='dark' variant='dark' expand='lg'>
                 <Container fluid>
-                    <Nav.Link as={Link} to='/about'>About NoFT</Nav.Link>
+                    <Nav.Link as={Link} to='/about'> About <img src={NoftIcon}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                        alt="Noft Custom Icon" /></Nav.Link>
                     <Nav.Link className="text-bold" as={Link} to="/upload">Test: Upload</Nav.Link>
                     <Nav.Link className="text-bold" as={Link} to="/test-param/3">Test: Component with ID</Nav.Link>
                     <Nav.Link className="text-bold" as={Link} to="/test-param/me">Test: Component me</Nav.Link>
