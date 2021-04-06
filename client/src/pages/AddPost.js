@@ -22,6 +22,7 @@ import { useMutation } from '@apollo/react-hooks';
 import {ADD_REPRINT} from "../utils/mutations";
 
 let signedIn = false;
+let debug = false;
 
 // This is the Upload Form Component
 export default function UploadForm(props) {
@@ -162,13 +163,6 @@ export default function UploadForm(props) {
                             <Card.Text>Last Modified: {" "} {state.selectedFile.lastModifiedDate.toDateString()} </Card.Text>
                         </Card.Body>
                     </Card>
-                    {/* <p> Filename: { state.selectedFile.name } </p>
-
-
-                    <p> File Type: { state.selectedFile.type } </p>
-
-
-                    <p>Last Modified: { " " } { state.selectedFile.lastModifiedDate.toDateString() } </p> */}
 
                     <h2> Image Selected from computer: </h2>
                 </div>
@@ -221,17 +215,17 @@ export default function UploadForm(props) {
 
                 {/* Submit */}
                 <Button variant="primary" onClick={onPostSubmit}> Add Reprint! </Button>
-                {/* <Button variant="primary" type="submit">
-                    Post
-                </Button> */}
-
-                <article>
-                    <h2> Debug Form State: </h2>
-                    <div><label>Title:</label><span>{state.title}</span></div>
-                    <div><label>Market:</label><span>{state.market}</span></div>
-                    <div><label>Caption:</label><span>{state.caption}</span></div>
-                    {/* <p> {process.env.GOOGLE_APPLICATION_CREDENTIALS} </p> */}
-                </article>
+                
+                {
+                    debug?(
+                        <article>
+                            <h2> Debug Form State: </h2>
+                            <div><label>Title:</label><span>{state.title}</span></div>
+                            <div><label>Market:</label><span>{state.market}</span></div>
+                            <div><label>Caption:</label><span>{state.caption}</span></div>
+                        </article>
+                    ): ""
+                }
             </Form>
         </div>
     )
