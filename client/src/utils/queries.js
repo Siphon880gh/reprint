@@ -155,15 +155,3 @@ query findFavorites($id: ID!) {
   }
 }`
 
-export const GET_LIKES = gql`
-  query getLikes($id: ID!) {
-    reprint(_id: $_id) {
-      likeCount
-      likes{
-        _id
-      username
-      }
-
-    }
-  }
-`;
