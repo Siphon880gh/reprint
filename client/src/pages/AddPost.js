@@ -3,28 +3,35 @@
 import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card'
+import Card from 'react-bootstrap/Card';
+
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 import firebase from "firebase/app";
+
 // Add the Firebase services that you want to use
 import "firebase/auth";
 import "firebase/firestore";
 import 'firebase/storage'
+
 // Generate random hash for filenames
 import generateHash from 'random-hash';
 import process from "process";
-// import auth
+
+// Import Auth
 import Auth from "../utils/auth";
 
 // GraphQL
 import { useMutation } from '@apollo/react-hooks';
 import {ADD_REPRINT} from "../utils/mutations";
 
-let signedIn = false;
+// Globals that are needed
+let googleCloudSignedIn = false;
+
+// Turn on debug flag for state debugging in run time
 let debug = false;
 
-// This is the Upload Form Component
+// Upload Form Component
 export default function UploadForm(props) {
 
     // Initialize graphQL
@@ -40,7 +47,8 @@ export default function UploadForm(props) {
         }
     }
 
-    if (!signedIn) {
+    // Firebase gets initialized, then gets authenticated
+    if (!googleCloudSignedIn) {
 
         const firebaseAuthDetails = Auth.getGoogleAuth()
 
@@ -54,7 +62,7 @@ export default function UploadForm(props) {
                 var errorMessage = error.message;
                 throw JSON.stringify({ errorCode, errorMessage });
             });
-        signedIn = true;
+            googleCloudSignedIn = true;
     }
 
     // Get a reference to the storage service, which is used to create references in your storage bucket
@@ -62,15 +70,13 @@ export default function UploadForm(props) {
 
     const storageRef = firebase.storage().ref().child(uniqueFilename);
 
-    // State to keep track of selected file
+    // State to keep track of form
     const initialState = {
-        // Initial: No file selected
         selectedFile: "",
         title:"",
         market:"",
         caption:""
     }
-
     const [state, setState] = useState(initialState);
 
     // On input changes, update state
@@ -100,7 +106,7 @@ export default function UploadForm(props) {
     };
 
 
-    // On submit, send state to models and cloud server
+    // On submit, send state to cloud server and models
     const onPostSubmit = async () => {
 
         // Definition: Send file to cloud
@@ -121,7 +127,7 @@ export default function UploadForm(props) {
                 });
         }
 
-        // Definition: Send to Mongoose
+        // Definition: Send to Mongoose and then Reroute
         async function sendToMongooseAndReroute() {
             try {
                 // If logged in, then you can submit to backend (in case a hacker trying to visit the add post directly)
@@ -160,12 +166,12 @@ export default function UploadForm(props) {
         const asset = await sendToCloud();
         console.log("Awaited asset:", asset);
         
-        // Updating Mongoose and reroute
+        // Updating Mongoose and then reroute
         const newReprintId = sendToMongooseAndReroute();
 
     }; // onPostSubmit
 
-    // Display image after file upload completes
+    // Display image information after file upload completes
     const fileData = () => {
         if (state.selectedFile) {
             return (
@@ -196,7 +202,7 @@ export default function UploadForm(props) {
     return ( <div>
         
             <div>
-                <h1>Post A Reprint</h1>
+                <h1>Post a Reprint</h1>
             </div>
 
             <Form>
