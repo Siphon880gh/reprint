@@ -45,6 +45,7 @@ const typeDefs = gql`
     stream: [Reprint]
     reprint(title: String!): Reprint
     findFavorite(_id: ID!): Reprint
+    myFavorites: User
     reprintById(_id: ID!): Reprint
   }
 

@@ -56,6 +56,19 @@ const resolvers = {
     stream: async () => {
       return Reprint.find().select("-__v").populate("likes");
     },
+    myFavorites: async (parent, args, context) => {
+      if (true) {
+      // if (context.user) {
+        // const myUser = await User.findOne({ _id: context.user._id })
+        const myUser = await User.findOne({ _id: "606cfd733d45c95aecb96315" })
+          .select("-__v -password -followers -followed -reprints")
+          .populate("favorites")
+
+        return myUser;
+      }
+
+      throw new AuthenticationError("Not logged in");
+    }
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -259,3 +272,4 @@ const resolvers = {
 };
 
 module.exports = resolvers;
+

@@ -150,5 +150,18 @@ query findFavorites($id: ID!) {
     likeCount
     commentCount
   }
-}`
+}`;
 
+export const MY_FAVORITES = gql`
+query {
+  myFavorites {
+    favorites {
+        _id
+        title
+        asset
+        author
+        commentCount
+        likeCount
+    }
+  }
+}`;
