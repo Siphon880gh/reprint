@@ -47,7 +47,7 @@ const resolvers = {
         .populate("likes")
         .populate("comments");
     },
-    findFavorite: async (parent, { _id }) => {
+    reprintById: async (parent, { _id }) => {
       return Reprint.findOne({ _id })
         .select("-__v")
         .populate("likes")

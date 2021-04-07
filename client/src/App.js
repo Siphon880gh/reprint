@@ -45,7 +45,7 @@ function App() {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/post/new' component={AddPost} />
-            <Route exact path='/post/:title?' component={PostInfo} />
+            <Route exact path='/post/:noftId?' component={PostInfo} />
             <Route exact path='/favorites/:username?' component={Favorites} />
             <Route exact path='/favorites/me' component={Favorites} />
             {/* <Route exact path='/test-param/me' component={TestParamNone} />

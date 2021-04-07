@@ -141,7 +141,7 @@ export default function UploadForm(props) {
                         const _id = await response?.data?.addReprint?._id?response?.data?.addReprint?._id:null;
                         if(_id) {
                             console.log("Updated Mongoose");
-                            window.location.href = `/reprint/${_id}`;
+                            window.location.href = `/post/${_id}`;
                         } else {
                             console.error("Mongoose Error: Adding reprint failed")
                         }
