@@ -58,7 +58,6 @@ export default function PostInfo() {
                     <Card.Title><Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link></Card.Title>
                     <Card.Title>{singleReprint.caption}</Card.Title>
                     <Likes singleReprint={singleReprint} noftId={noftId}></Likes>
-                    <Card.Title>{singleReprint.likeCount}</Card.Title>
                     {Auth.loggedIn() && (
                         <FavoriteButton noftId={noftId} favoritedIds={favoritedIds}></FavoriteButton>
                     )}
