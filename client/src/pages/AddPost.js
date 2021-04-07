@@ -32,7 +32,7 @@ let googleCloudSignedIn = false;
 let debug = false;
 
 // Upload Form Component
-export default function UploadForm(props) {
+export default function AddPost(props) {
 
     // Initialize graphQL
     const [addReprint] = useMutation(ADD_REPRINT);
@@ -278,6 +278,3 @@ export default function UploadForm(props) {
         </div>
     )
 }
-
-// Export addPost
-// export default postForm;

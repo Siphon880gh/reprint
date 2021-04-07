@@ -19,7 +19,6 @@ export default function FavoriteButton({noftId, favoritedIds}) {
   
   let isFavoritedByMe = favoritedIds.includes(noftId);
   let [favorited, setFavorite] = useState(isFavoritedByMe);
-  debugger;
 
   // handleFavorite toggles the favorite button style and also updates the User favorites regarding the current post
   let handleFavorite = async(event) => {
