@@ -83,7 +83,7 @@ export default function AddPost(props) {
     const onFileChange = event => {
         setState({ 
             ...state,
-            selectedFile: event.target.files[0] 
+            selectedFile: event.target.files[0]
         });
     };
     const onTitleChange = (event) => {
@@ -196,11 +196,13 @@ export default function AddPost(props) {
     // Display image information after file upload completes
     const fileData = () => {
         if (state.selectedFile) {
+            console.log(state.selectedFile);
             return (
                 <div>
 
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
+                            <Card.Img variant="top" src={URL.createObjectURL(state.selectedFile)} />
                             <Card.Text>Filename: {state.selectedFile.name} </Card.Text>
                             <Card.Text>File Type: {state.selectedFile.type} </Card.Text>
                             <Card.Text>Last Modified: {" "} {state.selectedFile.lastModifiedDate.toDateString()} </Card.Text>
