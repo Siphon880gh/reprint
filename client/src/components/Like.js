@@ -20,8 +20,8 @@ const Likes = function({singleReprint, otherAuth}) {
   let { noftId: reprintId } = useParams();
 
   // Debug
-  console.log({reprintId})
-  console.log({isLikedByMe, info: "Would be null if not logged in"});
+  // console.log({reprintId})
+  // console.log({isLikedByMe, info: "Would be null if not logged in"});
 
   const NotLikedIconJSX = ()=> {
     
@@ -84,7 +84,6 @@ const Likes = function({singleReprint, otherAuth}) {
         <span>
           <strong>{singleReprint.likeCount} Likes</strong>
           <img
-            img
             src={LikedIcon}
             width="25"
             height="25"
