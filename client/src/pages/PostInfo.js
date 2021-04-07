@@ -17,11 +17,11 @@ import { useQuery } from '@apollo/react-hooks';
 
 // Create a const for postForm that'll return JSX
 export function PostInfo() {
-    let { title: noftTitle } = useParams();
+    let { noftId } = useParams();
     const { loading, data } = useQuery(GET_SINGLE_CARD, {
-        variables: { title: noftTitle }
+        variables: { noftId: noftId }
     });
-    const singleReprint = data?.reprint || {};
+    const singleReprint = data?.reprintById || {};
 
     if (loading) {
         return <div>Loading...</div>;
@@ -56,6 +56,5 @@ export function PostInfo() {
         </div>
     );
 };
-// Export addPost
-export default PostInfo;
 
+export default PostInfo;
