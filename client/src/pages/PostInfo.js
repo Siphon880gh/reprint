@@ -21,7 +21,7 @@ import FavoriteButton from '../components/FavoriteButton';
 import { GET_ME, MY_FAVORITES } from "../utils/queries";
 
 // Create a const for postForm that'll return JSX
-export function PostInfo() {
+export default function PostInfo() {
     // Get post info
     let { noftId } = useParams();
     const { loading, data } = useQuery(GET_SINGLE_CARD, {
@@ -71,5 +71,3 @@ export function PostInfo() {
         </div>
     );
 };
-
-export default PostInfo;
