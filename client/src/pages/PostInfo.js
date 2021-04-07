@@ -28,18 +28,19 @@ export default function PostInfo() {
         variables: { noftId: noftId }
     });
     const singleReprint = data?.reprintById || {};
+    console.log(singleReprint);
 
     // User's favorite Ids. Return empty array if not logged in
     let {loading: favoriteIdsLoading, data:favoritesData} = useQuery(MY_FAVORITES);
     let favoritesList = favoritesData?.myFavorites?.favorites || [];
     let favoritedIds = favoritesList.map(favObj=>favObj._id);
 
-    if (postLoading || favoriteIdsLoading) {
+    if(!noftId)
+        return <div className="text-danger bg-warning p-3 m-5">Error: Malformed URL. Please press back. Did you mean to visit a post URL? It's missing a Post ID in the URL.</div>
+    else if (postLoading || favoriteIdsLoading) {
         return <div>Loading...</div>;
-    }
-
-    // Return JSX
-    return (
+    } else
+        return (
         <div>
             <section>
                 <h1>{singleReprint.title}</h1>
