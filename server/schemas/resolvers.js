@@ -98,17 +98,16 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    // deleteUser: async (parent, context) => {
-    //   if (context.user) {
-    //     console.log("HEY")
-    //     const deletedUser = await Reprint.findOneAndDelete(
-    //       { _id: context.user._id },
-    //       { runValidators: true }
-    //     );
-    //     return deletedUser;
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
+    deleteUser: async (parent, args, context) => {
+      if (context.user) {
+        console.log("HEY")
+        const deletedUser = await User.findOneAndDelete(
+          { _id: context.user._id }
+        );
+        return "User has been deleted!";
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
     addReprint: async (parent, args, context) => {
       if (context.user) {
         const reprint = await Reprint.create({

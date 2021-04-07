@@ -56,6 +56,7 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
+    deleteUser(_id: ID!): User
     login(username: String!, password: String!): Auth
     addReprint(title: String!, asset: String!, caption: String, marketListing: String!): Reprint
     deleteReprint(reprintId: ID!): Reprint
