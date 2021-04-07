@@ -105,9 +105,19 @@ export default function UploadForm(props) {
         });
     };
 
+    // Form validation using state
+    const [validated, setValidated] = useState(false);
 
     // On submit, send state to cloud server and models
-    const onPostSubmit = async () => {
+    const onPostSubmit = async (event) => {
+
+        // Form client validation
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        setValidated(true);
 
         // Definition: Send file to cloud
         async function sendToCloud() {
@@ -164,6 +174,12 @@ export default function UploadForm(props) {
             return;
         }
 
+        // Check if uploading a file (Required)
+        if(state.selectedFile.length===0) {
+            console.error("You didn't upload a file!");
+            return;
+        }
+
         // Updating Cloud server
         const asset = await sendToCloud();
         console.log("Awaited asset:", asset);
@@ -207,10 +223,13 @@ export default function UploadForm(props) {
                 <h1>Post a Reprint</h1>
             </div>
 
-            <Form>
+            <Form noValidate validated={validated} onSubmit={onPostSubmit}>
                 {/* Choose File Button */}
                 <Form.Group>
-                    <input type="file" onChange={onFileChange} accept="image/*" />
+                    <input type="file" onChange={onFileChange} accept="image/*" required />
+                    <Form.Control.Feedback type="invalid">
+                        Please select a file.
+                    </Form.Control.Feedback>
 
                     <aside>
                         {fileData()}
@@ -220,13 +239,19 @@ export default function UploadForm(props) {
                 {/* Add A Title */}
                 <Form.Group controlId="titleInput">
                     <Form.Label>Add A Title:</Form.Label>
-                    <Form.Control onInput={onTitleChange} />
+                    <Form.Control onInput={onTitleChange} required/>
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a title.
+                    </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Add Market Listing */}
                 <Form.Group controlId="marketListing">
                     <Form.Label>Add Market Listing:</Form.Label>
-                    <Form.Control placeholder="https://www.example.com/" onInput={onMarketChange} />
+                    <Form.Control placeholder="https://www.example.com/" onInput={onMarketChange} required/>
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a market listing URL.
+                    </Form.Control.Feedback>
                 </Form.Group>
 
 
@@ -237,7 +262,7 @@ export default function UploadForm(props) {
                 </Form.Group>
 
                 {/* Submit */}
-                <Button variant="primary" onClick={onPostSubmit}> Add Reprint! </Button>
+                <Button variant="primary" type="submit" value="Submit"> Add Reprint! </Button>
                 
                 {
                     debug?(
