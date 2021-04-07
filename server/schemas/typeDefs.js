@@ -44,6 +44,7 @@ const typeDefs = gql`
     stream: [Reprint]
     reprint(title: String!): Reprint
     findFavorite(_id: ID!): Reprint
+    getLikes(_id: ID!): Reprint
   }
 
   type Auth {

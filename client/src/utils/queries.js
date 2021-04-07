@@ -154,3 +154,16 @@ query findFavorites($id: ID!) {
     commentCount
   }
 }`
+
+export const GET_LIKES = gql`
+  query getLikes($id: ID!) {
+    reprint(_id: $_id) {
+      likeCount
+      likes{
+        _id
+      username
+      }
+
+    }
+  }
+`;
