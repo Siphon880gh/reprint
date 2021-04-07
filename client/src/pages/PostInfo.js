@@ -45,7 +45,7 @@ export function PostInfo() {
                     <Card.Title><Card.Link href={`/profile/${singleReprint.author}`}>{singleReprint.author}</Card.Link></Card.Title>
                     <Card.Title><Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link></Card.Title>
                     <Card.Title>{singleReprint.caption}</Card.Title>
-                    <Like singleReprint={singleReprint}></Like>
+                    {/* <Like singleReprint={singleReprint}></Like> */}
                 </Card.Body>
             </Card>
 
