@@ -98,7 +98,7 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    // deleteUser: async (parent, context) => {
+    // deleteUser: async (parent, args, context) => {
     //   if (context.user) {
     //     console.log("HEY")
     //     const deletedUser = await Reprint.findOneAndDelete(
