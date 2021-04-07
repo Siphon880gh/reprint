@@ -111,11 +111,14 @@ export default function AddPost(props) {
     // On submit, send state to cloud server and models
     const onPostSubmit = async (event) => {
 
+        // Prevent default of refreshing the page
+        event.preventDefault();
+        event.stopPropagation();
+
         // Form client validation
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            return;
         }
         setValidated(true);
 
@@ -154,7 +157,8 @@ export default function AddPost(props) {
                 if(response) {
                     const _id = await response?.data?.addReprint?._id?response?.data?.addReprint?._id:null;
                     if(_id) {
-                        console.log("Updated Mongoose");
+                        // console.log("Updated Mongoose");
+                        // console.log({_id});
                         window.location.href = `/post/${_id}`;
                     } else {
                         console.error("Mongoose Error: Adding reprint failed")
@@ -185,7 +189,7 @@ export default function AddPost(props) {
         console.log("Awaited asset:", asset);
         
         // Updating Mongoose and then reroute
-        const newReprintId = sendToMongooseAndReroute();
+        sendToMongooseAndReroute();
 
     }; // onPostSubmit
 
