@@ -12,8 +12,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
-import UploadForm from "./pages/UploadForm";
-import AddPost from './pages/AddPost';
+import AddPost from "./pages/AddPost";
 import MeetTheTeam from './pages/Team';
 import PostInfo from './pages/PostInfo';
 
@@ -54,7 +53,6 @@ function App() {
             <Route exact path='/about/team' component={MeetTheTeam} />
             <Route exact path='/profile/me' component={Profile} />
             <Route exact path='/profile/:username?' component={Profile} />
-            <Route exact path='/upload' component={UploadForm} />
             <Route exact path='/commentForm' component={CommentForm} />
             <Route exact path='/commentList' component={CommentList} />
 
