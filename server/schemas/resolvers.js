@@ -27,6 +27,14 @@ const resolvers = {
         .populate("followers")
         .populate("followed");
     },
+    usersByFilter: async (parent ) => {
+      return User.find({ username })
+        .select("-__v -password")
+        .populate("reprints")
+        .populate("favorites")
+        .populate("followers")
+        .populate("followed");
+    },
     author: async (parent, { username }) => {
       return User.findOne({ username })
         .select("-__v -password")
