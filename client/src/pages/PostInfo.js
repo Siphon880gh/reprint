@@ -11,6 +11,7 @@ import LikeIcon from '../assets/likeArrowBoxIcon.png';
 
 
 import Auth from '../utils/auth';
+import Likes from '../components/Like';
 import { GET_SINGLE_CARD } from '../utils/queries';
 import { FAVORITE, UNFAVORITE } from '../utils/mutations';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -60,6 +61,7 @@ export function PostInfo() {
                     <Card.Title><Card.Link href={`/profile/${singleReprint.author}`}>{singleReprint.author}</Card.Link></Card.Title>
                     <Card.Title><Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link></Card.Title>
                     <Card.Title>{singleReprint.caption}</Card.Title>
+                    <Likes singleReprint={singleReprint}></Likes>
                     <Card.Title>{singleReprint.likeCount}</Card.Title>
                     {Auth.loggedIn() && (
                         <button className="favorite-btn" onClick={handleClick}>
