@@ -1,11 +1,12 @@
 import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { Container, Card, Button } from 'react-bootstrap';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
+import { FOLLOW } from '../utils/mutations';
 
-import HeartIcon from '../assets/drawnHeartIcon.png';
-import CommentIcon from '../assets/drawnCommentIcon.png';
+import LikeIcon from '../assets/likeArrowBoxIcon.png';
+import CommentIcon from '../assets/commentIconBox.png';
 import Auth from '../utils/auth';
 
 const Profile = props => {
@@ -16,7 +17,7 @@ const Profile = props => {
     });
 
     const user = data?.me || data?.author || {};
-
+    const [follow] = useMutation(FOLLOW);
     // redirect to personal profile page if username is yours
     if (
         Auth.loggedIn() &&
@@ -29,23 +30,17 @@ const Profile = props => {
         return <div>Loading...</div>;
     }
 
-    /*    if (!user?.username) {
-           return (
-               <h4>
-                   You need to be logged in to see this. Use the navigation links above to sign up or log in!
-               </h4>
-           );
-       } */
 
-    /* const handleClick = async () => {
+
+    const handleClick = async () => {
         try {
-            await addFriend({
-                variables: { id: user._id }
+            await follow({
+                variables: { followedId: user._id }
             });
         } catch (e) {
             console.error(e);
         }
-    }; */
+    };
 
     return (
         <Container>
@@ -60,15 +55,21 @@ const Profile = props => {
             <p>Total Reprints: {user.reprintCount}</p>
             <p>Total Favorite Counts: {user.favoriteCount}</p>
 
+            { Auth.loggedIn() && (
+                <button className="follow-btn" onClick={handleClick}>
+                    Follow
+                </button>
+            )}
+
             <h2>{user.username}'s Reprints:</h2>
 
             {user.reprints.map((userReprint, itrIndex) => {
                 return (
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
-                            <Card.Title ><Card.Link href={`/post/${userReprint.title}`}>{userReprint.title}</Card.Link></Card.Title>
+                            <Card.Title ><Card.Link href={`/post/${userReprint._id}`}>{userReprint.title}</Card.Link></Card.Title>
                             <Card.Img variant="top" src={userReprint.asset} />
-                            <Card.Text><img src={HeartIcon}
+                            <Card.Text><img src={LikeIcon}
                                 width="25"
                                 height="25"
                                 alt="Noft Custom Icon" />{userReprint.likeCount}<img src={CommentIcon}
@@ -79,8 +80,6 @@ const Profile = props => {
                             <Button variant="primary">Download</Button>
                         </Card.Body>
                     </Card>
-
-
                 );
             })}
 

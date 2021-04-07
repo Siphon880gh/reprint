@@ -7,12 +7,14 @@ import { useParams } from 'react-router-dom';
 
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
-import HeartIcon from '../assets/drawnHeartIcon.png';
+import LikeIcon from '../assets/likeArrowBoxIcon.png';
+
 
 import Auth from '../utils/auth';
 import Likes from '../components/Like';
 import { GET_SINGLE_CARD } from '../utils/queries';
-import { useQuery } from '@apollo/react-hooks';
+import { FAVORITE, UNFAVORITE } from '../utils/mutations';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
 
 // Create a const for postForm that'll return JSX
@@ -21,11 +23,25 @@ export function PostInfo() {
     const { loading, data } = useQuery(GET_SINGLE_CARD, {
         variables: { noftId: noftId }
     });
+    const [favorite] = useMutation(FAVORITE);
     const singleReprint = data?.reprintById || {};
 
     if (loading) {
         return <div>Loading...</div>;
     }
+
+
+
+    const handleClick = async () => {
+        try {
+            await favorite({
+                variables: { reprintId: noftId }
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
 
     // Return JSX
     return (
@@ -46,6 +62,12 @@ export function PostInfo() {
                     <Card.Title><Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link></Card.Title>
                     <Card.Title>{singleReprint.caption}</Card.Title>
                     <Likes singleReprint={singleReprint} otherAuth={Auth}></Likes>
+                    <Card.Title>{singleReprint.likeCount}</Card.Title>
+                    {Auth.loggedIn() && (
+                        <button className="favorite-btn" onClick={handleClick}>
+                            Favorite
+                        </button>
+                    )}
                 </Card.Body>
             </Card>
 
