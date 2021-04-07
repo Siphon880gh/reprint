@@ -30,9 +30,7 @@ const Profile = props => {
         return <div>Loading...</div>;
     }
 
-
-
-    const handleClick = async () => {
+    const handleFollow = async () => {
         try {
             await follow({
                 variables: { followedId: user._id }
@@ -56,7 +54,7 @@ const Profile = props => {
             <p>Total Favorite Counts: {user.favoriteCount}</p>
 
             { Auth.loggedIn() && (
-                <button className="follow-btn" onClick={handleClick}>
+                <button className="follow-btn" onClick={handleFollow}>
                     Follow
                 </button>
             )}

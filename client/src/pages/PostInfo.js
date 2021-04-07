@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Image from 'react-bootstrap/Image';
 import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
@@ -24,17 +24,17 @@ import { GET_ME, MY_FAVORITES } from "../utils/queries";
 export default function PostInfo() {
     // Get post info
     let { noftId } = useParams();
-    const { loading, data } = useQuery(GET_SINGLE_CARD, {
+    const { loading: postLoading, data } = useQuery(GET_SINGLE_CARD, {
         variables: { noftId: noftId }
     });
     const singleReprint = data?.reprintById || {};
 
     // User's favorite Ids. Return empty array if not logged in
-    let {data:favoritesData} = useQuery(MY_FAVORITES);
+    let {loading: favoriteIdsLoading, data:favoritesData} = useQuery(MY_FAVORITES);
     let favoritesList = favoritesData?.myFavorites?.favorites || [];
     let favoritedIds = favoritesList.map(favObj=>favObj._id);
 
-    if (loading) {
+    if (postLoading || favoriteIdsLoading) {
         return <div>Loading...</div>;
     }
 
