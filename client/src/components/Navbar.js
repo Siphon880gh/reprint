@@ -30,18 +30,18 @@ const AppNavbar = () => {
   const [searchFilter, setSearchFilter] = useState(initialState);
 
   const onSearch = (event) => {
-    let isAutotypeWorthy = event.target.value.length>0;
-    if(isAutotypeWorthy) {
+    let isAutotypeWorthy = event.target.value.length > 0;
+    if (isAutotypeWorthy) {
       setSearchFilter({
-        ...searchFilter, 
+        ...searchFilter,
         searchFilter: event.target.value,
-      }) 
+      })
     } else {
-        setSearchFilter({
-          ...searchFilter, 
-          searchFilter: "UNIQUE_STRING_THAT_CANT_SEARCH",
-       });
-     }
+      setSearchFilter({
+        ...searchFilter,
+        searchFilter: "UNIQUE_STRING_THAT_CANT_SEARCH",
+      });
+    }
   };
 
   return (
@@ -61,10 +61,10 @@ const AppNavbar = () => {
             <div>
               <Form.Group controlId="searchInput">
                 <Form.Label className="mr-3">Search for a User</Form.Label>
-                  <div className="overlay-under-wrapper">
-                    <Form.Control onInput={onSearch} autocomplete="off" />
-                    <Search searchFilter={searchFilter}></Search>
-                  </div>
+                <div className="overlay-under-wrapper">
+                  <Form.Control onInput={onSearch} autoComplete="off" />
+                  <Search searchFilter={searchFilter}></Search>
+                </div>
               </Form.Group>
             </div>
             {/* <FormControl type="text" placeholder="Search NoFT..." className="mr-sm-2" />
@@ -111,7 +111,7 @@ const AppNavbar = () => {
                       alt="Go To Profile Logo"
                     />
                   </Nav.Link>
-                  <Nav.Link onClick={() =>  setShowLogoutModal(true)}><img
+                  <Nav.Link onClick={() => setShowLogoutModal(true)}><img
                     src={LogoutIcon}
                     width="50"
                     height="50"
