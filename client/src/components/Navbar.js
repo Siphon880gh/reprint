@@ -111,7 +111,7 @@ const AppNavbar = () => {
                       alt="Go To Profile Logo"
                     />
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}><img
+                  <Nav.Link onClick={() =>  setShowLogoutModal(true)}><img
                     src={LogoutIcon}
                     width="50"
                     height="50"
@@ -167,6 +167,26 @@ const AppNavbar = () => {
           </Modal.Body>
         </Tab.Container>
       </Modal>
+      {/* {Starting the modal for Logout} */}
+      <Modal
+        size='lg'
+        show={showLogoutModal}
+        onHide={() => setShowLogoutModal(false)}
+        aria-labelledby='logout-modal'>
+        <Modal.Header closeButton>
+          <Modal.Title id='logout-modal'>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to logout?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
+            Not yet!
+          </Button>
+          <Button variant="primary" onClick={Auth.logout}>
+            I want to logout!
+          </Button>
+        </Modal.Footer>
+      </Modal >
       {/* {Starting the modal for Logout} */}
       <Modal
         size='lg'
