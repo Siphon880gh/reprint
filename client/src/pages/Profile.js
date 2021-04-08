@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Redirect, useParams } from 'react-router-dom';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Modal, Container, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
 import { FOLLOW, UNFOLLOW } from '../utils/mutations';
@@ -55,7 +55,8 @@ const Profile = props => {
     });
     const theirFollowers = theirUserInfo?.author?.followers || [];
     const [amIAFollower, updateFollowStatus] = useState(theirFollowers.includes(Auth.getProfile().data._id));
-    
+    const [showDeleteMeModal, setShowDeleteMeModal] = useState(false);
+
     // Debug if there are problems later
     // console.assert(theirUserInfo?.author?._id==="606cfd620abdef61c7d724c5", {error:"Not what I expect 606cfd620abdef61c7d724c5", theirUsername: theirUserInfo?.author?.username}); // Test Other Acc: Malvina_Greenfelder
     // console.assert(Auth.getProfile().data._id==="606cfd733d45c95aecb96315", {error:"Not what I expect 606cfd733d45c95aecb96315"}); // Test Your Acc: test
@@ -111,7 +112,7 @@ const Profile = props => {
                 </button>);
         }
     } // RenderFollowButton
-    
+
     return (
         <>
         {loadingTheirUserInfo?(<div>Loading...</div>):
@@ -156,6 +157,37 @@ const Profile = props => {
                     </Card>
                 );
             })}
+
+            {
+                Auth.loggedIn() &&
+                (
+                    <>
+                        <div className="mt-5 float-right">
+                            <Button onClick={()=> setShowDeleteMeModal(true) } variant="warning">Delete Me</Button>
+                        </div>
+                        <div className="clearfix"/>
+                    </>
+                )
+            }
+
+            <Modal
+                size='lg'
+                show={showDeleteMeModal}
+                onHide={() => setShowDeleteMeModal(false)}
+                aria-labelledby='delete-me-modal'>
+                {/* tab container to do either signup or login component */}
+                <Modal.Header closeButton>
+                    <Modal.Title id='delete-me-modal'>
+                        Account Removal
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p className="text-center pt-3 pb-3">Delete your account? This cannot be reversed.</p>
+                    <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="light">Cancel</Button>
+                    <div className="float-right" style={{width:"25px"}}>&nbsp;</div>
+                    <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="danger">Delete</Button>
+                </Modal.Body>
+            </Modal>
 
         </Container>
 
