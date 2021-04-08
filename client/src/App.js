@@ -47,11 +47,8 @@ function App() {
             <Route exact path='/post/:noftId?' component={PostInfo} />
             <Route exact path='/favorites/:username?' component={Favorites} />
             <Route exact path='/favorites/me' component={Favorites} />
-            {/* <Route exact path='/test-param/me' component={TestParamNone} />
-            <Route exact path='/test-param/:id' component={TestParam} /> */}
             <Route exact path='/about' component={About} />
             <Route exact path='/about/team' component={MeetTheTeam} />
-            <Route exact path='/profile/me' component={Profile} />
             <Route exact path='/profile/:username?' component={Profile} />
             <Route exact path='/commentForm' component={CommentForm} />
             <Route exact path='/commentList' component={CommentList} />

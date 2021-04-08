@@ -105,6 +105,48 @@ query author($username: String!) {
 
   }`
 
+  export const GET_USERS_BY_FILTER = gql`
+query usersByFilter($username: String!) {
+  usersByFilter(username: $username) {
+    _id
+    username
+    email
+    reprints {
+      _id
+    title
+    asset
+    author
+    caption
+    marketListing
+    createdAt
+    likes {
+      _id
+    }
+    likeCount
+    comments{
+      _id
+    commentBody
+    author
+    createdAt
+    }
+    commentCount
+    }
+    reprintCount
+
+    followers{
+      _id
+      username
+    }
+    followerCount
+    followed{
+      _id
+      username
+    }
+    followedCount
+  }
+
+  }`
+
 export const GET_STREAM = gql`
 query {
   stream {

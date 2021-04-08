@@ -3,6 +3,8 @@ const { User, Reprint } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
+const Auth = require('../utils/auth');
+
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
@@ -24,6 +26,13 @@ const resolvers = {
         .select("-__v -password")
         .populate("reprints")
         .populate("favorites")
+        .populate("followers")
+        .populate("followed");
+    },
+    usersByFilter: async (parent, { username }) => {
+      return User.find({ username: {$regex: username} })
+        .select("-__v -password")
+        .populate("reprints")
         .populate("followers")
         .populate("followed");
     },
@@ -98,17 +107,31 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    // deleteUser: async (parent, args, context) => {
-    //   if (context.user) {
-    //     console.log("HEY")
-    //     const deletedUser = await Reprint.findOneAndDelete(
-    //       { _id: context.user._id },
-    //       { runValidators: true }
-    //     );
-    //     return deletedUser;
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
+    deleteUser: async (parent, args, context) => {
+      if (context.user) {
+        const deletedUser = await Reprint.findOneAndDelete(
+          { username: context.user.username }
+        );
+        return deletedUser;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    deleteUserV2: async (parent, args, context) => {
+      if(context.user) {
+        Auth.permanentlyRevoke(context);
+      }
+      // if(context.user) {
+      //   console.log("Attempt deleting user id: " + context.user._id);
+      //   const deletedUser = await User.findByIdAndRemove(context.user._id);
+      //   if (!deletedUser)
+      //     console.log({error:"Cannot find user to delete"});
+      //   else
+      //     console.log({
+      //       debug:`Should be deleted username ${context.user.username} / id ${context.user._id}`,
+      //       deletedUser: user
+      //     });
+      // }
+    },
     addReprint: async (parent, args, context) => {
       if (context.user) {
         const reprint = await Reprint.create({

@@ -41,6 +41,7 @@ const typeDefs = gql`
     me: User
     users: [User]
     author(username: String!): User
+    usersByFilter(username: String!): [User]
     userById(_id: ID!): User
     stream: [Reprint]
     reprint(title: String!): Reprint
@@ -67,6 +68,8 @@ const typeDefs = gql`
     unlike(reprintId: ID!): Reprint
     favorite(reprintId: ID!): User
     unfavorite(reprintId: ID!): User
+    deleteUser(username: String!): User
+    deleteUserV2: User
   }
 `;
 

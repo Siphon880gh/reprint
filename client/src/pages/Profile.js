@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Redirect, useParams } from 'react-router-dom';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Modal, Container, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
-import { FOLLOW, UNFOLLOW } from '../utils/mutations';
+import { FOLLOW, UNFOLLOW, DELETE_USER_V2 } from '../utils/mutations';
 
 import LikeIcon from '../assets/likeArrowBoxIcon.png';
 import CommentIcon from '../assets/commentIconBox.png';
 import Auth from '../utils/auth';
 
 const Profile = props => {
+    function unsignToken() {
+        Auth.logout();
+    }
     async function openBloblUrl(e) {
 
         let assetUrl = e.target.getAttribute("data-asset-url");
@@ -50,19 +53,29 @@ const Profile = props => {
         variables: { username: userParam }
     });
 
-    const { loading: loadingAmIAFollower, data: AmIAFollowerData } = useQuery(GET_USER, {
+    const { loading: loadingTheirUserInfo, data: theirUserInfo } = useQuery(GET_USER, {
         variables: { username: userParam }
     });
-    let followers = AmIAFollowerData?.author?.followers || [];
-    const amIAFollower = followers.includes(Auth.getProfile().data._id);
+    const theirFollowers = theirUserInfo?.author?.followers || [];
+    const [amIAFollower, updateFollowStatus] = useState(theirFollowers.includes(Auth.getProfile().data._id));
+    const [showDeleteMeModal, setShowDeleteMeModal] = useState(false);
 
-    console.assert(AmIAFollowerData?.author?._id, "606cfd620abdef61c7d724c0");
-    console.assert(Auth.getProfile().data._id, "606cfd733d45c95aecb96315");
-    // console.log("*****", amIAFollower);
+    // Debug if there are problems later
+    // console.assert(theirUserInfo?.author?._id==="606cfd620abdef61c7d724c5", {error:"Not what I expect 606cfd620abdef61c7d724c5", theirUsername: theirUserInfo?.author?.username}); // Test Other Acc: Malvina_Greenfelder
+    // console.assert(Auth.getProfile().data._id==="606cfd733d45c95aecb96315", {error:"Not what I expect 606cfd733d45c95aecb96315"}); // Test Your Acc: test
+    // console.log({amIAFollower});
 
     const user = data?.me || data?.author || {};
     const [follow] = useMutation(FOLLOW);
     const [unfollow] = useMutation(UNFOLLOW);
+    const [deleteMe] = useMutation(DELETE_USER_V2);
+
+    // In the case you deleted your profile or the user doesnt exist
+    // if(typeof user==="undefined" || Object.keys(user).length === 0) {
+    if(!user) {
+        return <Redirect to="/" />;
+    }
+
     // redirect to personal profile page if username is yours
     if (
         Auth.loggedIn() &&
@@ -71,36 +84,55 @@ const Profile = props => {
         return <Redirect to="/profile" />;
     }
 
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
     const handleFollow = async () => {
-        const amAFollower = true; // TODO
-        if (amAFollower) {
+        if (amIAFollower) {
             try {
-                await follow({
+                await unfollow({
                     variables: { followedId: user._id }
                 });
+                updateFollowStatus(false);
             } catch (e) {
                 console.error(e);
             }
         } else {
             try {
-                await unfollow({
+                await follow({
                     variables: { followedId: user._id }
                 });
+                updateFollowStatus(true);
             } catch (e) {
                 console.error(e);
             }
         }
     };
 
+    function RenderFollowButton() {
+        if(amIAFollower) {
+            return (
+            <button className="follow-btn" onClick={handleFollow}>
+                Unfollow
+            </button>); 
+        } else {
+            return (
+                <button className="follow-btn" onClick={handleFollow}>
+                    Follow
+                </button>);
+        }
+    } // RenderFollowButton
+
     return (
-        <Container>
-            {console.log(userParam)}
+        <>
+        {loadingTheirUserInfo?(<div>Loading...</div>):
+        (
+            <Container>
+            {/* {console.log(userParam)}
             {console.log(user)}
-            {console.log(data)}
+            {console.log(data)} */}
             <div >
                 <h2>
                     Viewing {userParam ? `${user.username}'s` : 'your'} profile.
@@ -114,9 +146,8 @@ const Profile = props => {
 
 
             { Auth.loggedIn() && userParam && (
-                <button className="follow-btn" onClick={handleFollow}>
-                    Follow
-                </button>
+                <RenderFollowButton/>
+                
             )}
 
             <h2>{user.username}'s Reprints:</h2>
@@ -140,8 +171,51 @@ const Profile = props => {
                 );
             })}
 
+            {
+                Auth.loggedIn() && !userParam &&
+                (
+                    <>
+                        <div className="mt-5 float-right">
+                            <Button onClick={()=> setShowDeleteMeModal(true) } variant="warning">Delete Me</Button>
+                        </div>
+                        <div className="clearfix"/>
+                    </>
+                )
+            }
+
+            <Modal
+                size='lg'
+                show={showDeleteMeModal}
+                onHide={() => setShowDeleteMeModal(false)}
+                aria-labelledby='delete-me-modal'>
+                {/* tab container to do either signup or login component */}
+                <Modal.Header closeButton>
+                    <Modal.Title id='delete-me-modal'>
+                        Account Removal
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p className="text-center pt-3 pb-3">Delete your account? This cannot be reversed.</p>
+                    <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="light">Cancel</Button>
+                    <div className="float-right" style={{width:"25px"}}>&nbsp;</div>
+                    <Button className="float-right" onClick={()=> { 
+                        // Deleting User Profile:
+
+                        // Revoke on the backend
+                        const deleted = deleteMe();
+                        
+                        // Revoke on the frontend
+                        if(deleted) 
+                            setTimeout(Auth.permanentlyRevoke, 1000);
+                     }} variant="danger">Delete</Button>
+                </Modal.Body>
+            </Modal>
+
         </Container>
-    );
+
+        )}
+        </>
+    )
 };
 
 export default Profile;
