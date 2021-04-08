@@ -27,11 +27,10 @@ const resolvers = {
         .populate("followers")
         .populate("followed");
     },
-    usersByFilter: async (parent ) => {
-      return User.find({ username })
+    usersByFilter: async (parent, { username }) => {
+      return User.find({ username: {$regex: username} })
         .select("-__v -password")
         .populate("reprints")
-        .populate("favorites")
         .populate("followers")
         .populate("followed");
     },
