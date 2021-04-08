@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { Container, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -50,15 +50,16 @@ const Profile = props => {
         variables: { username: userParam }
     });
 
-    const { loading: loadingAmIAFollower, data: AmIAFollowerData } = useQuery(GET_USER, {
+    const { loading: loadingTheirUserInfo, data: theirUserInfo } = useQuery(GET_USER, {
         variables: { username: userParam }
     });
-    let followers = AmIAFollowerData?.author?.followers || [];
-    const amIAFollower = followers.includes(Auth.getProfile().data._id);
-
-    console.assert(AmIAFollowerData?.author?._id, "606cfd620abdef61c7d724c0");
-    console.assert(Auth.getProfile().data._id, "606cfd733d45c95aecb96315");
-    // console.log("*****", amIAFollower);
+    const theirFollowers = theirUserInfo?.author?.followers || [];
+    const [amIAFollower, updateFollowStatus] = useState(theirFollowers.includes(Auth.getProfile().data._id));
+    
+    // Debug if there are problems later
+    // console.assert(theirUserInfo?.author?._id==="606cfd620abdef61c7d724c5", {error:"Not what I expect 606cfd620abdef61c7d724c5", theirUsername: theirUserInfo?.author?.username}); // Test Other Acc: Malvina_Greenfelder
+    // console.assert(Auth.getProfile().data._id==="606cfd733d45c95aecb96315", {error:"Not what I expect 606cfd733d45c95aecb96315"}); // Test Your Acc: test
+    // console.log({amIAFollower});
 
     const user = data?.me || data?.author || {};
     const [follow] = useMutation(FOLLOW);
@@ -76,28 +77,46 @@ const Profile = props => {
     }
 
     const handleFollow = async () => {
-        const amAFollower = true; // TODO
-        if (amAFollower) {
+        if (amIAFollower) {
             try {
-                await follow({
+                await unfollow({
                     variables: { followedId: user._id }
                 });
+                updateFollowStatus(false);
             } catch (e) {
                 console.error(e);
             }
         } else {
             try {
-                await unfollow({
+                await follow({
                     variables: { followedId: user._id }
                 });
+                updateFollowStatus(true);
             } catch (e) {
                 console.error(e);
             }
         }
     };
 
+    function RenderFollowButton() {
+        if(amIAFollower) {
+            return (
+            <button className="follow-btn" onClick={handleFollow}>
+                Unfollow
+            </button>); 
+        } else {
+            return (
+                <button className="follow-btn" onClick={handleFollow}>
+                    Follow
+                </button>);
+        }
+    } // RenderFollowButton
+    
     return (
-        <Container>
+        <>
+        {loadingTheirUserInfo?(<div>Loading...</div>):
+        (
+            <Container>
             {console.log(userParam)}
             {console.log(user)}
             {console.log(data)}
@@ -113,9 +132,8 @@ const Profile = props => {
             <p>Total Favorite Counts: {user.favoriteCount}</p>
 
             { Auth.loggedIn() && userParam && (
-                <button className="follow-btn" onClick={handleFollow}>
-                    Follow
-                </button>
+                <RenderFollowButton/>
+                
             )}
 
             <h2>{user.username}'s Reprints:</h2>
@@ -140,7 +158,10 @@ const Profile = props => {
             })}
 
         </Container>
-    );
+
+        )}
+        </>
+    )
 };
 
 export default Profile;
