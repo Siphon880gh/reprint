@@ -94,31 +94,6 @@ const AppNavbar = () => {
                       alt="Favorite NoFTs Icon"
                     />
                   </Nav.Link>
-<<<<<<< HEAD
-                  <Nav.Link as={Link} to='/profile/me'><img
-                    src={ProfileLogo}
-                    width="50"
-                    height="50"
-                    className="d-inline-block align-top"
-                    alt="Profile Icon"
-                  /></Nav.Link>
-                  <Nav.Link onClick={() => setShowLogoutModal(true)}><img
-                    src={LogoutIcon}
-                    width="50"
-                    height="50"
-                    className="d-inline-block align-top"
-                    alt="Logout Icon"
-                  /></Nav.Link>
-                </>
-              ) : (
-                <Nav.Link onClick={() => setShowModal(true)}><img
-                  src={SignupLoginBox}
-                  width="160"
-                  height="40"
-                  className="d-inline-block align-top"
-                  alt="Signup or Login Logo"
-                /></Nav.Link>
-=======
                   <Nav.Link as={Link} to="/profile/me">
                     Profile
                   </Nav.Link>
@@ -128,7 +103,6 @@ const AppNavbar = () => {
                 <Nav.Link onClick={() => setShowModal(true)}>
                   Login/Sign Up
                 </Nav.Link>
->>>>>>> feature/client-search
               )}
             </Nav>
           </Navbar.Collapse>
