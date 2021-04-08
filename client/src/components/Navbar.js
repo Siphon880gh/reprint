@@ -62,11 +62,13 @@ const AppNavbar = () => {
           <Form inline>
             <div>
               <Form.Group controlId="searchInput">
-                <Form.Label>Search for a User</Form.Label>
-                <Form.Control onInput={onSearch} />
+                <Form.Label className="mr-3">Search for a User</Form.Label>
+                  <div className="overlay-under-wrapper">
+                    <Form.Control onInput={onSearch} autocomplete="off" />
+                    <Search searchFilter={searchFilter}></Search>
+                  </div>
               </Form.Group>
             </div>
-            <Search searchFilter={searchFilter}></Search>
             {/* <FormControl type="text" placeholder="Search NoFT..." className="mr-sm-2" />
             <Button >
               <img
