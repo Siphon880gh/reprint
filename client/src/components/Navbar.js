@@ -14,8 +14,11 @@ import {
 import SignUpForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import SearchButton from "../assets/searchIconBox.png";
-import AddPostIcon from "../assets/addIcon.png";
+import AddPostIcon from "../assets/thickAddIcon.png";
 import FaveBoxIcon from "../assets/heartBoxIcon.png";
+import ProfileIcon from "../assets/profileBoxLogo.png";
+import LogoutIcon from "../assets/logoutIcon.png";
+import LoginSignupIcon from "../assets/signupLoginBox.png";
 import NoftLogo from "../assets/noftFULL2.png";
 import Auth from "../utils/auth";
 
@@ -28,7 +31,7 @@ const AppNavbar = () => {
 
   const onSearch = (event) => {
     setSearchFilter({
-      ...searchFilter, 
+      ...searchFilter,
       searchFilter: event.target.value,
     });
   };
@@ -95,13 +98,31 @@ const AppNavbar = () => {
                     />
                   </Nav.Link>
                   <Nav.Link as={Link} to="/profile/">
-                    Profile
+                    <img
+                      src={ProfileIcon}
+                      width="50"
+                      height="50"
+                      className="d-inline-block align-top"
+                      alt="Go To Profile Logo"
+                    />
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={Auth.logout}><img
+                    src={LogoutIcon}
+                    width="50"
+                    height="50"
+                    className="d-inline-block align-top"
+                    alt="Logout Logo"
+                  /></Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>
-                  Login/Sign Up
+                  <img
+                    src={LoginSignupIcon}
+                    width="140"
+                    height="50"
+                    className="d-inline-block align-top"
+                    alt="Signup or Login Logo"
+                  />
                 </Nav.Link>
               )}
             </Nav>
