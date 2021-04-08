@@ -98,17 +98,23 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    // deleteUser: async (parent, args, context) => {
-    //   if (context.user) {
-    //     console.log("HEY")
-    //     const deletedUser = await Reprint.findOneAndDelete(
-    //       { _id: context.user._id },
-    //       { runValidators: true }
-    //     );
-    //     return deletedUser;
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
+    deleteUser: async (parent, args, context) => {
+      if (context.user) {
+        const deletedUser = await Reprint.findOneAndDelete(
+          { username: context.user.username }
+        );
+        return deletedUser;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    deleteUserV2: async (parent, args, context) => {
+      if(context.user) {
+        User.findByIdAndRemove(context.user._id, (err, todo) => {
+          if (err) console.log({err});
+          else console.log({success:`Deleted username ${context.user.username} / id ${context.user._id}`})
+        });
+      }
+    },
     addReprint: async (parent, args, context) => {
       if (context.user) {
         const reprint = await Reprint.create({

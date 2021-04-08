@@ -3,13 +3,16 @@ import { Redirect, useParams } from 'react-router-dom';
 import { Modal, Container, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
-import { FOLLOW, UNFOLLOW } from '../utils/mutations';
+import { FOLLOW, UNFOLLOW, DELETE_USER } from '../utils/mutations';
 
 import LikeIcon from '../assets/likeArrowBoxIcon.png';
 import CommentIcon from '../assets/commentIconBox.png';
 import Auth from '../utils/auth';
 
 const Profile = props => {
+    function unsignToken() {
+        Auth.logout();
+    }
     async function openBloblUrl(e) {
 
         let assetUrl = e.target.getAttribute("data-asset-url");
@@ -65,6 +68,7 @@ const Profile = props => {
     const user = data?.me || data?.author || {};
     const [follow] = useMutation(FOLLOW);
     const [unfollow] = useMutation(UNFOLLOW);
+    const [deleteMe] = useMutation(DELETE_USER);
     // redirect to personal profile page if username is yours
     if (
         Auth.loggedIn() &&
@@ -118,9 +122,9 @@ const Profile = props => {
         {loadingTheirUserInfo?(<div>Loading...</div>):
         (
             <Container>
-            {console.log(userParam)}
+            {/* {console.log(userParam)}
             {console.log(user)}
-            {console.log(data)}
+            {console.log(data)} */}
             <div >
                 <h2>
                     Viewing {userParam ? `${user.username}'s` : 'your'} profile.
@@ -185,7 +189,7 @@ const Profile = props => {
                     <p className="text-center pt-3 pb-3">Delete your account? This cannot be reversed.</p>
                     <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="light">Cancel</Button>
                     <div className="float-right" style={{width:"25px"}}>&nbsp;</div>
-                    <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="danger">Delete</Button>
+                    <Button className="float-right" data-userid={Auth.getProfile().data._id} onClick={(e)=> { unsignToken(); deleteMe({variables: {_id: e.target.getAttribute("data-userid")}}); setShowDeleteMeModal(false) }} variant="danger">Delete</Button>
                 </Modal.Body>
             </Modal>
 
