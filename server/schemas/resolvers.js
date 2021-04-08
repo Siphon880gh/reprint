@@ -3,6 +3,8 @@ const { User, Reprint } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
+const Auth = require('../utils/auth');
+
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
@@ -109,11 +111,19 @@ const resolvers = {
     },
     deleteUserV2: async (parent, args, context) => {
       if(context.user) {
-        User.findByIdAndRemove(context.user._id, (err, todo) => {
-          if (err) console.log({err});
-          else console.log({success:`Deleted username ${context.user.username} / id ${context.user._id}`})
-        });
+        Auth.permanentlyRevoke(context);
       }
+      // if(context.user) {
+      //   console.log("Attempt deleting user id: " + context.user._id);
+      //   const deletedUser = await User.findByIdAndRemove(context.user._id);
+      //   if (!deletedUser)
+      //     console.log({error:"Cannot find user to delete"});
+      //   else
+      //     console.log({
+      //       debug:`Should be deleted username ${context.user.username} / id ${context.user._id}`,
+      //       deletedUser: user
+      //     });
+      // }
     },
     addReprint: async (parent, args, context) => {
       if (context.user) {

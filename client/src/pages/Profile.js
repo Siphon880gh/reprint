@@ -3,7 +3,7 @@ import { Redirect, useParams } from 'react-router-dom';
 import { Modal, Container, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
-import { FOLLOW, UNFOLLOW, DELETE_USER } from '../utils/mutations';
+import { FOLLOW, UNFOLLOW, DELETE_USER_V2 } from '../utils/mutations';
 
 import LikeIcon from '../assets/likeArrowBoxIcon.png';
 import CommentIcon from '../assets/commentIconBox.png';
@@ -68,7 +68,14 @@ const Profile = props => {
     const user = data?.me || data?.author || {};
     const [follow] = useMutation(FOLLOW);
     const [unfollow] = useMutation(UNFOLLOW);
-    const [deleteMe] = useMutation(DELETE_USER);
+    const [deleteMe] = useMutation(DELETE_USER_V2);
+
+    // In the case you deleted your profile or the user doesnt exist
+    // if(typeof user==="undefined" || Object.keys(user).length === 0) {
+    if(!user) {
+        return <Redirect to="/" />;
+    }
+
     // redirect to personal profile page if username is yours
     if (
         Auth.loggedIn() &&
@@ -76,6 +83,7 @@ const Profile = props => {
     ) {
         return <Redirect to="/profile" />;
     }
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -163,7 +171,7 @@ const Profile = props => {
             })}
 
             {
-                Auth.loggedIn() &&
+                Auth.loggedIn() && !userParam &&
                 (
                     <>
                         <div className="mt-5 float-right">
@@ -189,7 +197,16 @@ const Profile = props => {
                     <p className="text-center pt-3 pb-3">Delete your account? This cannot be reversed.</p>
                     <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="light">Cancel</Button>
                     <div className="float-right" style={{width:"25px"}}>&nbsp;</div>
-                    <Button className="float-right" data-userid={Auth.getProfile().data._id} onClick={(e)=> { unsignToken(); deleteMe({variables: {_id: e.target.getAttribute("data-userid")}}); setShowDeleteMeModal(false) }} variant="danger">Delete</Button>
+                    <Button className="float-right" onClick={()=> { 
+                        // Deleting User Profile:
+
+                        // Revoke on the backend
+                        const deleted = deleteMe();
+                        
+                        // Revoke on the frontend
+                        if(deleted) 
+                            setTimeout(Auth.permanentlyRevoke, 1000);
+                     }} variant="danger">Delete</Button>
                 </Modal.Body>
             </Modal>
 
