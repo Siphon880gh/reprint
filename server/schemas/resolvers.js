@@ -117,20 +117,10 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
     deleteUserV2: async (parent, args, context) => {
+      // User will be deleted from MongoDB inside server/utils/auth.js
       if(context.user) {
         Auth.permanentlyRevoke(context);
       }
-      // if(context.user) {
-      //   console.log("Attempt deleting user id: " + context.user._id);
-      //   const deletedUser = await User.findByIdAndRemove(context.user._id);
-      //   if (!deletedUser)
-      //     console.log({error:"Cannot find user to delete"});
-      //   else
-      //     console.log({
-      //       debug:`Should be deleted username ${context.user.username} / id ${context.user._id}`,
-      //       deletedUser: user
-      //     });
-      // }
     },
     addReprint: async (parent, args, context) => {
       if (context.user) {

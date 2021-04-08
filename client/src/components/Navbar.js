@@ -44,11 +44,6 @@ const AppNavbar = () => {
      }
   };
 
-  // function handleSubmit(e) {
-  //   let query = e.target.value;
-  //   if (query.length > 1) setSearchFilter(e.target.value);
-  // }
-
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
