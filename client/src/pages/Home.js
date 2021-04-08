@@ -9,6 +9,40 @@ export function Home() {
   const { loading, data } = useQuery(GET_STREAM);
   const streamnofts = data?.stream || [];
 
+  async function openBloblUrl(e) {
+
+    let assetUrl = e.target.getAttribute("data-asset-url");
+    let downloadFilename = e.target.getAttribute("data-asset-filename");
+  
+    async function innerClosure() {
+        let response = await fetch(assetUrl);
+        let blob = await response.blob(); // download as Blob object
+        let blobUrl = await window.URL.createObjectURL(blob);
+        return blobUrl;
+    }
+  
+    let blobUrl = await innerClosure();
+  
+    var forcer = document.querySelector("#force-download");
+    forcer.innerHTML = "";
+    var a = document.createElement("a");
+    a.href=blobUrl;
+    a.setAttribute("download", downloadFilename);
+    forcer.appendChild(a);
+    a.click();
+  
+    return blobUrl;
+  
+  } // openBloblUrl
+
+  function trimFilename(url) {
+    let dropRight = url.indexOf("?alt");
+    url = url.substr(0, dropRight);
+    let dropLeft = url.indexOf("/o/") + 3;
+    url = url.substr(dropLeft);
+    return url;
+  }
+
   return (<React.Fragment>
     {loading ? (
       <div>Loading...</div>
@@ -35,12 +69,13 @@ export function Home() {
                       height="25"
                       alt="Noft Custom Icon" />{reprint.commentCount}</Card.Text>
                   <Card.Text>NoFT Author: <Card.Link href={`/profile/${reprint.author}`}>{reprint.author}</Card.Link> </Card.Text>
-                  <Button variant="primary">Download</Button>
+                  <Button onClick={openBloblUrl} data-asset-url={reprint.asset} data-asset-filename={trimFilename(reprint.asset)} variant="primary">Download</Button>
                 </Card.Body>
               </Card>
             );
           })}
         </CardColumns>
+
       </Container>
     )
     }

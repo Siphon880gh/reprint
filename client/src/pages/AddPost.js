@@ -66,7 +66,7 @@ export default function AddPost(props) {
     }
 
     // Get a reference to the storage service, which is used to create references in your storage bucket
-    const uniqueFilename = Math.floor(new Date().getTime()) + generateHash({ length: 6 });
+    const uniqueFilename = Math.floor(new Date().getTime()) + generateHash({ length: 6 }) + ".jpg";
 
     const storageRef = firebase.storage().ref().child(uniqueFilename);
 
