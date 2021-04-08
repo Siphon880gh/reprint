@@ -30,10 +30,18 @@ const AppNavbar = () => {
   const [searchFilter, setSearchFilter] = useState(initialState);
 
   const onSearch = (event) => {
-    setSearchFilter({
-      ...searchFilter,
-      searchFilter: event.target.value,
-    });
+    let isAutotypeWorthy = event.target.value.length>0;
+    if(isAutotypeWorthy) {
+      setSearchFilter({
+        ...searchFilter, 
+        searchFilter: event.target.value,
+      }) 
+    } else {
+        setSearchFilter({
+          ...searchFilter, 
+          searchFilter: "UNIQUE_STRING_THAT_CANT_SEARCH",
+       });
+     }
   };
 
   // function handleSubmit(e) {
