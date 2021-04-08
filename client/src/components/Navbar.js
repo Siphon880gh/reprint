@@ -27,6 +27,7 @@ const AppNavbar = () => {
 
   const onSearch = (event) => {
     setSearchFilter({
+      ...searchFilter, 
       searchFilter: event.target.value,
     });
   };
