@@ -112,6 +112,7 @@ const Profile = props => {
             <p>Total Reprints: {user.reprintCount}</p>
             <p>Total Favorite Counts: {user.favoriteCount}</p>
 
+
             { Auth.loggedIn() && userParam && (
                 <button className="follow-btn" onClick={handleFollow}>
                     Follow
