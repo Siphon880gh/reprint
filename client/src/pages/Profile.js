@@ -58,7 +58,7 @@ const Profile = props => {
         variables: { username: userParam?userParam:"" }
     });
     const theirFollowers = theirUserInfo?.author?.followers || [];
-    const [amIAFollower, updateFollowStatus] = useState(theirFollowers.includes(Auth.getProfile().data._id));
+    const [amIAFollower, updateFollowStatus] = useState(theirFollowers && Auth.getProfile() ? theirFollowers.includes(Auth.getProfile().data._id) : {});
     const [showDeleteMeModal, setShowDeleteMeModal] = useState(false);
 
     const user = data?.me || data?.author || {};
