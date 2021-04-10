@@ -53,17 +53,13 @@ const Profile = props => {
         variables: { username: userParam }
     });
 
+    // GraphQL profile information requests
     const { loading: loadingTheirUserInfo, data: theirUserInfo } = useQuery(GET_USER, {
-        variables: { username: userParam }
+        variables: { username: userParam?userParam:"" }
     });
     const theirFollowers = theirUserInfo?.author?.followers || [];
     const [amIAFollower, updateFollowStatus] = useState(theirFollowers.includes(Auth.getProfile().data._id));
     const [showDeleteMeModal, setShowDeleteMeModal] = useState(false);
-
-    // Debug if there are problems later
-    // console.assert(theirUserInfo?.author?._id==="606cfd620abdef61c7d724c5", {error:"Not what I expect 606cfd620abdef61c7d724c5", theirUsername: theirUserInfo?.author?.username}); // Test Other Acc: Malvina_Greenfelder
-    // console.assert(Auth.getProfile().data._id==="606cfd733d45c95aecb96315", {error:"Not what I expect 606cfd733d45c95aecb96315"}); // Test Your Acc: test
-    // console.log({amIAFollower});
 
     const user = data?.me || data?.author || {};
     const [follow] = useMutation(FOLLOW);
