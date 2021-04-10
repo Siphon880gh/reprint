@@ -125,11 +125,11 @@ export default function AddPost(props) {
 
                 return await storageRef.put(state.selectedFile)
                     .then((snapshot) => {
-                        console.log("Uploading started");
+                        // console.log("Uploading started");
                         return snapshot.ref.getDownloadURL();
                     }).then(asset => {
-                        console.log('Uploaded:');
-                        console.log({ asset });
+                        // console.log('Uploaded:');
+                        // console.log({ asset });
 
                         return asset;
                     })
@@ -184,7 +184,7 @@ export default function AddPost(props) {
 
             // Updating Cloud server
             const asset = await sendToCloud();
-            console.log("Awaited asset:", asset);
+            // console.log("Awaited asset:", asset);
 
             // Updating Mongoose and then reroute
             sendToMongooseAndReroute();
@@ -196,7 +196,7 @@ export default function AddPost(props) {
     // Display image information after file upload completes
     const fileData = () => {
         if (state.selectedFile) {
-            console.log(state.selectedFile);
+            // console.log(state.selectedFile);
             return (
                 <div>
 

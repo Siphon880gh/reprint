@@ -126,9 +126,9 @@ const Profile = props => {
         {loadingTheirUserInfo?(<div>Loading...</div>):
         (
             <Container>
-            {/* {console.log(userParam)}
-            {console.log(user)}
-            {console.log(data)} */}
+            {/* {console.log(userParam) */}
+            {/* console.log(user) */}
+            {/* console.log(data)} */}
             <div >
                 <h2>
                     Viewing {userParam ? `${user.username}'s` : 'your'} profile.
