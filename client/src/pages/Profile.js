@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Redirect, useParams } from 'react-router-dom';
-import { Modal, Container, Card, Button } from 'react-bootstrap';
+import { Modal, Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
 import { FOLLOW, UNFOLLOW, DELETE_USER_V2 } from '../utils/mutations';
@@ -145,27 +145,31 @@ const Profile = props => {
                 <RenderFollowButton/>
                 
             )}
-
+            
             <h2>{user.username}'s Reprints:</h2>
+            <Row>
             {user.reprints.map((userReprint, itrIndex) => {
                 return (
-                    <Card key={userReprint._id} style={{ width: '18rem' }}>
-                        <Card.Body>
-                            <Card.Title ><Card.Link href={`/post/${userReprint._id}`}>{userReprint.title}</Card.Link></Card.Title>
-                            <Card.Img variant="top" src={userReprint.asset} />
-                            <Card.Text><img src={LikeIcon}
-                                width="25"
-                                height="25"
-                                alt="Noft Custom Icon" />{userReprint.likeCount}<img src={CommentIcon}
+                    <Col xs={12} md={6} lg={4} xl={4}>
+                        <Card key={userReprint._id}>
+                            <Card.Body>
+                                <Card.Title ><Card.Link href={`/post/${userReprint._id}`}>{userReprint.title}</Card.Link></Card.Title>
+                                <Card.Img variant="top" src={userReprint.asset} />
+                                <Card.Text><img src={LikeIcon}
                                     width="25"
                                     height="25"
-                                    alt="Noft Custom Icon" />{userReprint.commentCount}</Card.Text>
-                            <Card.Text>NoFT Author: <Card.Link href={`/profile/${userReprint.author}`}>{userReprint.author}</Card.Link> </Card.Text>
-                            <Button onClick={openBloblUrl} data-asset-url={userReprint.asset} data-asset-filename={trimFilename(userReprint.asset)} variant="primary">Download</Button>
-                        </Card.Body>
-                    </Card>
+                                    alt="Noft Custom Icon" />{userReprint.likeCount}<img src={CommentIcon}
+                                        width="25"
+                                        height="25"
+                                        alt="Noft Custom Icon" />{userReprint.commentCount}</Card.Text>
+                                <Card.Text>NoFT Author: <Card.Link href={`/profile/${userReprint.author}`}>{userReprint.author}</Card.Link> </Card.Text>
+                                <Button onClick={openBloblUrl} data-asset-url={userReprint.asset} data-asset-filename={trimFilename(userReprint.asset)} variant="primary">Download</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
                 );
             })}
+            </Row>
 
             {
                 Auth.loggedIn() && !userParam &&

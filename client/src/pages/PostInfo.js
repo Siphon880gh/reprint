@@ -51,7 +51,7 @@ export default function PostInfo() {
                     <Card.Body>{singleReprint.caption}</Card.Body>
                 </Card>
 
-                <Card style={{ width: '18rem' }}>
+                <Card>
                     <Card.Body>
                         <Card.Title><Card.Link href={`/profile/${singleReprint.author}`}>{singleReprint.author}</Card.Link></Card.Title>
                         <Card.Title><Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link></Card.Title>
