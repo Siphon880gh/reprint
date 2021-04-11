@@ -27,7 +27,7 @@ export default function PostInfo() {
         variables: { noftId: noftId }
     });
     const singleReprint = data?.reprintById || {};
-    console.log(singleReprint);
+    // console.log(singleReprint);
 
     // User's favorite Ids. Return empty array if not logged in
     let { loading: favoriteIdsLoading, data: favoritesData } = useQuery(MY_FAVORITES);
