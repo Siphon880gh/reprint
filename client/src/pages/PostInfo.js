@@ -12,6 +12,9 @@ import Auth from '../utils/auth';
 import { GET_SINGLE_CARD } from '../utils/queries';
 import { useQuery } from '@apollo/react-hooks';
 
+// Styling
+import "./PostInfo.css";
+
 // Subcomponents
 import Likes from '../components/Like';
 import FavoriteButton from '../components/FavoriteButton';
@@ -53,9 +56,14 @@ export default function PostInfo() {
 
                 <Card>
                     <Card.Body>
-                        <Card.Title><Card.Link href={`/profile/${singleReprint.author}`}>{singleReprint.author}</Card.Link></Card.Title>
-                        <Card.Title><Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link></Card.Title>
-                        <Card.Title>{singleReprint.caption}</Card.Title>
+                        <Card.Title>
+                            <label className="reprint-detail-label">Author:</label>
+                            <a href={`/profile/${singleReprint.author}`}>{singleReprint.author}</a
+                        ></Card.Title>
+                        <Card.Title>
+                            <label className="reprint-detail-label">Market URL:</label>
+                            <Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link>
+                        </Card.Title>
                         <Likes singleReprint={singleReprint} noftId={noftId}></Likes>
                         {Auth.loggedIn() && (
                             <FavoriteButton noftId={noftId} favoritedIds={favoritedIds}></FavoriteButton>
