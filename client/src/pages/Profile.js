@@ -115,7 +115,7 @@ const Profile = props => {
             </button>); 
         } else {
             return (
-                <button className="follow-btn" onClick={handleFollow}>
+                <button className="btn btn-primary follow-btn" onClick={handleFollow}>
                     Follow
                 </button>);
         }
@@ -146,7 +146,7 @@ const Profile = props => {
                 
             )}
             
-            <h2>{user.username}'s Reprints:</h2>
+            <h2 className="p-3 pl-0 ml-0">{user.username}'s Reprints:</h2>
             <Row>
             {user.reprints.map((userReprint, itrIndex) => {
                 return (
