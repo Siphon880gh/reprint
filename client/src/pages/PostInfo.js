@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import {Container} from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
@@ -43,18 +44,21 @@ export default function PostInfo() {
         return <div>Loading...</div>;
     } else
         return (
-            <div>
-                <section>
+            <Container>
+                <section className="mt-5 text-center">
                     <h1>{singleReprint.title}</h1>
                 </section>
 
-                <Image src={singleReprint.asset} fluid />
+                <Image src={singleReprint.asset} fluid className="center-block mt-5 mb-5" />
 
-                <Card>
-                    <Card.Body>{singleReprint.caption}</Card.Body>
-                </Card>
+                {singleReprint.caption &&
+                (
+                    <Card>
+                        <Card.Body>{singleReprint.caption}</Card.Body>
+                    </Card>
+                )}
 
-                <Card>
+                <Card className="mb-5">
                     <Card.Body>
                         <Card.Title>
                             <label className="reprint-detail-label">Author:</label>
@@ -75,6 +79,6 @@ export default function PostInfo() {
                 {singleReprint.commentCount > 0 && <CommentList comments={singleReprint.comments} />}
 
                 {Auth.loggedIn() && <CommentForm reprintId={singleReprint._id} />}
-            </div>
+            </Container>
         );
 };
