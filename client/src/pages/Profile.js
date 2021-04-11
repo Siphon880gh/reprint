@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Redirect, useParams } from 'react-router-dom';
-import { Modal, Container, Card, Button, Row, Col } from 'react-bootstrap';
+import { Modal, Container, Card, CardColumns, Button, Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
 import { FOLLOW, UNFOLLOW, DELETE_USER_V2 } from '../utils/mutations';
@@ -10,6 +10,7 @@ import CommentIcon from '../assets/commentIconBox.png';
 import Auth from '../utils/auth';
 
 import PostCard from "../components/PostCard";
+import "./Profile.css";
 
 const Profile = props => {
     function unsignToken() {
@@ -127,75 +128,78 @@ const Profile = props => {
         <>
         {loadingTheirUserInfo?(<div>Loading...</div>):
         (
-            <Container>
-            <div >
-                <h2>
-                    Viewing {userParam ? `${user.username}'s` : 'your'} profile.
-                </h2>
+            <Container className="profile">
+                    <Card className="profile-stats">
+                        <div className="pt-3">
+                            <h1>
+                                Viewing {userParam ? `${user.username}'s` : 'your'} profile
+                            </h1>
 
-            </div>
-            <p>Followers: {user.followerCount}</p>
-            <p>Followed: {user.followedCount}</p>
-            <p>Total Reprints: {user.reprintCount}</p>
-            <p>Total Favorite Counts: {user.favoriteCount}</p>
-
-
-            { Auth.loggedIn() && userParam && (
-                <RenderFollowButton/>
-                
-            )}
-            
-            <h2 className="p-3 pl-0 ml-0">{user.username}'s Reprints:</h2>
-            <Row>
-            {user.reprints.map((userReprint, itrIndex) => {
-                return (
-                    <PostCard key={userReprint._id} postcard={userReprint}></PostCard>
-                );
-            })}
-            </Row>
-
-            {
-                Auth.loggedIn() && !userParam &&
-                (
-                    <>
-                        <div className="mt-5 float-right">
-                            <Button onClick={()=> setShowDeleteMeModal(true) } variant="warning">Delete Me</Button>
                         </div>
-                        <div className="clearfix"/>
-                    </>
-                )
-            }
+                        <div className="p-2">
+                            <p>Followers: {user.followerCount}</p>
+                            <p>Followed: {user.followedCount}</p>
+                            <p>Total Reprints: {user.reprintCount}</p>
+                            <p>Total Favorite Counts: {user.favoriteCount}</p>
+                        </div>
 
-            <Modal
-                size='lg'
-                show={showDeleteMeModal}
-                onHide={() => setShowDeleteMeModal(false)}
-                aria-labelledby='delete-me-modal'>
-                {/* tab container to do either signup or login component */}
-                <Modal.Header closeButton>
-                    <Modal.Title id='delete-me-modal'>
-                        Account Removal
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p className="text-center pt-3 pb-3">Delete your account? This cannot be reversed.</p>
-                    <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="light">Cancel</Button>
-                    <div className="float-right" style={{width:"25px"}}>&nbsp;</div>
-                    <Button className="float-right" onClick={()=> { 
-                        // Deleting User Profile:
-
-                        // Revoke on the backend
-                        const deleted = deleteMe();
+                        { Auth.loggedIn() && userParam && (
+                            <RenderFollowButton/>
+                            
+                        )}
                         
-                        // Revoke on the frontend
-                        if(deleted) 
-                            setTimeout(Auth.permanentlyRevoke, 1000);
-                     }} variant="danger">Delete</Button>
-                </Modal.Body>
-            </Modal>
+                        <div className="your-reprints">
+                            <h2 className="pt-3 pb-3 pl-0 ml-0">Your NoFTs:</h2>
+                            <CardColumns>
+                            {user.reprints.map((userReprint, itrIndex) => {
+                                return (
+                                    <PostCard key={userReprint._id} postcard={userReprint}></PostCard>
+                                );
+                            })}
+                            </CardColumns>
+                        </div>
 
+                        {
+                            Auth.loggedIn() && !userParam &&
+                            (
+                                <>
+                                    <div className="mt-5 float-right">
+                                        <Button onClick={()=> setShowDeleteMeModal(true) } variant="warning">Delete Me</Button>
+                                    </div>
+                                    <div className="clearfix"/>
+                                </>
+                            )
+                        }
+
+                        <Modal
+                            size='lg'
+                            show={showDeleteMeModal}
+                            onHide={() => setShowDeleteMeModal(false)}
+                            aria-labelledby='delete-me-modal'>
+                            {/* tab container to do either signup or login component */}
+                            <Modal.Header closeButton>
+                                <Modal.Title id='delete-me-modal'>
+                                    Account Removal
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <p className="text-center pt-3 pb-3">Delete your account? This cannot be reversed.</p>
+                                <Button className="float-right" onClick={()=> setShowDeleteMeModal(false) } variant="light">Cancel</Button>
+                                <div className="float-right" style={{width:"25px"}}>&nbsp;</div>
+                                <Button className="float-right" onClick={()=> { 
+                                    // Deleting User Profile:
+
+                                    // Revoke on the backend
+                                    const deleted = deleteMe();
+                                    
+                                    // Revoke on the frontend
+                                    if(deleted) 
+                                        setTimeout(Auth.permanentlyRevoke, 1000);
+                                }} variant="danger">Delete</Button>
+                            </Modal.Body>
+                        </Modal>
+                </Card>
         </Container>
-
         )}
         </>
     )
