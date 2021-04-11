@@ -9,6 +9,8 @@ import LikeIcon from '../assets/likeArrowBoxIcon.png';
 import CommentIcon from '../assets/commentIconBox.png';
 import Auth from '../utils/auth';
 
+import PostCard from "../components/PostCard";
+
 const Profile = props => {
     function unsignToken() {
         Auth.logout();
@@ -126,9 +128,6 @@ const Profile = props => {
         {loadingTheirUserInfo?(<div>Loading...</div>):
         (
             <Container>
-            {/* {console.log(userParam) */}
-            {/* console.log(user) */}
-            {/* console.log(data)} */}
             <div >
                 <h2>
                     Viewing {userParam ? `${user.username}'s` : 'your'} profile.
@@ -150,23 +149,7 @@ const Profile = props => {
             <Row>
             {user.reprints.map((userReprint, itrIndex) => {
                 return (
-                    <Col xs={12} md={6} lg={4} xl={4}>
-                        <Card key={userReprint._id}>
-                            <Card.Body>
-                                <Card.Title ><Card.Link href={`/post/${userReprint._id}`}>{userReprint.title}</Card.Link></Card.Title>
-                                <Card.Img variant="top" src={userReprint.asset} />
-                                <Card.Text><img src={LikeIcon}
-                                    width="25"
-                                    height="25"
-                                    alt="Noft Custom Icon" />{userReprint.likeCount}<img src={CommentIcon}
-                                        width="25"
-                                        height="25"
-                                        alt="Noft Custom Icon" />{userReprint.commentCount}</Card.Text>
-                                <Card.Text>NoFT Author: <Card.Link href={`/profile/${userReprint.author}`}>{userReprint.author}</Card.Link> </Card.Text>
-                                <Button onClick={openBloblUrl} data-asset-url={userReprint.asset} data-asset-filename={trimFilename(userReprint.asset)} variant="primary">Download</Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
+                    <PostCard key={userReprint._id} postcard={userReprint}></PostCard>
                 );
             })}
             </Row>
