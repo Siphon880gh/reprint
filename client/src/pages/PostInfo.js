@@ -61,7 +61,7 @@ export default function PostInfo() {
                             <a href={`/profile/${singleReprint.author}`}>{singleReprint.author}</a
                         ></Card.Title>
                         <Card.Title>
-                            <label className="reprint-detail-label">Market URL:</label>
+                            <label className="reprint-detail-label">NFT Market URL:</label>
                             <Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link>
                         </Card.Title>
                         <Likes singleReprint={singleReprint} noftId={noftId}></Likes>
