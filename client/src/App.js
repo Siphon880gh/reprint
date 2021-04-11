@@ -52,8 +52,6 @@ function App() {
             <Route exact path='/profile/:username?' component={Profile} />
             <Route exact path='/commentForm' component={CommentForm} />
             <Route exact path='/commentList' component={CommentList} />
-
-            <Route exact path='/' component={Home} />
             <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
           </Switch>
           <FooterPushDown />
