@@ -149,7 +149,7 @@ const Profile = props => {
                         )}
                         
                         <div className="your-reprints">
-                            <h2 className="pt-3 pb-3 pl-0 ml-0">Your NoFTs:</h2>
+                            <h2 className="pt-3 pb-3 pl-0 ml-0">{userParam ? `${user.username}'s` : 'Your'} NoFTs:</h2>
                             <CardColumns>
                             {user.reprints.map((userReprint, itrIndex) => {
                                 return (

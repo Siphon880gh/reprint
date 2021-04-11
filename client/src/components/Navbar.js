@@ -21,6 +21,7 @@ import LogoutIcon from "../assets/logoutIcon.png";
 import LoginSignupIcon from "../assets/signupLoginBox.png";
 import NoftLogo from "../assets/noftFULL2.png";
 import Auth from "../utils/auth";
+import "./Navbar.css";
 
 const AppNavbar = () => {
   // set modal display state
@@ -46,7 +47,7 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar className="site-navbar" bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
             <img
@@ -58,25 +59,21 @@ const AppNavbar = () => {
             />
           </Navbar.Brand>
           <Form inline>
-            <div>
-              <Form.Group controlId="searchInput">
-                <Form.Label className="mr-3">Search for a User</Form.Label>
+            <div className="searchWrapper">
+              <Form.Group className="flex-fill-in" controlId="searchInput">
+                {/* <Form.Label className="mr-3">Search for a User</Form.Label> */}
                 <div className="overlay-under-wrapper">
                   <Form.Control onInput={onSearch} autoComplete="off" />
                   <Search searchFilter={searchFilter}></Search>
                 </div>
               </Form.Group>
             </div>
-            {/* <FormControl type="text" placeholder="Search NoFT..." className="mr-sm-2" />
-            <Button >
               <img
                 src={SearchButton}
-                width="50"
-                height="50"
-                className="d-inline-block align-top"
+                style={{width:"30px", height:"30px"}}
+                className="d-inline-block align-top ml-2 mt-1"
                 alt="Search Button"
               />
-            </Button> */}
           </Form>
           <Navbar.Toggle aria-controls="navbar-main" />
           <Navbar.Collapse id="navbar-main">
