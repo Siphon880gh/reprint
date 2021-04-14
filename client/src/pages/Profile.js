@@ -63,6 +63,8 @@ const Profile = props => {
     const theirFollowers = theirUserInfo?.author?.followers || [];
     const [amIAFollower, updateFollowStatus] = useState(theirFollowers && Auth.getProfile() ? theirFollowers.includes(Auth.getProfile().data._id) : {});
     const [showDeleteMeModal, setShowDeleteMeModal] = useState(false);
+    const [showFollowersModal, setShowFollowersModal] = useState(false);
+    const [showFollowedModal, setShowFollowedModal] = useState(false);
 
     const user = data?.me || data?.author || {};
     const [follow] = useMutation(FOLLOW);
@@ -124,6 +126,10 @@ const Profile = props => {
         }
     } // RenderFollowButton
 
+    if(!loadingTheirUserInfo) {
+        debugger;
+    }
+
     return (
         <>
         {loadingTheirUserInfo?(<div>Loading...</div>):
@@ -137,8 +143,8 @@ const Profile = props => {
 
                         </div>
                         <div className="p-2">
-                            <p>Followers: {user.followerCount}</p>
-                            <p>Followed: {user.followedCount}</p>
+                            <p><a href="javascript:void" onClick={()=> setShowFollowersModal(true) }>Followers: {user.followerCount}</a></p>
+                            <p><a href="javascript:void" onClick={()=> setShowFollowedModal(true) }>Followed: {user.followedCount}</a></p>
                             <p>Total Reprints: {user.reprintCount}</p>
                             <p>Total Favorite Counts: {user.favoriteCount}</p>
                         </div>
@@ -171,6 +177,7 @@ const Profile = props => {
                             )
                         }
 
+                        {/* Delete Me Modal */}
                         <Modal
                             size='lg'
                             show={showDeleteMeModal}
@@ -196,6 +203,66 @@ const Profile = props => {
                                     if(deleted) 
                                         setTimeout(Auth.permanentlyRevoke, 1000);
                                 }} variant="danger">Delete</Button>
+                            </Modal.Body>
+                        </Modal>
+
+                        {/* Followers Modal */}
+                        <Modal
+                            size='lg'
+                            show={showFollowersModal}
+                            onHide={() => setShowFollowersModal(false)}
+                            aria-labelledby='followers-modal'>
+                            {/* tab container to do either signup or login component */}
+                            <Modal.Header closeButton>
+                                <Modal.Title id='followers-modal'>
+                                    Followers
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                
+                                <CardColumns>
+                                {user.followers.map((follower, itrIndex) => {
+                                    return (
+                                        <Card className="mb-5">
+                                            <Card.Body>
+                                                <Card.Title>
+                                                    <a className="follower-detail-label" href={"/profile/"+follower.username}>{follower.username}</a>
+                                                </Card.Title>
+                                            </Card.Body>
+                                        </Card>
+                                    );
+                                })}
+                                </CardColumns>
+                            </Modal.Body>
+                        </Modal>
+
+                        {/* Followed Modal */}
+                        <Modal
+                            size='lg'
+                            show={showFollowedModal}
+                            onHide={() => setShowFollowedModal(false)}
+                            aria-labelledby='followed-modal'>
+                            {/* tab container to do either signup or login component */}
+                            <Modal.Header closeButton>
+                                <Modal.Title id='followed-modal'>
+                                    Followed
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                
+                                <CardColumns>
+                                {user.followed.map((followed, itrIndex) => {
+                                    return (
+                                        <Card className="mb-5">
+                                            <Card.Body>
+                                                <Card.Title>
+                                                    <a className="followed-detail-label" href={"/profile/"+followed.username}>{followed.username}</a>
+                                                </Card.Title>
+                                            </Card.Body>
+                                        </Card>
+                                    );
+                                })}
+                                </CardColumns>
                             </Modal.Body>
                         </Modal>
                 </Card>
