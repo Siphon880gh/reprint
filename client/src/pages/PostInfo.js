@@ -31,7 +31,6 @@ export default function PostInfo() {
         variables: { noftId: noftId }
     });
     const singleReprint = data?.reprintById || {};
-    // console.log(singleReprint);
 
     // User's favorite Ids. Return empty array if not logged in
     let { loading: favoriteIdsLoading, data: favoritesData } = useQuery(MY_FAVORITES);
@@ -69,7 +68,7 @@ export default function PostInfo() {
                             <Card.Link href={`${singleReprint.marketListing}`}>{singleReprint.marketListing}</Card.Link>
                         </Card.Title>
                         <Likes singleReprint={singleReprint} noftId={noftId}></Likes>
-                        {Auth.loggedIn() && (
+                        {Auth.loggedIn() && !favoriteIdsLoading && (
                             <FavoriteButton noftId={noftId} favoritedIds={favoritedIds}></FavoriteButton>
                         )}
                     </Card.Body>

@@ -66,10 +66,8 @@ const resolvers = {
       return Reprint.find().select("-__v").populate("likes");
     },
     myFavorites: async (parent, args, context) => {
-      if (true) {
-      // if (context.user) {
-        // const myUser = await User.findOne({ _id: context.user._id })
-        const myUser = await User.findOne({ _id: "606cfd733d45c95aecb96315" })
+      if (context.user) {
+        const myUser = await User.findOne({ _id: context.user._id })
           .select("-__v -password -followers -followed -reprints")
           .populate("favorites")
 
