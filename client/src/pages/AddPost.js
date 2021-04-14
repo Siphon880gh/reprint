@@ -218,7 +218,7 @@ export default function AddPost(props) {
 
     // Return JSX
     return (
-    <Row className="add-post-page mt-3">
+    <Row className="add-post-page mt-3 ml-0 mr-0">
 
             <Col className="pl-3 pr-3 center-block" xs={12} sm={10} md={8} lg={10} >
 

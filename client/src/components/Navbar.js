@@ -48,7 +48,6 @@ const AppNavbar = () => {
   return (
     <>
       <Navbar className="site-navbar" bg="dark" variant="dark" expand="lg">
-        <Container fluid>
           <Navbar.Brand as={Link} to="/">
             <img
               src={NoftLogo}
@@ -129,7 +128,6 @@ const AppNavbar = () => {
               )}
             </Nav>
           </Navbar.Collapse>
-        </Container>
       </Navbar>
       {/* set modal data up */}
       <Modal
