@@ -115,12 +115,12 @@ const Profile = props => {
     function RenderFollowButton() {
         if(amIAFollower) {
             return (
-            <button className="follow-btn" onClick={handleFollow}>
+            <button className="follow-btn mb-4" onClick={handleFollow}>
                 Unfollow
             </button>); 
         } else {
             return (
-                <button className="btn btn-primary follow-btn" onClick={handleFollow}>
+                <button className="btn btn-primary follow-btn mb-4" onClick={handleFollow}>
                     Follow
                 </button>);
         }
@@ -238,6 +238,9 @@ const Profile = props => {
                                                 <Card.Title>
                                                     <a className="follower-detail-label" href={"/profile/"+follower.username}>{follower.username}</a>
                                                 </Card.Title>
+                                                <Card.Title>
+                                                    <p className="follower-detail-label">NoFTs: {follower.reprintCount}</p>
+                                                </Card.Title>
                                             </Card.Body>
                                         </Card>
                                     );
@@ -267,6 +270,9 @@ const Profile = props => {
                                             <Card.Body>
                                                 <Card.Title>
                                                     <a className="followed-detail-label" href={"/profile/"+followed.username}>{followed.username}</a>
+                                                </Card.Title>
+                                                <Card.Title>
+                                                    <p className="follower-detail-label">NoFTs: {parseInt(followed?.reprints?.length?followed?.reprints?.length:0)}</p>
                                                 </Card.Title>
                                             </Card.Body>
                                         </Card>
