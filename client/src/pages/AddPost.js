@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import {Row, Col} from 'react-bootstrap';
+
+import "./AddPost.css";
 
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
@@ -198,9 +201,8 @@ export default function AddPost(props) {
         if (state.selectedFile) {
             // console.log(state.selectedFile);
             return (
-                <div>
-
-                    <Card style={{ width: '18rem' }}>
+                <div className="preview">
+                    <Card className="preview-details mt-3" style={{ width: '18rem' }}>
                         <Card.Body>
                             <Card.Img variant="top" src={URL.createObjectURL(state.selectedFile)} />
                             <Card.Text>Filename: {state.selectedFile.name} </Card.Text>
@@ -209,81 +211,77 @@ export default function AddPost(props) {
                         </Card.Body>
                     </Card>
 
-                    <h2> Image Selected from computer: </h2>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <br />
-                    <h4> Choose file, then upload! </h4>
                 </div>
             );
         }
     }; // Form Data
 
     // Return JSX
-    return (<div>
+    return (
+    <Row className="add-post-page mt-3">
 
-        <div>
-            <h1>Post a Reprint</h1>
-        </div>
+            <Col className="pl-3 pr-3 center-block" xs={12} sm={10} md={8} lg={10} >
 
-        <Form noValidate validated={validated} onSubmit={onPostSubmit}>
-            {/* Choose File Button */}
-            <Form.Group>
-                <input type="file" onChange={onFileChange} accept="image/*" required />
-                <Form.Control.Feedback type="invalid">
-                    Please select a file.
-                    </Form.Control.Feedback>
+                <Form className="add-post-form" noValidate validated={validated} onSubmit={onPostSubmit}>
+                    <h1 className="add-post-title text-center">Post a Reprint</h1>
 
-                <aside>
-                    {fileData()}
-                </aside>
-            </Form.Group>
+                    {/* Choose File Button */}
+                    <Form.Group>
+                        <Form.Label>Choose your image file:</Form.Label>
+                        <Form.Control type="file" onChange={onFileChange} accept="image/*" required />
+                        <Form.Control.Feedback type="invalid">
+                            Please select a file.
+                        </Form.Control.Feedback>
 
-            {/* Add A Title */}
-            <Form.Group controlId="titleInput">
-                <Form.Label>Add A Title:</Form.Label>
-                <Form.Control onInput={onTitleChange} required />
-                <Form.Control.Feedback type="invalid">
-                    Please provide a title.
-                    </Form.Control.Feedback>
-            </Form.Group>
+                        <aside>
+                            {fileData()}
+                        </aside>
+                    </Form.Group>
 
-            {/* Add Market Listing */}
-            <Form.Group controlId="marketListing">
-                <Form.Label>Add Market Listing:</Form.Label>
-                <Form.Control placeholder="https://www.example.com/"
-                    onInput={onMarketChange}
-                    pattern="^https.*"
-                    required />
-                <Form.Control.Feedback type="invalid">
-                    Please provide a properly formatted market listing URL. It must have a https protocol because all NFT salespages are in https. For example: https://niftygateway.com/collections/SALES_PAGE
-                    </Form.Control.Feedback>
-            </Form.Group>
+                    {/* Add A Title */}
+                    <Form.Group controlId="titleInput">
+                        <Form.Label>Add A Title:</Form.Label>
+                        <Form.Control onInput={onTitleChange} required />
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a title.
+                            </Form.Control.Feedback>
+                    </Form.Group>
+
+                    {/* Add Market Listing */}
+                    <Form.Group controlId="marketListing">
+                        <Form.Label>Add Market Listing:</Form.Label>
+                        <Form.Control placeholder="https://www.example.com/"
+                            onInput={onMarketChange}
+                            pattern="^https.*"
+                            required />
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a properly formatted market listing URL. It must have a https protocol because all NFT salespages are in https. For example: https://niftygateway.com/collections/SALES_PAGE
+                            </Form.Control.Feedback>
+                    </Form.Group>
 
 
-            {/* Captions */}
-            <Form.Group controlId="captionInput">
-                <Form.Label>Add A Caption:</Form.Label>
-                <Form.Control as="textarea" placeholder="Optional: Add a caption!" rows={3} onInput={onCaptionChange} />
-            </Form.Group>
+                    {/* Captions */}
+                    <Form.Group controlId="captionInput">
+                        <Form.Label>Add A Caption (optional):</Form.Label>
+                        <Form.Control as="textarea" placeholder="Optional: Add a caption!" rows={3} onInput={onCaptionChange} />
+                    </Form.Group>
 
-            {/* Submit */}
-            <Button variant="primary" type="submit" value="Submit"> Add Reprint! </Button>
+                    {/* Submit */}
+                    <Button variant="primary" type="submit" value="Submit"> Add Reprint! </Button>
 
-            {
-                debug ? (
-                    <article>
-                        <h2> Debug Form State: </h2>
-                        <div><label>Title:</label><span>{state.title}</span></div>
-                        <div><label>Market:</label><span>{state.market}</span></div>
-                        <div><label>Caption:</label><span>{state.caption}</span></div>
-                    </article>
-                ) : ""
-            }
-        </Form>
-    </div>
+                    {
+                        debug ? (
+                            <article>
+                                <h2> Debug Form State: </h2>
+                                <div><label>Title:</label><span>{state.title}</span></div>
+                                <div><label>Market:</label><span>{state.market}</span></div>
+                                <div><label>Caption:</label><span>{state.caption}</span></div>
+                            </article>
+                        ) : ""
+                    }
+                </Form>
+            
+            </Col>
+    </Row>
     )
 }
