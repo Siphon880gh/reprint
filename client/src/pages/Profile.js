@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Redirect, useParams } from 'react-router-dom';
-import { Modal, Container, Card, CardColumns, Button, Row, Col } from 'react-bootstrap';
+import { Modal, Container, Card, CardColumns, Button, Row, Col, ListGroup } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_USER, GET_ME } from '../utils/queries';
 import { FOLLOW, UNFOLLOW, DELETE_USER_V2 } from '../utils/mutations';
@@ -126,10 +126,6 @@ const Profile = props => {
         }
     } // RenderFollowButton
 
-    if(!loadingTheirUserInfo) {
-        debugger;
-    }
-
     return (
         <>
         {loadingTheirUserInfo?(<div>Loading...</div>):
@@ -145,13 +141,13 @@ const Profile = props => {
                         <div className="p-2">
                             {user.followerCount> 0 ?
                             (
-                                <p><a href="javascript:void" onClick={()=> setShowFollowersModal(true) }>Followers: {user.followerCount}</a></p>
+                                <p><span className="link" onClick={()=> setShowFollowersModal(true) }>Followers: {user.followerCount}</span></p>
                             ):(
                                 <p>Followers: {user.followerCount}</p>
                             )}
                             {user.followedCount> 0 ?
                             (
-                                <p><a href="javascript:void" onClick={()=> setShowFollowedModal(true) }>Followed: {user.followedCount}</a></p>
+                                <p><span className="link" onClick={()=> setShowFollowedModal(true) }>Followed: {user.followedCount}</span></p>
                             ):(
                                 <p>Followed: {user.followedCount}</p>
                             )}
@@ -193,7 +189,6 @@ const Profile = props => {
                             show={showDeleteMeModal}
                             onHide={() => setShowDeleteMeModal(false)}
                             aria-labelledby='delete-me-modal'>
-                            {/* tab container to do either signup or login component */}
                             <Modal.Header closeButton>
                                 <Modal.Title id='delete-me-modal'>
                                     Account Removal
@@ -218,67 +213,51 @@ const Profile = props => {
 
                         {/* Followers Modal */}
                         <Modal
+                            id="followers-modal"
                             size='lg'
                             show={showFollowersModal}
                             onHide={() => setShowFollowersModal(false)}
                             aria-labelledby='followers-modal'>
-                            {/* tab container to do either signup or login component */}
                             <Modal.Header closeButton>
                                 <Modal.Title id='followers-modal'>
                                     Followers
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                
-                                <CardColumns>
-                                {user.followers.map((follower, itrIndex) => {
+                                <ListGroup className="mb-2">
+                                {user.followers.map((listee, itrIndex) => {
                                     return (
-                                        <Card className="mb-5">
-                                            <Card.Body>
-                                                <Card.Title>
-                                                    <a className="follower-detail-label" href={"/profile/"+follower.username}>{follower.username}</a>
-                                                </Card.Title>
-                                                <Card.Title>
-                                                    <p className="follower-detail-label">NoFTs: {follower.reprintCount}</p>
-                                                </Card.Title>
-                                            </Card.Body>
-                                        </Card>
+                                            <ListGroup.Item key={listee._id}>
+                                                <a className="listee-detail-label" href={"/profile/"+listee.username}>{listee.username}</a>
+                                            </ListGroup.Item>
                                     );
                                 })}
-                                </CardColumns>
+                                </ListGroup>
                             </Modal.Body>
                         </Modal>
 
                         {/* Followed Modal */}
                         <Modal
+                            id="followed-modal"
                             size='lg'
                             show={showFollowedModal}
                             onHide={() => setShowFollowedModal(false)}
                             aria-labelledby='followed-modal'>
-                            {/* tab container to do either signup or login component */}
                             <Modal.Header closeButton>
                                 <Modal.Title id='followed-modal'>
                                     Followed
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                
-                                <CardColumns>
-                                {user.followed.map((followed, itrIndex) => {
+                                <ListGroup className="mb-2">
+                                {user.followed.map((listee, itrIndex) => {
                                     return (
-                                        <Card className="mb-5">
-                                            <Card.Body>
-                                                <Card.Title>
-                                                    <a className="followed-detail-label" href={"/profile/"+followed.username}>{followed.username}</a>
-                                                </Card.Title>
-                                                <Card.Title>
-                                                    <p className="follower-detail-label">NoFTs: {parseInt(followed?.reprints?.length?followed?.reprints?.length:0)}</p>
-                                                </Card.Title>
-                                            </Card.Body>
-                                        </Card>
+                                            <ListGroup.Item key={listee._id}>
+                                                <a className="listee-detail-label" href={"/profile/"+listee.username}>{listee.username}</a>
+                                            </ListGroup.Item>
                                     );
                                 })}
-                                </CardColumns>
+                                </ListGroup>
                             </Modal.Body>
                         </Modal>
                 </Card>
