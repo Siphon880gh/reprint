@@ -143,8 +143,18 @@ const Profile = props => {
 
                         </div>
                         <div className="p-2">
-                            <p><a href="javascript:void" onClick={()=> setShowFollowersModal(true) }>Followers: {user.followerCount}</a></p>
-                            <p><a href="javascript:void" onClick={()=> setShowFollowedModal(true) }>Followed: {user.followedCount}</a></p>
+                            {user.followerCount> 0 ?
+                            (
+                                <p><a href="javascript:void" onClick={()=> setShowFollowersModal(true) }>Followers: {user.followerCount}</a></p>
+                            ):(
+                                <p>Followers: {user.followerCount}</p>
+                            )}
+                            {user.followedCount> 0 ?
+                            (
+                                <p><a href="javascript:void" onClick={()=> setShowFollowedModal(true) }>Followed: {user.followedCount}</a></p>
+                            ):(
+                                <p>Followed: {user.followedCount}</p>
+                            )}
                             <p>Total Reprints: {user.reprintCount}</p>
                             <p>Total Favorite Counts: {user.favoriteCount}</p>
                         </div>
