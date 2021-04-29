@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {Container} from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import Card from 'react-bootstrap/Card';
@@ -21,7 +21,7 @@ import Likes from '../components/Like';
 import FavoriteButton from '../components/FavoriteButton';
 
 // Get favorite Ids to compare against post to see if favorite (placed here instead of inside FavoriteButton to workaround Reacth render limit error)
-import { GET_ME, MY_FAVORITES } from "../utils/queries";
+import { MY_FAVORITES } from "../utils/queries";
 
 // Create a const for postForm that'll return JSX
 export default function PostInfo() {
