@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Auth from "../utils/auth";
+import React, { useState } from "react";
 
 // Assets
 import "./FavoriteButton.css";
 
 // GraphQL
 import { FAVORITE, UNFAVORITE } from '../utils/mutations';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 
 export default function FavoriteButton({ noftId, favoritedIds }) {
     //   console.log({favoritedIds})
