@@ -19,7 +19,6 @@ import 'firebase/storage'
 
 // Generate random hash for filenames
 import generateHash from 'random-hash';
-import process from "process";
 
 // Import Auth
 import Auth from "../utils/auth";
