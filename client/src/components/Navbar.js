@@ -4,11 +4,9 @@ import Search from "./Search";
 import {
   Navbar,
   Nav,
-  Container,
   Modal,
   Tab,
   Form,
-  FormControl,
   Button,
 } from "react-bootstrap";
 import SignUpForm from "./SignupForm";
