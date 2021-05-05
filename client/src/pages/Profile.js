@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import {
   Modal,
@@ -22,7 +22,7 @@ import LoadingSpindle from "../assets/spinner-1.3s-200px.png";
 const Profile = (props) => {
   const { username: userParam } = useParams();
 
-  const { loading, data } = useQuery(userParam ? GET_USER : GET_ME, {
+  let { loading, data: user, refetch } = useQuery(userParam ? GET_USER : GET_ME, {
     variables: { username: userParam },
   });
 
@@ -43,10 +43,32 @@ const Profile = (props) => {
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowedModal, setShowFollowedModal] = useState(false);
 
-  const user = data?.me || data?.author || {};
-  const [follow] = useMutation(FOLLOW);
-  const [unfollow] = useMutation(UNFOLLOW);
+  // const user = data?.me || data?.author || {};
+  user = user?.me || user?.author || {};
+  const [follow] = useMutation(FOLLOW, {
+    onCompleted: data => {
+      // console.log("Updated followers.");
+      // console.log(data);
+    },
+    onError: data => {
+      console.error(data)
+    },
+  });
+  const [unfollow] = useMutation(UNFOLLOW, {
+    onCompleted: data => {
+      // console.log("Updated followers.");
+      // console.log(data)
+    },
+    onError: data => {
+      console.error(data)
+    },});
   const [deleteMe] = useMutation(DELETE_USER_V2);
+
+
+  useEffect(() => {
+    // Following triggered, so go refetch the followers list
+    refetch();
+  }, [amIAFollower])
 
   // In the case you deleted your profile or the user doesnt exist
   // if(typeof user==="undefined" || Object.keys(user).length === 0) {
@@ -103,6 +125,7 @@ const Profile = (props) => {
       );
     }
   } // RenderFollowButton
+
 
   return (
     <>
