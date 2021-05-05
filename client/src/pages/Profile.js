@@ -17,6 +17,8 @@ import Auth from "../utils/auth";
 import PostCard from "../components/PostCard";
 import "./Profile.css";
 
+import LoadingSpindle from "../assets/spinner-1.3s-200px.png";
+
 const Profile = (props) => {
   const { username: userParam } = useParams();
 
@@ -58,7 +60,7 @@ const Profile = (props) => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><img src={LoadingSpindle}></img></div>;
   }
 
   const handleFollow = async () => {
@@ -105,7 +107,7 @@ const Profile = (props) => {
   return (
     <>
       {loadingTheirUserInfo ? (
-        <div>Loading...</div>
+        <div><img src={LoadingSpindle}></img></div>
       ) : (
         <Container className="profile">
           <Card className="profile-stats">

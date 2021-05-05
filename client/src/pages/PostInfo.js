@@ -23,6 +23,8 @@ import FavoriteButton from '../components/FavoriteButton';
 // Get favorite Ids to compare against post to see if favorite (placed here instead of inside FavoriteButton to workaround Reacth render limit error)
 import { MY_FAVORITES } from "../utils/queries";
 
+import LoadingSpindle from "../assets/spinner-1.3s-200px.png";
+
 // Create a const for postForm that'll return JSX
 export default function PostInfo() {
     // Get post info
@@ -40,7 +42,7 @@ export default function PostInfo() {
     if (!noftId)
         return <div className="text-danger bg-warning p-3 m-5">Error: Malformed URL. Please press back. Did you mean to visit a post URL? It's missing a Post ID in the URL.</div>
     else if (postLoading || favoriteIdsLoading) {
-        return <div>Loading...</div>;
+        return <div><img src={LoadingSpindle}></img></div>;
     } else
         return (
             <Container>
